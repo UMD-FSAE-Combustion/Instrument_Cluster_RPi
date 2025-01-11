@@ -1562,6 +1562,10 @@ Window
                     brakeBiasScreen.visible = false
                     animationRight.start()
                     animationRightSpeedometer.start()
+
+                    statusMessage.font.pixelSize = 20
+                    statusMessage.text = "Setting updated"
+                    statusImage.source = "assets/images/INFO.png"
                     statusUpdateAnimation.start()
                     counter = 1
                     currentSet = 1

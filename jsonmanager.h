@@ -20,7 +20,7 @@
 class JSONmanager : QObject
 {
     Q_OBJECT
-    QML_ELEMENT
+    //QML_ELEMENT
 
 public:
     JSONmanager();
