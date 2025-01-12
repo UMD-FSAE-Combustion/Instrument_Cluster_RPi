@@ -3,10 +3,20 @@ import QtQuick.Controls
 import QtQuick.Layouts
 import QtQuick.Controls.Material
 
+import Dyno_Info
 
 
 Window
 {
+    property bool loadingComplete: false
+    property bool displayProfiles: false
+    property int speed: 0
+    property int currentSet: 1
+    property int counter: 0
+    property int frontBrakeBias: 50
+    property int rearBrakeBias: 50
+    property int driverNum: 0
+
     id: root
     width: 800
     height: 480
@@ -17,15 +27,6 @@ Window
     flags: Qt.FramelessWindowHint
 
     Material.theme: Material.Light
-
-    property bool loadingComplete: false
-    property bool displayProfiles: false
-    property int speed: 0
-    property int currentSet: 1
-    property int counter: 0
-    property int frontBrakeBias: 50
-    property int rearBrakeBias: 50
-    property int driverNum: 0
 
     Image
     {
@@ -221,6 +222,7 @@ Window
         visible: loadingComplete
     }
 
+    // anchors for icons on top of screen
     /*Rectangle
     {
         id: mainWindowAnchors

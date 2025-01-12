@@ -1,8 +1,8 @@
 #ifndef JSONMANAGER_H
 #define JSONMANAGER_H
 
-#include <QCoreApplication>
 #include <QObject>
+#include <QCoreApplication>
 #include <QtQml>
 
 #include <QFile>
@@ -17,10 +17,10 @@
 #include <mapVals.h>
 
 
-class JSONmanager : QObject
+class JSONmanager : public QObject
 {
     Q_OBJECT
-    //QML_ELEMENT
+    QML_ELEMENT
 
 public:
     JSONmanager();
