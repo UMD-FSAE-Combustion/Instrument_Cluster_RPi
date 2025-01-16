@@ -1,14 +1,18 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
-#include <QIcon>
+#include <QQmlContext>
+
+#include "jsonmanager.h"
 
 int main(int argc, char *argv[])
 {
     QGuiApplication app(argc, argv);
 
-    app.setWindowIcon(QIcon("C:/Users/gmarc/Desktop/Dyno-Project/Dyno_Info/assets/images/icon.ico"));
-
     QQmlApplicationEngine engine;
+
+    JSONmanager json;
+    engine.rootContext()->setContextProperty("JSON", &json);
+
     QObject::connect(
         &engine,
         &QQmlApplicationEngine::objectCreationFailed,
