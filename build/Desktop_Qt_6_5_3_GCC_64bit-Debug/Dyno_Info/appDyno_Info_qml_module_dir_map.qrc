@@ -1,6 +1,6 @@
 <RCC>
   <qresource prefix="/">
-    <file alias="/qt/qml/Dyno_Info">/home/spedhedvm/git/Instrument_Cluster_RPi/build/Desktop_Qt_6_5_3_GCC_64bit-Debug/Dyno_Info</file>
+    <file alias="/qt/qml/Dyno_Info">/home/marcusvm/git/Instrument_Cluster_RPi/build/Desktop_Qt_6_5_3_GCC_64bit-Debug/Dyno_Info</file>
 
   </qresource>
 </RCC>

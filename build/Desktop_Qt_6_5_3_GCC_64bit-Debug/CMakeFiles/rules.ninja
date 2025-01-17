@@ -42,7 +42,7 @@ rule CUSTOM_COMMAND
 # Rule for re-running cmake.
 
 rule RERUN_CMAKE
-  command = /opt/Qt/Tools/CMake/bin/cmake --regenerate-during-build -S/home/spedhedvm/git/Instrument_Cluster_RPi -B/home/spedhedvm/git/Instrument_Cluster_RPi/build/Desktop_Qt_6_5_3_GCC_64bit-Debug
+  command = /opt/Qt/Tools/CMake/bin/cmake --regenerate-during-build -S/home/marcusvm/git/Instrument_Cluster_RPi -B/home/marcusvm/git/Instrument_Cluster_RPi/build/Desktop_Qt_6_5_3_GCC_64bit-Debug
   description = Re-running CMake...
   generator = 1
 

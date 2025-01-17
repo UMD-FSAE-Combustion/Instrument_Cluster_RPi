@@ -1,4 +1,4 @@
-# Install script for directory: /home/spedhedvm/git/Instrument_Cluster_RPi
+# Install script for directory: /home/marcusvm/git/Instrument_Cluster_RPi
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -49,7 +49,7 @@ if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT
          FILE "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/bin/appDyno_Info"
          RPATH "\$ORIGIN:\$ORIGIN/../lib")
   endif()
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/bin" TYPE EXECUTABLE FILES "/home/spedhedvm/git/Instrument_Cluster_RPi/build/Desktop_Qt_6_5_3_GCC_64bit-Debug/appDyno_Info")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/bin" TYPE EXECUTABLE FILES "/home/marcusvm/git/Instrument_Cluster_RPi/build/Desktop_Qt_6_5_3_GCC_64bit-Debug/appDyno_Info")
   if(EXISTS "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/bin/appDyno_Info" AND
      NOT IS_SYMLINK "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/bin/appDyno_Info")
     file(RPATH_CHANGE
@@ -70,5 +70,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/spedhedvm/git/Instrument_Cluster_RPi/build/Desktop_Qt_6_5_3_GCC_64bit-Debug/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/marcusvm/git/Instrument_Cluster_RPi/build/Desktop_Qt_6_5_3_GCC_64bit-Debug/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

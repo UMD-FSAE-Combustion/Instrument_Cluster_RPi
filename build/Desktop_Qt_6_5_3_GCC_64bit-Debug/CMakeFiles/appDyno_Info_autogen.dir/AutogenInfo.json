@@ -1,16 +1,16 @@
 {
-	"BUILD_DIR" : "/home/spedhedvm/git/Instrument_Cluster_RPi/build/Desktop_Qt_6_5_3_GCC_64bit-Debug/appDyno_Info_autogen",
-	"CMAKE_BINARY_DIR" : "/home/spedhedvm/git/Instrument_Cluster_RPi/build/Desktop_Qt_6_5_3_GCC_64bit-Debug",
-	"CMAKE_CURRENT_BINARY_DIR" : "/home/spedhedvm/git/Instrument_Cluster_RPi/build/Desktop_Qt_6_5_3_GCC_64bit-Debug",
-	"CMAKE_CURRENT_SOURCE_DIR" : "/home/spedhedvm/git/Instrument_Cluster_RPi",
+	"BUILD_DIR" : "/home/marcusvm/git/Instrument_Cluster_RPi/build/Desktop_Qt_6_5_3_GCC_64bit-Debug/appDyno_Info_autogen",
+	"CMAKE_BINARY_DIR" : "/home/marcusvm/git/Instrument_Cluster_RPi/build/Desktop_Qt_6_5_3_GCC_64bit-Debug",
+	"CMAKE_CURRENT_BINARY_DIR" : "/home/marcusvm/git/Instrument_Cluster_RPi/build/Desktop_Qt_6_5_3_GCC_64bit-Debug",
+	"CMAKE_CURRENT_SOURCE_DIR" : "/home/marcusvm/git/Instrument_Cluster_RPi",
 	"CMAKE_EXECUTABLE" : "/opt/Qt/Tools/CMake/bin/cmake",
 	"CMAKE_LIST_FILES" : 
 	[
-		"/home/spedhedvm/git/Instrument_Cluster_RPi/CMakeLists.txt",
-		"/home/spedhedvm/git/Instrument_Cluster_RPi/build/Desktop_Qt_6_5_3_GCC_64bit-Debug/.qtc/package-manager/auto-setup.cmake",
+		"/home/marcusvm/git/Instrument_Cluster_RPi/CMakeLists.txt",
+		"/home/marcusvm/git/Instrument_Cluster_RPi/build/Desktop_Qt_6_5_3_GCC_64bit-Debug/.qtc/package-manager/auto-setup.cmake",
 		"/opt/Qt/Tools/CMake/share/cmake-3.29/Modules/CMakeDetermineSystem.cmake",
 		"/opt/Qt/Tools/CMake/share/cmake-3.29/Modules/CMakeSystem.cmake.in",
-		"/home/spedhedvm/git/Instrument_Cluster_RPi/build/Desktop_Qt_6_5_3_GCC_64bit-Debug/CMakeFiles/3.29.3/CMakeSystem.cmake",
+		"/home/marcusvm/git/Instrument_Cluster_RPi/build/Desktop_Qt_6_5_3_GCC_64bit-Debug/CMakeFiles/3.29.3/CMakeSystem.cmake",
 		"/opt/Qt/Tools/CMake/share/cmake-3.29/Modules/CMakeNinjaFindMake.cmake",
 		"/opt/Qt/Tools/CMake/share/cmake-3.29/Modules/CMakeSystemSpecificInitialize.cmake",
 		"/opt/Qt/Tools/CMake/share/cmake-3.29/Modules/Platform/Linux-Initialize.cmake",
@@ -64,7 +64,7 @@
 		"/opt/Qt/Tools/CMake/share/cmake-3.29/Modules/CMakeFindBinUtils.cmake",
 		"/opt/Qt/Tools/CMake/share/cmake-3.29/Modules/Compiler/GNU-FindBinUtils.cmake",
 		"/opt/Qt/Tools/CMake/share/cmake-3.29/Modules/CMakeCXXCompiler.cmake.in",
-		"/home/spedhedvm/git/Instrument_Cluster_RPi/build/Desktop_Qt_6_5_3_GCC_64bit-Debug/CMakeFiles/3.29.3/CMakeCXXCompiler.cmake",
+		"/home/marcusvm/git/Instrument_Cluster_RPi/build/Desktop_Qt_6_5_3_GCC_64bit-Debug/CMakeFiles/3.29.3/CMakeCXXCompiler.cmake",
 		"/opt/Qt/Tools/CMake/share/cmake-3.29/Modules/CMakeSystemSpecificInformation.cmake",
 		"/opt/Qt/Tools/CMake/share/cmake-3.29/Modules/CMakeGenericSystem.cmake",
 		"/opt/Qt/Tools/CMake/share/cmake-3.29/Modules/CMakeInitializeConfigs.cmake",
@@ -90,7 +90,7 @@
 		"/opt/Qt/Tools/CMake/share/cmake-3.29/Modules/CMakeDetermineCompileFeatures.cmake",
 		"/opt/Qt/Tools/CMake/share/cmake-3.29/Modules/Internal/FeatureTesting.cmake",
 		"/opt/Qt/Tools/CMake/share/cmake-3.29/Modules/CMakeCXXCompiler.cmake.in",
-		"/home/spedhedvm/git/Instrument_Cluster_RPi/build/Desktop_Qt_6_5_3_GCC_64bit-Debug/CMakeFiles/3.29.3/CMakeCXXCompiler.cmake",
+		"/home/marcusvm/git/Instrument_Cluster_RPi/build/Desktop_Qt_6_5_3_GCC_64bit-Debug/CMakeFiles/3.29.3/CMakeCXXCompiler.cmake",
 		"/opt/Qt/6.5.3/gcc_64/lib/cmake/Qt6/Qt6ConfigVersion.cmake",
 		"/opt/Qt/6.5.3/gcc_64/lib/cmake/Qt6/Qt6ConfigVersionImpl.cmake",
 		"/opt/Qt/6.5.3/gcc_64/lib/cmake/Qt6/Qt6Config.cmake",
@@ -1142,34 +1142,34 @@
 		"/opt/Qt/Tools/CMake/share/cmake-3.29/Modules/GNUInstallDirs.cmake",
 		"/opt/Qt/6.5.3/gcc_64/lib/cmake/Qt6Qml/Qt6qmldirTemplate.cmake.in"
 	],
-	"CMAKE_SOURCE_DIR" : "/home/spedhedvm/git/Instrument_Cluster_RPi",
+	"CMAKE_SOURCE_DIR" : "/home/marcusvm/git/Instrument_Cluster_RPi",
 	"CROSS_CONFIG" : false,
-	"DEP_FILE" : "/home/spedhedvm/git/Instrument_Cluster_RPi/build/Desktop_Qt_6_5_3_GCC_64bit-Debug/appDyno_Info_autogen/deps",
+	"DEP_FILE" : "/home/marcusvm/git/Instrument_Cluster_RPi/build/Desktop_Qt_6_5_3_GCC_64bit-Debug/appDyno_Info_autogen/deps",
 	"DEP_FILE_RULE_NAME" : "appDyno_Info_autogen/timestamp",
 	"HEADERS" : 
 	[
 		[
-			"/home/spedhedvm/git/Instrument_Cluster_RPi/gpiohandler.h",
+			"/home/marcusvm/git/Instrument_Cluster_RPi/gpiohandler.h",
 			"MU",
 			"EWIEGA46WW/moc_gpiohandler.cpp",
 			null
 		],
 		[
-			"/home/spedhedvm/git/Instrument_Cluster_RPi/jsonmanager.h",
+			"/home/marcusvm/git/Instrument_Cluster_RPi/jsonmanager.h",
 			"MU",
 			"EWIEGA46WW/moc_jsonmanager.cpp",
 			null
 		],
 		[
-			"/home/spedhedvm/git/Instrument_Cluster_RPi/mapVals.h",
+			"/home/marcusvm/git/Instrument_Cluster_RPi/mapVals.h",
 			"MU",
 			"EWIEGA46WW/moc_mapVals.cpp",
 			null
 		]
 	],
 	"HEADER_EXTENSIONS" : [ "h", "hh", "h++", "hm", "hpp", "hxx", "in", "txx" ],
-	"INCLUDE_DIR" : "/home/spedhedvm/git/Instrument_Cluster_RPi/build/Desktop_Qt_6_5_3_GCC_64bit-Debug/appDyno_Info_autogen/include",
-	"MOC_COMPILATION_FILE" : "/home/spedhedvm/git/Instrument_Cluster_RPi/build/Desktop_Qt_6_5_3_GCC_64bit-Debug/appDyno_Info_autogen/mocs_compilation.cpp",
+	"INCLUDE_DIR" : "/home/marcusvm/git/Instrument_Cluster_RPi/build/Desktop_Qt_6_5_3_GCC_64bit-Debug/appDyno_Info_autogen/include",
+	"MOC_COMPILATION_FILE" : "/home/marcusvm/git/Instrument_Cluster_RPi/build/Desktop_Qt_6_5_3_GCC_64bit-Debug/appDyno_Info_autogen/mocs_compilation.cpp",
 	"MOC_DEFINITIONS" : 
 	[
 		"QT_CORE_LIB",
@@ -1190,7 +1190,7 @@
 	],
 	"MOC_INCLUDES" : 
 	[
-		"/home/spedhedvm/git/Instrument_Cluster_RPi",
+		"/home/marcusvm/git/Instrument_Cluster_RPi",
 		"/opt/Qt/6.5.3/gcc_64/include/QtQml/6.5.3",
 		"/opt/Qt/6.5.3/gcc_64/include/QtQml/6.5.3/QtQml",
 		"/opt/Qt/6.5.3/gcc_64/include/QtCore/6.5.3",
@@ -1231,50 +1231,50 @@
 		"-c",
 		"/opt/Qt/Tools/CMake/share/cmake-3.29/Modules/CMakeCXXCompilerABI.cpp"
 	],
-	"MOC_PREDEFS_FILE" : "/home/spedhedvm/git/Instrument_Cluster_RPi/build/Desktop_Qt_6_5_3_GCC_64bit-Debug/appDyno_Info_autogen/moc_predefs.h",
+	"MOC_PREDEFS_FILE" : "/home/marcusvm/git/Instrument_Cluster_RPi/build/Desktop_Qt_6_5_3_GCC_64bit-Debug/appDyno_Info_autogen/moc_predefs.h",
 	"MOC_RELAXED_MODE" : false,
 	"MOC_SKIP" : 
 	[
-		"/home/spedhedvm/git/Instrument_Cluster_RPi/build/Desktop_Qt_6_5_3_GCC_64bit-Debug/.rcc/qmlcache/appDyno_Info_Main_qml.cpp",
-		"/home/spedhedvm/git/Instrument_Cluster_RPi/build/Desktop_Qt_6_5_3_GCC_64bit-Debug/.rcc/qrc_appDyno_Info_raw_qml_0.cpp",
-		"/home/spedhedvm/git/Instrument_Cluster_RPi/build/Desktop_Qt_6_5_3_GCC_64bit-Debug/.rcc/qrc_qmake_Dyno_Info.cpp",
-		"/home/spedhedvm/git/Instrument_Cluster_RPi/build/Desktop_Qt_6_5_3_GCC_64bit-Debug/appdyno_info_qmltyperegistrations.cpp"
+		"/home/marcusvm/git/Instrument_Cluster_RPi/build/Desktop_Qt_6_5_3_GCC_64bit-Debug/.rcc/qmlcache/appDyno_Info_Main_qml.cpp",
+		"/home/marcusvm/git/Instrument_Cluster_RPi/build/Desktop_Qt_6_5_3_GCC_64bit-Debug/.rcc/qrc_appDyno_Info_raw_qml_0.cpp",
+		"/home/marcusvm/git/Instrument_Cluster_RPi/build/Desktop_Qt_6_5_3_GCC_64bit-Debug/.rcc/qrc_qmake_Dyno_Info.cpp",
+		"/home/marcusvm/git/Instrument_Cluster_RPi/build/Desktop_Qt_6_5_3_GCC_64bit-Debug/appdyno_info_qmltyperegistrations.cpp"
 	],
 	"MULTI_CONFIG" : false,
-	"PARALLEL" : 3,
-	"PARSE_CACHE_FILE" : "/home/spedhedvm/git/Instrument_Cluster_RPi/build/Desktop_Qt_6_5_3_GCC_64bit-Debug/CMakeFiles/appDyno_Info_autogen.dir/ParseCache.txt",
+	"PARALLEL" : 4,
+	"PARSE_CACHE_FILE" : "/home/marcusvm/git/Instrument_Cluster_RPi/build/Desktop_Qt_6_5_3_GCC_64bit-Debug/CMakeFiles/appDyno_Info_autogen.dir/ParseCache.txt",
 	"QT_MOC_EXECUTABLE" : "/opt/Qt/6.5.3/gcc_64/./libexec/moc",
 	"QT_UIC_EXECUTABLE" : "",
 	"QT_VERSION_MAJOR" : 6,
 	"QT_VERSION_MINOR" : 5,
-	"SETTINGS_FILE" : "/home/spedhedvm/git/Instrument_Cluster_RPi/build/Desktop_Qt_6_5_3_GCC_64bit-Debug/CMakeFiles/appDyno_Info_autogen.dir/AutogenUsed.txt",
+	"SETTINGS_FILE" : "/home/marcusvm/git/Instrument_Cluster_RPi/build/Desktop_Qt_6_5_3_GCC_64bit-Debug/CMakeFiles/appDyno_Info_autogen.dir/AutogenUsed.txt",
 	"SOURCES" : 
 	[
 		[
-			"/home/spedhedvm/git/Instrument_Cluster_RPi/build/Desktop_Qt_6_5_3_GCC_64bit-Debug/.rcc/qmlcache/appDyno_Info_qmlcache_loader.cpp",
+			"/home/marcusvm/git/Instrument_Cluster_RPi/build/Desktop_Qt_6_5_3_GCC_64bit-Debug/.rcc/qmlcache/appDyno_Info_qmlcache_loader.cpp",
 			"MU",
 			null
 		],
 		[
-			"/home/spedhedvm/git/Instrument_Cluster_RPi/gpiohandler.cpp",
+			"/home/marcusvm/git/Instrument_Cluster_RPi/gpiohandler.cpp",
 			"MU",
 			null
 		],
 		[
-			"/home/spedhedvm/git/Instrument_Cluster_RPi/jsonmanager.cpp",
+			"/home/marcusvm/git/Instrument_Cluster_RPi/jsonmanager.cpp",
 			"MU",
 			null
 		],
-		[ "/home/spedhedvm/git/Instrument_Cluster_RPi/main.cpp", "MU", null ]
+		[ "/home/marcusvm/git/Instrument_Cluster_RPi/main.cpp", "MU", null ]
 	],
 	"UIC_OPTIONS" : [],
 	"UIC_SEARCH_PATHS" : [],
 	"UIC_SKIP" : 
 	[
-		"/home/spedhedvm/git/Instrument_Cluster_RPi/build/Desktop_Qt_6_5_3_GCC_64bit-Debug/.rcc/qmlcache/appDyno_Info_Main_qml.cpp",
-		"/home/spedhedvm/git/Instrument_Cluster_RPi/build/Desktop_Qt_6_5_3_GCC_64bit-Debug/.rcc/qrc_appDyno_Info_raw_qml_0.cpp",
-		"/home/spedhedvm/git/Instrument_Cluster_RPi/build/Desktop_Qt_6_5_3_GCC_64bit-Debug/.rcc/qrc_qmake_Dyno_Info.cpp",
-		"/home/spedhedvm/git/Instrument_Cluster_RPi/build/Desktop_Qt_6_5_3_GCC_64bit-Debug/appdyno_info_qmltyperegistrations.cpp"
+		"/home/marcusvm/git/Instrument_Cluster_RPi/build/Desktop_Qt_6_5_3_GCC_64bit-Debug/.rcc/qmlcache/appDyno_Info_Main_qml.cpp",
+		"/home/marcusvm/git/Instrument_Cluster_RPi/build/Desktop_Qt_6_5_3_GCC_64bit-Debug/.rcc/qrc_appDyno_Info_raw_qml_0.cpp",
+		"/home/marcusvm/git/Instrument_Cluster_RPi/build/Desktop_Qt_6_5_3_GCC_64bit-Debug/.rcc/qrc_qmake_Dyno_Info.cpp",
+		"/home/marcusvm/git/Instrument_Cluster_RPi/build/Desktop_Qt_6_5_3_GCC_64bit-Debug/appdyno_info_qmltyperegistrations.cpp"
 	],
 	"UIC_UI_FILES" : [],
 	"USE_BETTER_GRAPH" : false,

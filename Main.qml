@@ -8,6 +8,7 @@ import QtQuick.Controls.Material
 Window
 {
     id: root
+    //test comment
 
     property var info: JSON
 
