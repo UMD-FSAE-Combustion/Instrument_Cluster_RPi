@@ -916,23 +916,26 @@ Window
     }
 
     Rectangle
-    {
-        id: tractionControlScreen
-
-        anchors
         {
-            top: columnBar.top
-            bottom: columnBar.bottom
-            left: columnBar.left
-            right: columnBar.right
-        }
+            id: tractionControlScreen
+            radius: 25
+            visible: false
+            anchors
+            {
+                top: columnBar.top
+                bottom: columnBar.bottom
+                left: columnBar.left
+                right: columnBar.right
+            }
 
-        width: 300
-        height: 50
-        radius: 20
-        color: "#1E1E1E"
-        visible: false
-    }
+            TractionControl
+            {
+                id: tract
+                anchors.fill: parent
+                tractionValue: 5
+
+            }
+        }
 
     Rectangle
     {
@@ -1501,6 +1504,20 @@ Window
                     currentSet = 1
                     brakeBiasScreen.visible = false
                 }
+                else if(tractionControlScreen.visible === true)
+                {
+                    animationLeftSpeedometer.start()
+                    animationLeft.start()
+
+                    statusMessage.text = "Settings Updated"
+                    statusImage.source = "assets/images/INFO.png"
+                    statusMessage.font.pixelSize = 20
+                    statusUpdateAnimation.start()
+
+                    counter = 0
+                    currentSet = 1
+                    tractionControlScreen.visible = false
+                }
                 else if(columnBar.x > 0 && counter === 0)
                 {
                     currentSet = 3
@@ -1585,6 +1602,10 @@ Window
                     tractionControlScreen.visible = false
                     animationRight.start()
                     animationRightSpeedometer.start()
+                    statusMessage.text = "Settings Updated"
+                    statusImage.source = "assets/images/INFO.png"
+                    statusMessage.font.pixelSize = 20
+                    statusUpdateAnimation.start()
                     counter = 2
                     currentSet = 1
                 }
@@ -1627,6 +1648,11 @@ Window
                 {
                     counter = 11
                 }
+                else if(tractionControlScreen.visible === true && tract.tractionValue > 0)
+                {
+                    counter = 2
+                    tract.tractionValue = tract.tractionValue - 1
+                }
                 else if(counter > 2 && counter < 5)
                 {
                     currentSet = 2
@@ -1651,7 +1677,7 @@ Window
             {
                 counter = counter - 1
 
-                if(brakeBiasScreen.visible === true && biasVal > 100 && rearBrakeBias < 0)
+                if(brakeBiasScreen.visible === true && biasVal < 100 && rearBrakeBias > 0)
                 {
                     counter = 1
                     biasVal += 1
@@ -1664,6 +1690,11 @@ Window
                 else if(engineInfoScreen.visible === true)
                 {
                     counter = 9
+                }
+                else if(tractionControlScreen.visible === true && tract.tractionValue < 10)
+                {
+                    counter = 2
+                    tract.tractionValue = tract.tractionValue + 1
                 }
                 else if(counter < 0)
                 {

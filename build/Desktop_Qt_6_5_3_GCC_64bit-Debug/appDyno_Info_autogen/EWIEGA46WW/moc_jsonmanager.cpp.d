@@ -1,6 +1,6 @@
-/home/spedhedvm/git/Instrument_Cluster_RPi/build/Desktop_Qt_6_5_3_GCC_64bit-Debug/appDyno_Info_autogen/EWIEGA46WW/moc_jsonmanager.cpp: /home/spedhedvm/git/Instrument_Cluster_RPi/jsonmanager.h \
-  /home/spedhedvm/git/Instrument_Cluster_RPi/build/Desktop_Qt_6_5_3_GCC_64bit-Debug/appDyno_Info_autogen/moc_predefs.h \
-  /home/spedhedvm/git/Instrument_Cluster_RPi/mapVals.h \
+/home/marcusvm/git/Instrument_Cluster_RPi/build/Desktop_Qt_6_5_3_GCC_64bit-Debug/appDyno_Info_autogen/EWIEGA46WW/moc_jsonmanager.cpp: /home/marcusvm/git/Instrument_Cluster_RPi/jsonmanager.h \
+  /home/marcusvm/git/Instrument_Cluster_RPi/build/Desktop_Qt_6_5_3_GCC_64bit-Debug/appDyno_Info_autogen/moc_predefs.h \
+  /home/marcusvm/git/Instrument_Cluster_RPi/mapVals.h \
   /opt/Qt/6.5.3/gcc_64/include/QtCore/QByteArray \
   /opt/Qt/6.5.3/gcc_64/include/QtCore/QCoreApplication \
   /opt/Qt/6.5.3/gcc_64/include/QtCore/QCryptographicHash \
