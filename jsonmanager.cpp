@@ -58,10 +58,12 @@ void JSONmanager::loadProfile(int profile)
 
         QJsonArray arr = RootObject.value("Drivers").toArray();
         //bias = arr[profile].toObject().value("Bias").toInt();
-        m_biasVal = arr[profile].toObject().value("Bias").toInt();
+        int newBias = arr[profile].toObject().value("Bias").toInt();
+        setBiasVal(newBias);
 
         //traction = arr[profile].toObject().value("tcSwitch").toInt();
-        m_tractionSwitch = arr[profile].toObject().value("tcSwitch").toInt();
+        int newTraction = arr[profile].toObject().value("tcSwitch").toInt();
+        setTractionSwitch(newTraction);
 
         //
         //ADD CAN SIGNALING TO ACTUALLY UPDATE BRAKES!!!
@@ -233,7 +235,7 @@ bool JSONmanager::loadChannelList(std::vector<mapVals>& channelInfo)
     }
 }
 
-int JSONmanager::biasVal() const
+int JSONmanager::getBiasVal() const
 {
     return m_biasVal;
 }
@@ -246,7 +248,7 @@ void JSONmanager::setBiasVal(int newBiasVal)
     emit BiasValChanged();
 }
 
-int JSONmanager::driver() const
+int JSONmanager::getDriver() const
 {
     return m_driver;
 }
@@ -259,7 +261,7 @@ void JSONmanager::setDriver(int newDriver)
     emit DriverChanged();
 }
 
-int JSONmanager::tractionSwitch() const
+int JSONmanager::getTractionSwitch() const
 {
     return m_tractionSwitch;
 }

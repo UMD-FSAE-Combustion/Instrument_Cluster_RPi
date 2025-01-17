@@ -22,9 +22,9 @@ class JSONmanager : public QObject
     Q_OBJECT
     QML_ELEMENT
 
-    Q_PROPERTY(int driver READ driver WRITE setDriver NOTIFY DriverChanged FINAL)
-    Q_PROPERTY(int biasVal READ biasVal WRITE setBiasVal NOTIFY BiasValChanged FINAL)
-    Q_PROPERTY(int tractionSwitch READ tractionSwitch WRITE setTractionSwitch NOTIFY tractionSwitchChanged FINAL)
+    Q_PROPERTY(int driver READ getDriver WRITE setDriver NOTIFY DriverChanged FINAL)
+    Q_PROPERTY(int biasVal READ getBiasVal WRITE setBiasVal NOTIFY BiasValChanged FINAL)
+    Q_PROPERTY(int tractionSwitch READ getTractionSwitch WRITE setTractionSwitch NOTIFY tractionSwitchChanged FINAL)
 
 public:
     JSONmanager();
@@ -38,13 +38,13 @@ public:
     bool loadChannelList(std::vector<mapVals>&);
     //bool setWidgetChannel(int, QString);
 
-    int biasVal() const;
+    int getBiasVal() const;
     void setBiasVal(int newBiasVal);
 
-    int driver() const;
+    int getDriver() const;
     void setDriver(int newDriver);
 
-    int tractionSwitch() const;
+    int getTractionSwitch() const;
     void setTractionSwitch(int newTractionSwitch);
 
 signals:

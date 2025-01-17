@@ -1496,18 +1496,18 @@ Window
                     statusMessage.font.pixelSize = 20
                     statusUpdateAnimation.start()
 
-                    root.counter = 0
-                    root.currentSet = 1
+                    counter = 0
+                    currentSet = 1
                     brakeBiasScreen.visible = false
                 }
-                else if(columnBar.x > 0 && root.counter === 0)
+                else if(columnBar.x > 0 && counter === 0)
                 {
-                    root.currentSet = 3
-                    root.counter = 6
+                    currentSet = 3
+                    counter = 6
                 }
                 else if(currentSet === 3)
                 {
-                    jsonManager.loadProfile(counter - 6)
+                    root.loadNewProfile(counter - 6)
                     animationLeftSpeedometer.start()
                     animationLeft.start()
 
@@ -1693,6 +1693,15 @@ Window
 
             }
         }
+    }
+
+    function loadNewProfile(profileNum) {
+        jsonManager.loadProfile(profileNum)
+
+        driver = jsonManager.driver
+        biasVal = jsonManager.biasVal
+        rearBrakeBias = (100 - jsonManager.biasVal)
+        tractionSwitch = jsonManager.tractionSwitch
     }
 }
 
