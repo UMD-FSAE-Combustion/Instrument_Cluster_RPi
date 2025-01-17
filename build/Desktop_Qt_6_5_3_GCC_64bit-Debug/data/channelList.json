@@ -1,0 +1,16 @@
+{
+    "channels":[
+        {
+            "name": "Brake Pressure",
+            "min": 0,
+            "max": 50,
+            "unit": "Bar"
+        },
+        {
+            "name": "Engine Speed",
+            "min": 0,
+            "max": 8000,
+            "unit": "RPM"
+        }
+    ]
+}

@@ -1,0 +1,5 @@
+module Dyno_Info
+typeinfo appDyno_Info.qmltypes
+prefer :/qt/qml/Dyno_Info/
+Main 1.0 Main.qml
+

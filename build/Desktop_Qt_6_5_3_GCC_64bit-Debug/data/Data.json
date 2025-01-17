@@ -1,0 +1,25 @@
+{
+    "Drivers": [
+        {
+            "Bias": 50,
+            "DriverNo": 1,
+            "ID": "Driver 1",
+            "tcSwitch": 1
+        },
+        {
+            "Bias": 40,
+            "DriverNo": 2,
+            "ID": "Driver 2",
+            "tcSwitch": 5
+        },
+        {
+            "Bias": 60,
+            "DriverNo": 3,
+            "ID": "Driver 3",
+            "tcSwitch": 9
+        }
+    ],
+    "LastDriver": {
+        "LastDriver": 1
+    }
+}
