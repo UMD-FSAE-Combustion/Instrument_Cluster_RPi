@@ -1,0 +1,24 @@
+{
+    "classes": [
+        {
+            "classInfos": [
+                {
+                    "name": "QML.Element",
+                    "value": "auto"
+                }
+            ],
+            "className": "GPIOhandler",
+            "lineNumber": 7,
+            "object": true,
+            "qualifiedClassName": "GPIOhandler",
+            "superClasses": [
+                {
+                    "access": "public",
+                    "name": "QObject"
+                }
+            ]
+        }
+    ],
+    "inputFile": "gpiohandler.h",
+    "outputRevision": 68
+}

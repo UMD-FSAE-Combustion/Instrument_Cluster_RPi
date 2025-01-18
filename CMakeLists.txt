@@ -18,6 +18,12 @@ qt_add_qml_module(appDyno_Info
     QML_FILES
         Main.qml
 
+        SOURCES
+        gpiohandler.h gpiohandler.cpp
+        jsonmanager.h jsonmanager.cpp
+        canmanager.h canmanager.cpp
+        mapVals.h
+
         RESOURCES
         assets/images/blockM.png
         assets/images/teamlogo.png
@@ -26,10 +32,6 @@ qt_add_qml_module(appDyno_Info
         assets/images/raceCar.png
         assets/images/INFO.png
         assets/images/WARN.png
-
-        SOURCES gpiohandler.h gpiohandler.cpp
-        SOURCES jsonmanager.h jsonmanager.cpp
-        SOURCES mapVals.h
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.

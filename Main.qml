@@ -1,13 +1,26 @@
+import Dyno_Info
+
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 import QtQuick.Controls.Material
 
-
-
 Window
 {
     id: root
+
+    property var info: JSON
+
+    property bool loadingComplete: false
+    property bool displayProfiles: false
+    property int speed: 0
+    property int currentSet: 1
+    property int counter: 0
+    property int biasVal: JSON.biasVal
+    property int rearBrakeBias: (100 - JSON.biasVal)
+    property int driver: JSON.driver
+    property int tractionSwitch: JSON.tractionSwitch
+
     width: 800
     height: 480
     visible: true
@@ -18,21 +31,16 @@ Window
 
     Material.theme: Material.Light
 
-    property bool loadingComplete: false
-    property bool displayProfiles: false
-    property int speed: 0
-    property int currentSet: 1
-    property int counter: 0
-    property int frontBrakeBias: 50
-    property int rearBrakeBias: 50
-    property int driverNum: 0
+    JSONmanager {
+        id: jsonManager
+    }
 
     Image
     {
         id: loadingImage
         anchors.centerIn: parent
         source: "assets/images/teamlogo.png"
-        visible: !loadingComplete
+        visible: !root.loadingComplete
 
 
         Rectangle {
@@ -188,7 +196,7 @@ Window
         repeat: false
         onTriggered:
         {
-            loadingComplete = true
+            root.loadingComplete = true
         }
     }
 
@@ -205,7 +213,7 @@ Window
         width: 1040
         height: 0
         color: "transparent"
-        visible: loadingComplete
+        visible: root.loadingComplete
     }
 
     Image
@@ -218,9 +226,10 @@ Window
         width: 70
         height: 70
         source: "assets/images/teamlogo2.png"
-        visible: loadingComplete
+        visible: root.loadingComplete
     }
 
+    // anchors for icons on top of screen
     /*Rectangle
     {
         id: mainWindowAnchors
@@ -273,12 +282,12 @@ Window
 
                 Text
                 {
-                    text: speed
+                    text: root.speed
                     color: "white"
                     anchors.centerIn: speedoNumber
                     font.pixelSize: 110
                     font.bold: true
-                    visible: loadingComplete
+                    visible: root.loadingComplete
                 }
             }
 
@@ -303,7 +312,7 @@ Window
                     font.pixelSize: 60
                     font.bold: true
                     color: "#1e272e"
-                    visible: loadingComplete
+                    visible: root.loadingComplete
                 }
             }
 
@@ -438,15 +447,15 @@ Window
 
             sourceComponent:
             {
-                if(currentSet === 1)
+                if(root.currentSet === 1)
                 {
                     set1Component
                 }
-                else if (currentSet === 2)
+                else if (root.currentSet === 2)
                 {
                     set2Component
                 }
-                else if (currentSet === 3)
+                else if (root.currentSet === 3)
                 {
                     set3Component
                 }
@@ -480,12 +489,12 @@ Window
                     Layout.leftMargin: 5
                     radius: 20
 
-                    color: (counter === 0) ? "#00a8ff" : "white"
+                    color: (root.counter === 0) ? "#00a8ff" : "white"
 
                     Text
                     {
                         text: qsTr("Load Profile")
-                        color: (counter === 0) ? "white" : "black"
+                        color: (root.counter === 0) ? "white" : "black"
                         anchors.centerIn: parent
                         font.pixelSize: 30
                         font.bold: true
@@ -659,7 +668,7 @@ Window
 
                     Text
                     {
-                        text: qsTr("Driver Profile 1")
+                        text: qsTr(" Profile 1")
                         color: (counter === 6) ? "white" : "black"
                         anchors.centerIn: parent
                         font.pixelSize: 30
@@ -682,7 +691,7 @@ Window
 
                     Text
                     {
-                        text: qsTr("Driver Profile 2")
+                        text: qsTr(" Profile 2")
                         color:(counter === 7) ? "white" : "black"
                         anchors.centerIn: parent
                         font.pixelSize: 30
@@ -705,7 +714,7 @@ Window
 
                     Text
                     {
-                        text: qsTr("Driver Profile 3")
+                        text: qsTr(" Profile 3")
                         color: (counter === 8) ? "white" : "black"
                         anchors.centerIn: parent
                         font.pixelSize: 30
@@ -765,7 +774,7 @@ Window
             top: columnBar.top
             bottom: columnBar.bottom
             left: columnBar.left
-            right: columnBar.right
+            right: columnBar.rrootight
         }
 
         width: 300
@@ -886,7 +895,7 @@ Window
         {
             id: topSliderText
             anchors.centerIn: percentBarTop
-            text: frontBrakeBias + "%"
+            text: biasVal + "%"
             font.pixelSize: 15
             font.bold: true
             color: "white"
@@ -982,7 +991,7 @@ Window
                 radius: 20
                 color: "#1E1E1E"
                 border.width: 3
-                border.color: (counter === 9) ? "#00a8ff" : "#1E1E1E"
+                border.color: (root.counter === 9) ? "#00a8ff" : "#1E1E1E"
 
                 ProgressBar
                 {
@@ -1103,7 +1112,7 @@ Window
                 radius: 20
                 color: "#1E1E1E"
                 border.width: 3
-                border.color: (counter === 10) ? "#00a8ff" : "#1E1E1E"
+                border.color: (root.counter === 10) ? "#00a8ff" : "#1E1E1E"
 
                 ProgressBar
                 {
@@ -1224,7 +1233,7 @@ Window
                 radius: 20
                 color: "#1E1E1E"
                 border.width: 3
-                border.color: (counter === 11) ? "#00a8ff" : "#1E1E1E"
+                border.color: (root.counter === 11) ? "#00a8ff" : "#1E1E1E"
 
                 Text
                 {
@@ -1268,7 +1277,7 @@ Window
                 radius: 20
                 color: "#1E1E1E"
                 border.width: 3
-                border.color: (counter === 12) ? "#00a8ff" : "#1E1E1E"
+                border.color: (root.counter === 12) ? "#00a8ff" : "#1E1E1E"
 
                 Text
                 {
@@ -1312,7 +1321,7 @@ Window
                 radius: 20
                 color: "#1E1E1E"
                 border.width: 3
-                border.color: (counter === 13) ? "#00a8ff" : "#1E1E1E"
+                border.color: (root.counter === 13) ? "#00a8ff" : "#1E1E1E"
 
                 Text
                 {
@@ -1479,17 +1488,28 @@ Window
                 }
                 else if(brakeBiasScreen.visible === true)
                 {
-                    animationLeftSpeedometer.start()
-                    animationLeft.start()
+                    if(barSlider.value !== (100 - jsonManager.biasVal)) {
+                        updateBias(driver, (100 - barSlider.value))
+                        animationLeftSpeedometer.start()
+                        animationLeft.start()
 
-                    statusMessage.text = "Settings Updated"
-                    statusImage.source = "assets/images/INFO.png"
-                    statusMessage.font.pixelSize = 20
-                    statusUpdateAnimation.start()
+                        statusMessage.text = "Settings Updated"
+                        statusImage.source = "assets/images/INFO.png"
+                        statusMessage.font.pixelSize = 20
+                        statusUpdateAnimation.start()
 
-                    counter = 0
-                    currentSet = 1
-                    brakeBiasScreen.visible = false
+                        counter = 0
+                        currentSet = 1
+                        brakeBiasScreen.visible = false
+                    }
+                    else {
+                        animationLeftSpeedometer.start()
+                        animationLeft.start()
+
+                        counter = 0
+                        currentSet = 1
+                        brakeBiasScreen.visible = false
+                    }
                 }
                 else if(columnBar.x > 0 && counter === 0)
                 {
@@ -1498,17 +1518,17 @@ Window
                 }
                 else if(currentSet === 3)
                 {
+                    loadNewProfile(counter - 6)
                     animationLeftSpeedometer.start()
                     animationLeft.start()
 
-                    statusMessage.text = "Profile Loaded: Driver " + driverNum
+                    statusMessage.text = "Profile Loaded:  " + (driver + 1)
                     statusImage.source = "assets/images/INFO.png"
                     statusMessage.font.pixelSize = 14
                     statusUpdateAnimation.start()
 
                     counter = 0
                     currentSet = 1
-
                 }
 
                 else if(counter === 1)
@@ -1559,12 +1579,28 @@ Window
                 }
                 else if(counter === 1 && brakeBiasScreen.visible === true)
                 {
-                    brakeBiasScreen.visible = false
-                    animationRight.start()
-                    animationRightSpeedometer.start()
-                    statusUpdateAnimation.start()
-                    counter = 1
-                    currentSet = 1
+                    if(barSlider.value !== (100 - jsonManager.biasVal)) {
+                        updateBias(driver, (100 - barSlider.value))
+                        brakeBiasScreen.visible = false
+                        animationRight.start()
+                        animationRightSpeedometer.start()
+
+                        statusMessage.text = "Setting Updated"
+                        statusImage.source = "assets/images/INFO.png"
+                        statusMessage.font.pixelSize = 20
+                        statusUpdateAnimation.start()
+
+                        counter = 1
+                        currentSet = 1
+                    }
+                    else {
+                        brakeBiasScreen.visible = false
+                        animationRight.start()
+                        animationRightSpeedometer.start()
+
+                        counter = 1
+                        currentSet = 1
+                    }
                 }
                 else if(counter === 2 && tractionControlScreen.visible === true)
                 {
@@ -1599,13 +1635,13 @@ Window
             {
                 counter = counter + 1
 
-                if(brakeBiasScreen.visible === true && frontBrakeBias > 0 && rearBrakeBias < 100)
+                if(brakeBiasScreen.visible === true && biasVal > 0 && rearBrakeBias < 100)
                 {
                     counter = 1
-                    frontBrakeBias -= 1
+                    biasVal -= 1
                     rearBrakeBias += 1
                 }
-                else if(frontBrakeBias >= 100 || rearBrakeBias >= 100)
+                else if(biasVal >= 100 || rearBrakeBias >= 100)
                 {
                     counter = 1
                 }
@@ -1637,13 +1673,13 @@ Window
             {
                 counter = counter - 1
 
-                if(brakeBiasScreen.visible === true && frontBrakeBias < 100 && rearBrakeBias > 0)
+                if(brakeBiasScreen.visible === true && biasVal < 100 && rearBrakeBias > 0)
                 {
                     counter = 1
-                    frontBrakeBias += 1
+                    biasVal += 1
                     rearBrakeBias -= 1
                 }
-                else if(frontBrakeBias >= 100 || rearBrakeBias >= 100)
+                else if(biasVal >= 100 || rearBrakeBias >= 100)
                 {
                     counter = 1
                 }
@@ -1680,6 +1716,28 @@ Window
 
             }
         }
+    }
+
+    function loadNewProfile(profileNum) {
+        jsonManager.loadProfile(profileNum)
+
+        driver = jsonManager.driver
+        biasVal = jsonManager.biasVal
+        rearBrakeBias = (100 - jsonManager.biasVal)
+        tractionSwitch = jsonManager.tractionSwitch
+    }
+
+    function updateBias(profile, bias) {
+        jsonManager.updateBrakeBias(profile, bias)
+
+        biasVal = jsonManager.biasVal
+        rearBrakeBias = (100 - jsonManager.biasVal)
+    }
+
+    function updateTraction(profile, traction) {
+        jsonManager.updateTractionCtl(profile, traction)
+
+        tractionSwitch = jsonManager.tractionSwitch
     }
 }
 

@@ -3,9 +3,10 @@
 
 JSONmanager::JSONmanager()
 {
+    loadProfileOnBoot();
 }
 
-void JSONmanager::loadProfileOnBoot(int& profile, int& bias, int& traction)
+void JSONmanager::loadProfileOnBoot()
 {
     file.setFileName(qApp->applicationDirPath() + "/data/Data.json");
     if(file.open(QIODevice::ReadOnly))
@@ -24,22 +25,22 @@ void JSONmanager::loadProfileOnBoot(int& profile, int& bias, int& traction)
         {
             jsonObj = jsonDoc.object();
 
-            profile = jsonObj.value("LastDriver").toObject().value("LastDriver").toInt() - 1;
+            m_driver = jsonObj.value("LastDriver").toObject().value("LastDriver").toInt() - 1;
             jsonArray = jsonObj.value("Drivers").toArray();
             //bias = jsonArray[profile].toObject().value("Bias").toInt();
-            json_BiasVal = jsonArray[profile].toObject().value("Bias").toInt();
+            m_biasVal = jsonArray[m_driver].toObject().value("Bias").toInt();
 
             //add can here for setting servo position (or maybe in startup?)
 
             //traction = jsonArray[profile].toObject().value("tcSwitch").toInt();
-            json_tractionSwitch = jsonArray[profile].toObject().value("tcSwitch").toInt();
+            m_tractionSwitch = jsonArray[m_driver].toObject().value("tcSwitch").toInt();
         }
     }
     else
         qDebug() << "File could not be opened";
 }
 
-void JSONmanager::loadProfile(int profile, int& bias, int& traction)
+void JSONmanager::loadProfile(int profile)
 {
     QFile File(qApp->applicationDirPath() + "/data/Data.json");
     if(File.open(QIODevice::ReadOnly))
@@ -53,15 +54,16 @@ void JSONmanager::loadProfile(int profile, int& bias, int& traction)
         QJsonObject RootObject = Doc.object();
 
         //int Driver = ui->stackedWidget->currentIndex() - 5;
-
+        setDriver(profile); //not working
 
         QJsonArray arr = RootObject.value("Drivers").toArray();
         //bias = arr[profile].toObject().value("Bias").toInt();
-        json_BiasVal = arr[profile].toObject().value("Bias").toInt();
-
+        int newBias = arr[profile].toObject().value("Bias").toInt();
+        setBiasVal(newBias);
 
         //traction = arr[profile].toObject().value("tcSwitch").toInt();
-        json_tractionSwitch = arr[profile].toObject().value("tcSwitch").toInt();
+        int newTraction = arr[profile].toObject().value("tcSwitch").toInt();
+        setTractionSwitch(newTraction);
 
         //
         //ADD CAN SIGNALING TO ACTUALLY UPDATE BRAKES!!!
@@ -72,11 +74,11 @@ void JSONmanager::loadProfile(int profile, int& bias, int& traction)
         //
         //ADD CAN SIGNALIN TO ATUALLY UPDATE!!!!
 
-        QJsonValueRef Driver = RootObject.find("LastDriver").value();
-        QJsonObject newDriver = Driver.toObject();
+        QJsonValueRef updDriver = RootObject.find("LastDriver").value();
+        QJsonObject newDriver = updDriver.toObject();
 
         newDriver["LastDriver"] = profile + 1;
-        Driver = newDriver;
+        updDriver = newDriver;
 
         Doc.setObject(RootObject);
         File.open(QIODevice::WriteOnly | QIODevice::Text | QIODevice::Truncate);
@@ -113,7 +115,8 @@ bool JSONmanager::updateBrakeBias(int profile, int bias)
 
         if(info["Bias"] != bias)
         {
-            info["Bias"] = bias;
+            m_biasVal = bias;
+            info["Bias"] = m_biasVal;
 
             objRef = info;
             ArrayRef = arr;
@@ -160,7 +163,8 @@ bool JSONmanager::updateTractionCtl(int profile, int traction)
 
         if(info["tcSwitch"] != traction)
         {
-            info["tcSwitch"] = traction;
+            m_tractionSwitch = traction;
+            info["tcSwitch"] = m_tractionSwitch;
             arr[profile] = info;
 
             RootObject["Drivers"] = arr;
@@ -231,4 +235,43 @@ bool JSONmanager::loadChannelList(std::vector<mapVals>& channelInfo)
         qDebug() << "File could not be opened";
         return false;
     }
+}
+
+int JSONmanager::getBiasVal() const
+{
+    return m_biasVal;
+}
+
+void JSONmanager::setBiasVal(int newBiasVal)
+{
+    if (m_biasVal == newBiasVal)
+        return;
+    m_biasVal = newBiasVal;
+    emit BiasValChanged();
+}
+
+int JSONmanager::getDriver() const
+{
+    return m_driver;
+}
+
+void JSONmanager::setDriver(int newDriver)
+{
+    if (m_driver == newDriver)
+        return;
+    m_driver = newDriver;
+    emit DriverChanged();
+}
+
+int JSONmanager::getTractionSwitch() const
+{
+    return m_tractionSwitch;
+}
+
+void JSONmanager::setTractionSwitch(int newTractionSwitch)
+{
+    if (m_tractionSwitch == newTractionSwitch)
+        return;
+    m_tractionSwitch = newTractionSwitch;
+    emit tractionSwitchChanged();
 }
