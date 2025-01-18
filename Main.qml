@@ -1363,8 +1363,8 @@ Window
                 }
                 else if(brakeBiasScreen.visible === true)
                 {
-                    if(barSlider.value !== (100 - jsonManager.biasVal)) {
-                        updateBias(driver, (100 - barSlider.value))
+                    if(brakeBiasObject.rearBrakeBias !== (100 - jsonManager.biasVal)) {
+                        updateBias(driver, (100 - brakeBiasObject.rearBrakeBias))
                         animationLeftSpeedometer.start()
                         animationLeft.start()
 
@@ -1468,8 +1468,8 @@ Window
                 }
                 else if(counter === 1 && brakeBiasScreen.visible === true)
                 {
-                    if(barSlider.value !== (100 - jsonManager.biasVal)) {
-                        updateBias(driver, (100 - barSlider.value))
+                    if(brakeBiasObject.rearBrakeBias !== (100 - jsonManager.biasVal)) {
+                        updateBias(driver, (100 - brakeBiasObject.rearBrakeBias))
                         brakeBiasScreen.visible = false
                         animationRight.start()
                         animationRightSpeedometer.start()
@@ -1625,16 +1625,16 @@ Window
         jsonManager.loadProfile(profileNum)
 
         driver = jsonManager.driver
-        biasVal = jsonManager.biasVal
-        rearBrakeBias = (100 - jsonManager.biasVal)
+        brakeBiasObject.biasVal = jsonManager.biasVal
+        brakeBiasObject.rearBrakeBias = (100 - jsonManager.biasVal)
         tractionSwitch = jsonManager.tractionSwitch
     }
 
     function updateBias(profile, bias) {
         jsonManager.updateBrakeBias(profile, bias)
 
-        biasVal = jsonManager.biasVal
-        rearBrakeBias = (100 - jsonManager.biasVal)
+        brakeBiasObject.biasVal = jsonManager.biasVal
+        brakeBiasObject.rearBrakeBias = (100 - jsonManager.biasVal)
     }
 
     function updateTraction(profile, traction) {
