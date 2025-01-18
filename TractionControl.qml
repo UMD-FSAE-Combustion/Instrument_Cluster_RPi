@@ -6,7 +6,8 @@ import QtQuick.Window
 
 Item
 {
-    property int tractionValue
+    //property int tractionValue
+    property int tractionSwitch: JSON.tractionSwitch
 
     Rectangle
     {
@@ -39,7 +40,7 @@ Item
                 height: 410
                 from: 10
                 to: 0
-                value: tractionValue
+                value: tractionSwitch
                 enabled: false
 
                 background: Rectangle
@@ -82,7 +83,7 @@ Item
                     Text
                     {
                         id: tractionDisplayValue
-                        text: tractionValue
+                        text: tractionSwitch
                         color: "white"
                         font.pixelSize: 40
                         font.bold: true

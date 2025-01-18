@@ -20,7 +20,7 @@ Window
     //property int biasVal: JSON.biasVal
     //property int rearBrakeBias: (100 - JSON.biasVal)
     property int driver: JSON.driver
-    property int tractionSwitch: JSON.tractionSwitch
+    //property int tractionSwitch: JSON.tractionSwitch
 
     width: 800
     height: 480
@@ -71,14 +71,14 @@ Window
                         target: dot_1
                         from: 1
                         to: 0
-                        duration: 840
+                        duration: 1840
                     }
                     ScaleAnimator
                     {
                         target: dot_1
                         from: 0
                         to: 1
-                        duration: 840
+                        duration: 1840
                     }
                 }
             }
@@ -104,14 +104,14 @@ Window
                             target: dot_2
                             from: 1
                             to: 0
-                            duration: 840
+                            duration: 1840
                         }
                         ScaleAnimator
                         {
                             target: dot_2
                             from: 0
                             to: 1
-                            duration: 840
+                            duration: 1840
                         }
                     }
                 }
@@ -139,14 +139,14 @@ Window
                             target: dot_3
                             from: 1
                             to: 0
-                            duration: 840
+                            duration: 1840
                         }
                         ScaleAnimator
                         {
                             target: dot_3
                             from: 0
                             to: 1
-                            duration: 840
+                            duration: 1840
                         }
                     }
                 }
@@ -174,14 +174,14 @@ Window
                             target: dot_4
                             from: 1
                             to: 0
-                            duration: 840
+                            duration: 1840
                         }
                         ScaleAnimator
                         {
                             target: dot_4
                             from: 0
                             to: 1
-                            duration: 840
+                            duration: 1840
                         }
                     }
                 }
@@ -229,33 +229,6 @@ Window
         source: "assets/images/teamlogo2.png"
         visible: root.loadingComplete
     }
-
-    // anchors for icons on top of screen
-    /*Rectangle
-    {
-        id: mainWindowAnchors
-
-        width: 800
-        height: 480
-
-        Rectangle
-        {
-            id: informationBar
-
-            height: 60
-            width: 300
-            color: "red"
-            visible: true
-
-            anchors
-            {
-                left: mainWindowAnchors.left
-                right: mainWindowAnchors.right
-                top: mainWindowAnchors.top
-                margins: 20
-            }
-        }
-    }*/
 
     Rectangle
     {
@@ -436,6 +409,7 @@ Window
             color: "#4b4b4b"
             anchors
             {
+                margins: -5
                 bottom: columnBar.bottom
                 horizontalCenter: columnBar.horizontalCenter
             }
@@ -803,8 +777,6 @@ Window
             {
                 id: tract
                 anchors.fill: parent
-                tractionValue: 5
-
             }
         }
 
@@ -1388,17 +1360,30 @@ Window
                 }
                 else if(tractionControlScreen.visible === true)
                 {
-                    animationLeftSpeedometer.start()
-                    animationLeft.start()
+                    if(tract.tractionSwitch !== jsonManager.tractionSwitch)
+                    {
+                        updateTraction(driver, tract.tractionSwitch)
+                        animationLeftSpeedometer.start()
+                        animationLeft.start()
 
-                    statusMessage.text = "Settings Updated"
-                    statusImage.source = "assets/images/INFO.png"
-                    statusMessage.font.pixelSize = 20
-                    statusUpdateAnimation.start()
+                        statusMessage.text = "Settings Updated"
+                        statusImage.source = "assets/images/INFO.png"
+                        statusMessage.font.pixelSize = 20
+                        statusUpdateAnimation.start()
 
-                    counter = 0
-                    currentSet = 1
-                    tractionControlScreen.visible = false
+                        counter = 0
+                        currentSet = 1
+                        tractionControlScreen.visible = false
+                    }
+                    else
+                    {
+                        animationLeftSpeedometer.start()
+                        animationLeft.start()
+
+                        counter = 0
+                        currentSet = 1
+                        tractionControlScreen.visible = false
+                    }
                 }
                 else if(columnBar.x > 0 && counter === 0)
                 {
@@ -1493,15 +1478,30 @@ Window
                 }
                 else if(counter === 2 && tractionControlScreen.visible === true)
                 {
-                    tractionControlScreen.visible = false
-                    animationRight.start()
-                    animationRightSpeedometer.start()
-                    statusMessage.text = "Settings Updated"
-                    statusImage.source = "assets/images/INFO.png"
-                    statusMessage.font.pixelSize = 20
-                    statusUpdateAnimation.start()
-                    counter = 2
-                    currentSet = 1
+                    if(tract.tractionSwitch !== jsonManager.tractionSwitch)
+                    {
+                        updateTraction(driver, tract.tractionSwitch)
+                        animationRight.start()
+                        animationRightSpeedometer.start()
+
+                        statusMessage.text = "Setting Updated"
+                        statusImage.source = "assets/images/INFO.png"
+                        statusMessage.font.pixelSize = 20
+                        statusUpdateAnimation.start()
+
+                        counter = 2
+                        currentSet = 1
+                        tractionControlScreen.visible = false
+                    }
+                    else
+                    {
+                        animationRightSpeedometer.start()
+                        animationRight.start()
+
+                        counter = 2
+                        currentSet = 1
+                        tractionControlScreen.visible = false
+                    }
                 }
                 else if (counter === 9 && engineInfoScreen.visible === true)
                 {
@@ -1542,10 +1542,10 @@ Window
                 {
                     counter = 11
                 }
-                else if(tractionControlScreen.visible === true && tract.tractionValue > 0)
+                else if(tractionControlScreen.visible === true && tract.tractionSwitch > 0)
                 {
                     counter = 2
-                    tract.tractionValue = tract.tractionValue - 1
+                    tract.tractionSwitch = tract.tractionSwitch - 1
                 }
                 else if(counter > 2 && counter < 5)
                 {
@@ -1585,10 +1585,10 @@ Window
                 {
                     counter = 9
                 }
-                else if(tractionControlScreen.visible === true && tract.tractionValue < 10)
+                else if(tractionControlScreen.visible === true && tract.tractionSwitch < 10)
                 {
                     counter = 2
-                    tract.tractionValue = tract.tractionValue + 1
+                    tract.tractionSwitch = tract.tractionSwitch + 1
                 }
                 else if(counter < 0)
                 {
@@ -1627,7 +1627,7 @@ Window
         driver = jsonManager.driver
         brakeBiasObject.biasVal = jsonManager.biasVal
         brakeBiasObject.rearBrakeBias = (100 - jsonManager.biasVal)
-        tractionSwitch = jsonManager.tractionSwitch
+        tract.tractionSwitch = jsonManager.tractionSwitch
     }
 
     function updateBias(profile, bias) {
@@ -1640,7 +1640,7 @@ Window
     function updateTraction(profile, traction) {
         jsonManager.updateTractionCtl(profile, traction)
 
-        tractionSwitch = jsonManager.tractionSwitch
+        tract.tractionSwitch = jsonManager.tractionSwitch
     }
 }
 
