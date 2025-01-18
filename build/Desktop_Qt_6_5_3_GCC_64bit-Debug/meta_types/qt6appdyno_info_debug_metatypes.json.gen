@@ -8,6 +8,29 @@
                         "value": "auto"
                     }
                 ],
+                "className": "CANmanager",
+                "object": true,
+                "qualifiedClassName": "CANmanager",
+                "superClasses": [
+                    {
+                        "access": "public",
+                        "name": "QObject"
+                    }
+                ]
+            }
+        ],
+        "inputFile": "canmanager.h",
+        "outputRevision": 68
+    },
+    {
+        "classes": [
+            {
+                "classInfos": [
+                    {
+                        "name": "QML.Element",
+                        "value": "auto"
+                    }
+                ],
                 "className": "GPIOhandler",
                 "object": true,
                 "qualifiedClassName": "GPIOhandler",
@@ -42,6 +65,32 @@
                         ],
                         "name": "loadProfile",
                         "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "type": "int"
+                            },
+                            {
+                                "type": "int"
+                            }
+                        ],
+                        "name": "updateBrakeBias",
+                        "returnType": "bool"
+                    },
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "type": "int"
+                            },
+                            {
+                                "type": "int"
+                            }
+                        ],
+                        "name": "updateTractionCtl",
+                        "returnType": "bool"
                     }
                 ],
                 "object": true,

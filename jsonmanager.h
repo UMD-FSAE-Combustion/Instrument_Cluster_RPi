@@ -32,8 +32,8 @@ public:
     void loadProfileOnBoot();
     Q_INVOKABLE void loadProfile(int);
 
-    bool updateBrakeBias(int, int);
-    bool updateTractionCtl(int, int);
+    Q_INVOKABLE bool updateBrakeBias(int, int);
+    Q_INVOKABLE bool updateTractionCtl(int, int);
 
     bool loadChannelList(std::vector<mapVals>&);
     //bool setWidgetChannel(int, QString);

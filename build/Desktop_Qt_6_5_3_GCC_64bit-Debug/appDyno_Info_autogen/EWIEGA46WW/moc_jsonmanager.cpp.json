@@ -18,6 +18,32 @@
                     ],
                     "name": "loadProfile",
                     "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "type": "int"
+                        },
+                        {
+                            "type": "int"
+                        }
+                    ],
+                    "name": "updateBrakeBias",
+                    "returnType": "bool"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "type": "int"
+                        },
+                        {
+                            "type": "int"
+                        }
+                    ],
+                    "name": "updateTractionCtl",
+                    "returnType": "bool"
                 }
             ],
             "object": true,

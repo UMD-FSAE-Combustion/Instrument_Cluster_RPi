@@ -7,6 +7,14 @@ import QtQuick.tooling 1.2
 
 Module {
     Component {
+        file: "canmanager.h"
+        name: "CANmanager"
+        accessSemantics: "reference"
+        prototype: "QObject"
+        exports: ["Dyno_Info/CANmanager 1.0"]
+        exportMetaObjectRevisions: [256]
+    }
+    Component {
         file: "gpiohandler.h"
         name: "GPIOhandler"
         accessSemantics: "reference"
@@ -53,6 +61,18 @@ Module {
         Signal { name: "tractionSwitchChanged" }
         Method {
             name: "loadProfile"
+            Parameter { type: "int" }
+        }
+        Method {
+            name: "updateBrakeBias"
+            type: "bool"
+            Parameter { type: "int" }
+            Parameter { type: "int" }
+        }
+        Method {
+            name: "updateTractionCtl"
+            type: "bool"
+            Parameter { type: "int" }
             Parameter { type: "int" }
         }
     }

@@ -48,13 +48,15 @@ static constexpr auto qt_meta_stringdata_CLASSJSONmanagerENDCLASS = QtMocHelpers
     "DriverChanged",
     "tractionSwitchChanged",
     "loadProfile",
+    "updateBrakeBias",
+    "updateTractionCtl",
     "driver",
     "biasVal",
     "tractionSwitch"
 );
 #else  // !QT_MOC_HAS_STRING_DATA
 struct qt_meta_stringdata_CLASSJSONmanagerENDCLASS_t {
-    uint offsetsAndSizes[22];
+    uint offsetsAndSizes[26];
     char stringdata0[12];
     char stringdata1[12];
     char stringdata2[5];
@@ -63,9 +65,11 @@ struct qt_meta_stringdata_CLASSJSONmanagerENDCLASS_t {
     char stringdata5[14];
     char stringdata6[22];
     char stringdata7[12];
-    char stringdata8[7];
-    char stringdata9[8];
-    char stringdata10[15];
+    char stringdata8[16];
+    char stringdata9[18];
+    char stringdata10[7];
+    char stringdata11[8];
+    char stringdata12[15];
 };
 #define QT_MOC_LITERAL(ofs, len) \
     uint(sizeof(qt_meta_stringdata_CLASSJSONmanagerENDCLASS_t::offsetsAndSizes) + ofs), len 
@@ -79,9 +83,11 @@ Q_CONSTINIT static const qt_meta_stringdata_CLASSJSONmanagerENDCLASS_t qt_meta_s
         QT_MOC_LITERAL(45, 13),  // "DriverChanged"
         QT_MOC_LITERAL(59, 21),  // "tractionSwitchChanged"
         QT_MOC_LITERAL(81, 11),  // "loadProfile"
-        QT_MOC_LITERAL(93, 6),  // "driver"
-        QT_MOC_LITERAL(100, 7),  // "biasVal"
-        QT_MOC_LITERAL(108, 14)   // "tractionSwitch"
+        QT_MOC_LITERAL(93, 15),  // "updateBrakeBias"
+        QT_MOC_LITERAL(109, 17),  // "updateTractionCtl"
+        QT_MOC_LITERAL(127, 6),  // "driver"
+        QT_MOC_LITERAL(134, 7),  // "biasVal"
+        QT_MOC_LITERAL(142, 14)   // "tractionSwitch"
     },
     "JSONmanager",
     "QML.Element",
@@ -91,6 +97,8 @@ Q_CONSTINIT static const qt_meta_stringdata_CLASSJSONmanagerENDCLASS_t qt_meta_s
     "DriverChanged",
     "tractionSwitchChanged",
     "loadProfile",
+    "updateBrakeBias",
+    "updateTractionCtl",
     "driver",
     "biasVal",
     "tractionSwitch"
@@ -105,8 +113,8 @@ Q_CONSTINIT static const uint qt_meta_data_CLASSJSONmanagerENDCLASS[] = {
       11,       // revision
        0,       // classname
        1,   14, // classinfo
-       4,   16, // methods
-       3,   46, // properties
+       6,   16, // methods
+       3,   68, // properties
        0,    0, // enums/sets
        0,    0, // constructors
        0,       // flags
@@ -116,12 +124,14 @@ Q_CONSTINIT static const uint qt_meta_data_CLASSJSONmanagerENDCLASS[] = {
        1,    2,
 
  // signals: name, argc, parameters, tag, flags, initial metatype offsets
-       3,    0,   40,    4, 0x06,    4 /* Public */,
-       5,    0,   41,    4, 0x06,    5 /* Public */,
-       6,    0,   42,    4, 0x06,    6 /* Public */,
+       3,    0,   52,    4, 0x06,    4 /* Public */,
+       5,    0,   53,    4, 0x06,    5 /* Public */,
+       6,    0,   54,    4, 0x06,    6 /* Public */,
 
  // methods: name, argc, parameters, tag, flags, initial metatype offsets
-       7,    1,   43,    4, 0x02,    7 /* Public */,
+       7,    1,   55,    4, 0x02,    7 /* Public */,
+       8,    2,   58,    4, 0x02,    9 /* Public */,
+       9,    2,   63,    4, 0x02,   12 /* Public */,
 
  // signals: parameters
     QMetaType::Void,
@@ -130,11 +140,13 @@ Q_CONSTINIT static const uint qt_meta_data_CLASSJSONmanagerENDCLASS[] = {
 
  // methods: parameters
     QMetaType::Void, QMetaType::Int,    4,
+    QMetaType::Bool, QMetaType::Int, QMetaType::Int,    4,    4,
+    QMetaType::Bool, QMetaType::Int, QMetaType::Int,    4,    4,
 
  // properties: name, type, flags
-       8, QMetaType::Int, 0x00015903, uint(1), 0,
-       9, QMetaType::Int, 0x00015903, uint(0), 0,
-      10, QMetaType::Int, 0x00015903, uint(2), 0,
+      10, QMetaType::Int, 0x00015903, uint(1), 0,
+      11, QMetaType::Int, 0x00015903, uint(0), 0,
+      12, QMetaType::Int, 0x00015903, uint(2), 0,
 
        0        // eod
 };
@@ -162,6 +174,14 @@ Q_CONSTINIT const QMetaObject JSONmanager::staticMetaObject = { {
         void,
         // method 'loadProfile'
         void,
+        int,
+        // method 'updateBrakeBias'
+        bool,
+        int,
+        int,
+        // method 'updateTractionCtl'
+        bool,
+        int,
         int
     >,
     nullptr
@@ -177,6 +197,10 @@ void JSONmanager::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id,
         case 1: _t->DriverChanged(); break;
         case 2: _t->tractionSwitchChanged(); break;
         case 3: _t->loadProfile((*reinterpret_cast< std::add_pointer_t<int>>(_a[1]))); break;
+        case 4: { bool _r = _t->updateBrakeBias((*reinterpret_cast< std::add_pointer_t<int>>(_a[1])),(*reinterpret_cast< std::add_pointer_t<int>>(_a[2])));
+            if (_a[0]) *reinterpret_cast< bool*>(_a[0]) = std::move(_r); }  break;
+        case 5: { bool _r = _t->updateTractionCtl((*reinterpret_cast< std::add_pointer_t<int>>(_a[1])),(*reinterpret_cast< std::add_pointer_t<int>>(_a[2])));
+            if (_a[0]) *reinterpret_cast< bool*>(_a[0]) = std::move(_r); }  break;
         default: ;
         }
     } else if (_c == QMetaObject::IndexOfMethod) {
@@ -246,13 +270,13 @@ int JSONmanager::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 4)
+        if (_id < 6)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 4;
+        _id -= 6;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 4)
+        if (_id < 6)
             *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType();
-        _id -= 4;
+        _id -= 6;
     }else if (_c == QMetaObject::ReadProperty || _c == QMetaObject::WriteProperty
             || _c == QMetaObject::ResetProperty || _c == QMetaObject::BindableProperty
             || _c == QMetaObject::RegisterPropertyMetaType) {

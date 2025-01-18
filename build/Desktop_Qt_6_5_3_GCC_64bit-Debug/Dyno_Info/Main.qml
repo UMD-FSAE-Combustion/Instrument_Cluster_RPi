@@ -1488,17 +1488,27 @@ Window
                 }
                 else if(brakeBiasScreen.visible === true)
                 {
-                    animationLeftSpeedometer.start()
-                    animationLeft.start()
+                    if(barSlider.value !== (100 - jsonManager.biasVal)) {
+                        animationLeftSpeedometer.start()
+                        animationLeft.start()
 
-                    statusMessage.text = "Settings Updated"
-                    statusImage.source = "assets/images/INFO.png"
-                    statusMessage.font.pixelSize = 20
-                    statusUpdateAnimation.start()
+                        statusMessage.text = "Settings Updated"
+                        statusImage.source = "assets/images/INFO.png"
+                        statusMessage.font.pixelSize = 20
+                        statusUpdateAnimation.start()
 
-                    counter = 0
-                    currentSet = 1
-                    brakeBiasScreen.visible = false
+                        counter = 0
+                        currentSet = 1
+                        brakeBiasScreen.visible = false
+                    }
+                    else {
+                        animationLeftSpeedometer.start()
+                        animationLeft.start()
+
+                        counter = 0
+                        currentSet = 1
+                        brakeBiasScreen.visible = false
+                    }
                 }
                 else if(columnBar.x > 0 && counter === 0)
                 {
@@ -1568,16 +1578,27 @@ Window
                 }
                 else if(counter === 1 && brakeBiasScreen.visible === true)
                 {
-                    brakeBiasScreen.visible = false
-                    animationRight.start()
-                    animationRightSpeedometer.start()
+                    if(barSlider.value !== (100 - jsonManager.biasVal)) {
+                        brakeBiasScreen.visible = false
+                        animationRight.start()
+                        animationRightSpeedometer.start()
 
-                    statusMessage.font.pixelSize = 20
-                    statusMessage.text = "Setting updated"
-                    statusImage.source = "assets/images/INFO.png"
-                    statusUpdateAnimation.start()
-                    counter = 1
-                    currentSet = 1
+                        statusMessage.text = "Setting Updated"
+                        statusImage.source = "assets/images/INFO.png"
+                        statusMessage.font.pixelSize = 20
+                        statusUpdateAnimation.start()
+
+                        counter = 1
+                        currentSet = 1
+                    }
+                    else {
+                        brakeBiasScreen.visible = false
+                        animationRight.start()
+                        animationRightSpeedometer.start()
+
+                        counter = 1
+                        currentSet = 1
+                    }
                 }
                 else if(counter === 2 && tractionControlScreen.visible === true)
                 {
@@ -1650,7 +1671,7 @@ Window
             {
                 counter = counter - 1
 
-                if(brakeBiasScreen.visible === true && biasVal > 100 && rearBrakeBias < 0)
+                if(brakeBiasScreen.visible === true && biasVal < 100 && rearBrakeBias > 0)
                 {
                     counter = 1
                     biasVal += 1
