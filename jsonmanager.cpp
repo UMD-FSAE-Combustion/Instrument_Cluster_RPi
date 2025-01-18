@@ -115,7 +115,8 @@ bool JSONmanager::updateBrakeBias(int profile, int bias)
 
         if(info["Bias"] != bias)
         {
-            info["Bias"] = bias;
+            m_biasVal = bias;
+            info["Bias"] = m_biasVal;
 
             objRef = info;
             ArrayRef = arr;
@@ -162,7 +163,8 @@ bool JSONmanager::updateTractionCtl(int profile, int traction)
 
         if(info["tcSwitch"] != traction)
         {
-            info["tcSwitch"] = traction;
+            m_tractionSwitch = traction;
+            info["tcSwitch"] = m_tractionSwitch;
             arr[profile] = info;
 
             RootObject["Drivers"] = arr;

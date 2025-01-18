@@ -1363,17 +1363,28 @@ Window
                 }
                 else if(brakeBiasScreen.visible === true)
                 {
-                    animationLeftSpeedometer.start()
-                    animationLeft.start()
+                    if(barSlider.value !== (100 - jsonManager.biasVal)) {
+                        updateBias(driver, (100 - barSlider.value))
+                        animationLeftSpeedometer.start()
+                        animationLeft.start()
 
-                    statusMessage.text = "Settings Updated"
-                    statusImage.source = "assets/images/INFO.png"
-                    statusMessage.font.pixelSize = 20
-                    statusUpdateAnimation.start()
+                        statusMessage.text = "Settings Updated"
+                        statusImage.source = "assets/images/INFO.png"
+                        statusMessage.font.pixelSize = 20
+                        statusUpdateAnimation.start()
 
-                    counter = 0
-                    currentSet = 1
-                    brakeBiasScreen.visible = false
+                        counter = 0
+                        currentSet = 1
+                        brakeBiasScreen.visible = false
+                    }
+                    else {
+                        animationLeftSpeedometer.start()
+                        animationLeft.start()
+
+                        counter = 0
+                        currentSet = 1
+                        brakeBiasScreen.visible = false
+                    }
                 }
                 else if(tractionControlScreen.visible === true)
                 {
@@ -1396,7 +1407,7 @@ Window
                 }
                 else if(currentSet === 3)
                 {
-                    root.loadNewProfile(counter - 6)
+                    loadNewProfile(counter - 6)
                     animationLeftSpeedometer.start()
                     animationLeft.start()
 
@@ -1457,16 +1468,28 @@ Window
                 }
                 else if(counter === 1 && brakeBiasScreen.visible === true)
                 {
-                    brakeBiasScreen.visible = false
-                    animationRight.start()
-                    animationRightSpeedometer.start()
+                    if(barSlider.value !== (100 - jsonManager.biasVal)) {
+                        updateBias(driver, (100 - barSlider.value))
+                        brakeBiasScreen.visible = false
+                        animationRight.start()
+                        animationRightSpeedometer.start()
 
-                    statusMessage.font.pixelSize = 20
-                    statusMessage.text = "Setting updated"
-                    statusImage.source = "assets/images/INFO.png"
-                    statusUpdateAnimation.start()
-                    counter = 1
-                    currentSet = 1
+                        statusMessage.text = "Setting Updated"
+                        statusImage.source = "assets/images/INFO.png"
+                        statusMessage.font.pixelSize = 20
+                        statusUpdateAnimation.start()
+
+                        counter = 1
+                        currentSet = 1
+                    }
+                    else {
+                        brakeBiasScreen.visible = false
+                        animationRight.start()
+                        animationRightSpeedometer.start()
+
+                        counter = 1
+                        currentSet = 1
+                    }
                 }
                 else if(counter === 2 && tractionControlScreen.visible === true)
                 {
@@ -1604,6 +1627,19 @@ Window
         driver = jsonManager.driver
         biasVal = jsonManager.biasVal
         rearBrakeBias = (100 - jsonManager.biasVal)
+        tractionSwitch = jsonManager.tractionSwitch
+    }
+
+    function updateBias(profile, bias) {
+        jsonManager.updateBrakeBias(profile, bias)
+
+        biasVal = jsonManager.biasVal
+        rearBrakeBias = (100 - jsonManager.biasVal)
+    }
+
+    function updateTraction(profile, traction) {
+        jsonManager.updateTractionCtl(profile, traction)
+
         tractionSwitch = jsonManager.tractionSwitch
     }
 }
