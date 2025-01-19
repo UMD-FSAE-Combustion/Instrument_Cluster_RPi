@@ -33,6 +33,7 @@ qt_add_qml_module(appDyno_Info
         assets/images/WARN.png
         QML_FILES TractionControl.qml
         QML_FILES BrakeBias.qml
+        QML_FILES VehicleInfoDisplay.qml
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
