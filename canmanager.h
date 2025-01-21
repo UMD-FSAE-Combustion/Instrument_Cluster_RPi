@@ -24,7 +24,9 @@ public:
     void processFrames();
     int* getFrame();
     int getByte(int);
-    void updatePayload(int, int);
+
+    Q_INVOKABLE void updatePayload(int, int);
+
     void sendMessage();
     bool sendOnce();
     void sendLoop();
@@ -46,6 +48,8 @@ private:
     QTimer timer;
     QCanBusDevice *can_device;
     QCanBusFrame frame;
+
+    bool initialTransmission;
     int frameBuffer[8];
     int sendBuffer[3];
 };

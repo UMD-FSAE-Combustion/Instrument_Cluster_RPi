@@ -52,10 +52,14 @@ CANmanager::CANmanager()
     can_device->setConfigurationParameter(QCanBusDevice::RawFilterKey, QVariant::fromValue(filterList));
     connect(can_device, &QCanBusDevice::framesReceived, this, &CANmanager::processFrames);
     connect(this, &CANmanager::signalLoop, this, &CANmanager::sendLoop);
+    connect(&timer, &QTimer::timeout, this, &CANmanager::sendMessage); // need to test this
 
+    initialTransmission = false;
+    sendBuffer[2] = 0;
     frame.setFrameId(0x704);
 }
 
+//depreciated constructor overload
 CANmanager::CANmanager(uint filterID)
 {
     QString errorString;
@@ -108,7 +112,6 @@ int CANmanager::getByte(int byte)
     return frameBuffer[byte];
 }
 
-
 void CANmanager::updatePayload(int id, int data)
 {
     /*
@@ -133,8 +136,13 @@ void CANmanager::sendMessage()
 
         //qDebug() << sendBytes;
         frame.setPayload(sendBytes);
-        if(can_device->writeFrame(frame))
+        if(can_device->writeFrame(frame) && initialTransmission == false)
+        {
+            initialTransmission = true;
             emit(signalLoop());
+        }
+        else if(can_device->writeFrame(frame))
+            timer.start(1000); //should work in theory, needs test
     }
 }
 
@@ -160,13 +168,14 @@ bool CANmanager::sendOnce()
         return false;
 }
 
+//wait to delete until verifying timer in sendMessage
 void CANmanager::sendLoop()
 {
     //Delay::delayMillis(1000);
     //sendMessage();
 
-    connect(&timer, &QTimer::timeout, this, &CANmanager::sendMessage);
     timer.start(1000);
+    sendMessage();
 }
 
 QCanBusDevice::CanBusStatus CANmanager::getDeviceStatus()

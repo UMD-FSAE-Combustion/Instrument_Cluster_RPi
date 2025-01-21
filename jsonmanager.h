@@ -38,6 +38,8 @@ public:
     bool loadChannelList(std::vector<mapVals>&);
     //bool setWidgetChannel(int, QString);
 
+    bool jsonLoaded() const;
+
     int getBiasVal() const;
     void setBiasVal(int newBiasVal);
 
@@ -63,7 +65,7 @@ private:
     QJsonArray jsonArray;
     QJsonParseError jsonParse;
 
-    bool jsonLoaded;
+    bool jsonLoadedStatus;
     int m_driver;
     int m_biasVal;
     int m_tractionSwitch;
