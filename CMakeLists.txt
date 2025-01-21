@@ -4,7 +4,7 @@ project(Dyno_Info VERSION 0.1 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(Qt6 6.5 REQUIRED COMPONENTS Quick)
+find_package(Qt6 6.5 REQUIRED COMPONENTS Quick SerialBus)
 
 qt_standard_project_setup(REQUIRES 6.5)
 
@@ -21,6 +21,7 @@ qt_add_qml_module(appDyno_Info
         SOURCES
         gpiohandler.h gpiohandler.cpp
         jsonmanager.h jsonmanager.cpp
+        canmanager.h canmanager.cpp
         mapVals.h
 
         RESOURCES
@@ -36,6 +37,7 @@ qt_add_qml_module(appDyno_Info
         QML_FILES VehicleInfoDisplay.qml
 )
 
+
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
 # If you are developing for iOS or macOS you should consider setting an
 # explicit, fixed bundle identifier manually though.
@@ -49,6 +51,7 @@ set_target_properties(appDyno_Info PROPERTIES
 
 target_link_libraries(appDyno_Info
     PRIVATE Qt6::Quick
+    Qt6::SerialBus
 )
 
 include(GNUInstallDirs)
