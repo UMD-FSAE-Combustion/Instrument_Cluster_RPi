@@ -8,6 +8,7 @@ import QtQuick.Controls.Material
 Window
 {
     id: root
+    //test comment
 
     property var info: JSON
 
@@ -16,10 +17,10 @@ Window
     property int speed: 0
     property int currentSet: 1
     property int counter: 0
-    property int biasVal: JSON.biasVal
-    property int rearBrakeBias: (100 - JSON.biasVal)
+    //property int biasVal: JSON.biasVal
+    //property int rearBrakeBias: (100 - JSON.biasVal)
     property int driver: JSON.driver
-    property int tractionSwitch: JSON.tractionSwitch
+    //property int tractionSwitch: JSON.tractionSwitch
 
     width: 800
     height: 480
@@ -70,14 +71,14 @@ Window
                         target: dot_1
                         from: 1
                         to: 0
-                        duration: 840
+                        duration: 1840
                     }
                     ScaleAnimator
                     {
                         target: dot_1
                         from: 0
                         to: 1
-                        duration: 840
+                        duration: 1840
                     }
                 }
             }
@@ -103,14 +104,14 @@ Window
                             target: dot_2
                             from: 1
                             to: 0
-                            duration: 840
+                            duration: 1840
                         }
                         ScaleAnimator
                         {
                             target: dot_2
                             from: 0
                             to: 1
-                            duration: 840
+                            duration: 1840
                         }
                     }
                 }
@@ -138,14 +139,14 @@ Window
                             target: dot_3
                             from: 1
                             to: 0
-                            duration: 840
+                            duration: 1840
                         }
                         ScaleAnimator
                         {
                             target: dot_3
                             from: 0
                             to: 1
-                            duration: 840
+                            duration: 1840
                         }
                     }
                 }
@@ -173,14 +174,14 @@ Window
                             target: dot_4
                             from: 1
                             to: 0
-                            duration: 840
+                            duration: 1840
                         }
                         ScaleAnimator
                         {
                             target: dot_4
                             from: 0
                             to: 1
-                            duration: 840
+                            duration: 1840
                         }
                     }
                 }
@@ -228,33 +229,6 @@ Window
         source: "assets/images/teamlogo2.png"
         visible: root.loadingComplete
     }
-
-    // anchors for icons on top of screen
-    /*Rectangle
-    {
-        id: mainWindowAnchors
-
-        width: 800
-        height: 480
-
-        Rectangle
-        {
-            id: informationBar
-
-            height: 60
-            width: 300
-            color: "red"
-            visible: true
-
-            anchors
-            {
-                left: mainWindowAnchors.left
-                right: mainWindowAnchors.right
-                top: mainWindowAnchors.top
-                margins: 20
-            }
-        }
-    }*/
 
     Rectangle
     {
@@ -435,6 +409,7 @@ Window
             color: "#4b4b4b"
             anchors
             {
+                margins: -5
                 bottom: columnBar.bottom
                 horizontalCenter: columnBar.horizontalCenter
             }
@@ -752,7 +727,7 @@ Window
         id: engineInfoAnimationRight
         target: engineInfoScreen
         property: "x"
-        to: visualRoot.right
+        to: 800
         duration: 300
     }
 
@@ -768,156 +743,8 @@ Window
     Rectangle
     {
         id: brakeBiasScreen
-
-        anchors
-        {
-            top: columnBar.top
-            bottom: columnBar.bottom
-            left: columnBar.left
-            right: columnBar.rrootight
-        }
-
-        width: 300
-        height: 50
-        radius: 20
-        color: "#1E1E1E"
-
-        Image
-        {
-            id: carImage
-            anchors
-            {
-                top: parent.top
-                bottom: parent.bottom
-                right: parent.right
-                topMargin: 40
-                bottomMargin: 40
-                rightMargin: 0
-            }
-
-            width: 300
-            height: 50
-
-            source: "assets/images/raceCar.png"
-        }
-
-        Column
-        {
-            id: barSliderHolder
-
-            anchors
-            {
-                top: parent.top
-                bottom: parent.bottom
-                left: parent.left
-                topMargin: 20
-                bottomMargin: 20
-                leftMargin: 15
-            }
-
-            Slider
-            {
-                id: barSlider
-                orientation: Qt.Vertical
-                width: 30
-                height: 410
-                from: 0
-                to: 100
-                value: rearBrakeBias
-                enabled: false
-
-                background: Rectangle
-                {
-                    width: 5
-                    color: "#FFCB05"
-                    border.color: "black"
-                    border.width: 3
-                    radius: 2
-                    anchors.fill: parent
-                    anchors.margins: 10
-                }
-
-                handle: Rectangle
-                {
-                    width: 30
-                    height: 15
-                    radius: 3
-                    color: "white"
-                    border.color: "black"
-                    border.width: 3
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    y: barSlider.position * (barSlider.height - height)
-                }
-            }
-        }
-
-        Rectangle
-        {
-            id: percentBarBottom
-            anchors
-            {
-                top: carImage.bottom
-                bottom: parent.bottom
-                left: barSliderHolder.right
-                right: parent.right
-                margins: 7
-            }
-
-            color: "#4b4b4b"
-            border.color: "#3d3d3d"
-            border.width: 3
-            width: 10
-            height: 20
-            radius: 30
-        }
-
-        Rectangle
-        {
-            id: percentBarTop
-            anchors
-            {
-                top: parent.top
-                bottom: carImage.top
-                left: barSliderHolder.right
-                right: parent.right
-                margins: 7
-            }
-
-            color: "#4b4b4b"
-            border.color: "#3d3d3d"
-            border.width: 3
-            width: 10
-            height: 20
-            radius: 30
-        }
-
-        Text
-        {
-            id: topSliderText
-            anchors.centerIn: percentBarTop
-            text: biasVal + "%"
-            font.pixelSize: 15
-            font.bold: true
-            color: "white"
-        }
-
-        Text
-        {
-            id: bottomSliderText
-            anchors.centerIn: percentBarBottom
-            text: rearBrakeBias + "%"
-            font.pixelSize: 15
-            font.bold: true
-            color: "white"
-        }
-
+        radius: 25
         visible: false
-    }
-
-    Rectangle
-    {
-        id: tractionControlScreen
-
         anchors
         {
             top: columnBar.top
@@ -926,23 +753,36 @@ Window
             right: columnBar.right
         }
 
-        width: 300
-        height: 50
-        radius: 20
-        color: "#1E1E1E"
+        BrakeBias
+        {
+            id: brakeBiasObject
+            anchors.fill: parent
+        }
+    }
+
+    Rectangle
+    {
+        id: tractionControlScreen
+        radius: 25
         visible: false
+        anchors
+        {
+            top: columnBar.top
+            bottom: columnBar.bottom
+            left: columnBar.left
+            right: columnBar.right
+        }
+
+        TractionControl
+        {
+            id: tract
+            anchors.fill: parent
+        }
     }
 
     Rectangle
     {
         id: engineInfoScreen
-
-        /*anchors
-        {
-            bottom: parent.bottom
-            left: parent.left
-            right: parent.right
-        }*/
 
         x: -800
         y: 140
@@ -952,411 +792,11 @@ Window
         color: "transparent"
         visible: false
 
-        Rectangle
+        VehicleInfoDisplay
         {
-            id: spacer
-
-            anchors
-            {
-                top: engineInfoScreen.top
-                bottom: engineInfoScreen.bottom
-                left: engineInfoScreen.left
-            }
-
-            width: 20
-            //height: 280
-            color: "transparent"
-            visible: false
+            id: vehicleInfo
+            anchors.fill: parent
         }
-
-        Flow
-        {
-            anchors
-            {
-                top: engineInfoScreen.top
-                bottom: engineInfoScreen.bottom
-                left: spacer.right
-                right: engineInfoScreen.right
-            }
-
-            spacing: 10
-
-
-            Rectangle
-            {
-                id: infoWidget1
-
-                width: 375
-                height: 150
-                radius: 20
-                color: "#1E1E1E"
-                border.width: 3
-                border.color: (root.counter === 9) ? "#00a8ff" : "#1E1E1E"
-
-                ProgressBar
-                {
-                    id: widget1ProgressBar
-                    from: 0
-                    to: 100
-                    value: 3
-                    anchors.centerIn: infoWidget1
-
-                    background: Rectangle
-                    {
-                        implicitWidth: 340
-                        implicitHeight: 50
-                        radius: 5
-                        color: "transparent"
-                    }
-
-                    contentItem: Item
-                    {
-                        implicitWidth: 340
-                        implicitHeight: 50
-
-                        Rectangle
-                        {
-                            width: widget1ProgressBar.visualPosition * parent.width
-                            height: parent.height
-                            radius: 5
-                            color: "#00FF00"
-                            visible: !widget1ProgressBar.indeterminate
-                        }
-                    }
-                }
-
-                Rectangle
-                {
-                    id: uselessRectangle2
-                    width: 340
-                    height: 50
-                    border.width: 3
-                    border.color: "#E0E0E0"
-                    color: "transparent"
-                    radius: 5
-
-                    anchors
-                    {
-                        centerIn: infoWidget1
-                    }
-                }
-
-                Rectangle
-                {
-                    anchors
-                    {
-                        top: infoWidget1.top
-                        left: infoWidget1.left
-                        margins: 18
-                    }
-
-                    Text
-                    {
-                        id: infoWidget1TextLabel1
-                        text: qsTr("Text Label")
-                        color: "white"
-                        font.pixelSize: 13
-                    }
-                }
-
-                Rectangle
-                {
-                    anchors
-                    {
-                        top: infoWidget1.top
-                        left: infoWidget1.left
-                        leftMargin: 301
-                        topMargin: 18
-                        rightMargin: 18
-                        bottomMargin: 18
-                    }
-
-                    Text
-                    {
-                        id: infoWidget1TextLabel2
-                        text: qsTr("Text Label")
-                        color: "white"
-                        font.pixelSize: 13
-                    }
-                }
-
-                Rectangle
-                {
-                    id: uselessRectangle3
-
-
-                    anchors
-                    {
-                        top: widget1ProgressBar.bottom
-                        horizontalCenter: uselessRectangle2.horizontalCenter
-                        topMargin: 18
-                    }
-
-                    Text
-                    {
-                        id: infoWidget1TextLabel3
-                        text: qsTr("Text Label")
-                        color: "white"
-                        font.pixelSize: 13
-                        anchors.centerIn: uselessRectangle3
-                    }
-                }
-            }
-
-            Rectangle
-            {
-                id: infoWidget2
-
-                width: 375
-                height: 150
-                radius: 20
-                color: "#1E1E1E"
-                border.width: 3
-                border.color: (root.counter === 10) ? "#00a8ff" : "#1E1E1E"
-
-                ProgressBar
-                {
-                    id: widget2ProgressBar
-                    from: 0
-                    to: 100
-                    value: 3
-                    anchors.centerIn: infoWidget2
-
-                    background: Rectangle
-                    {
-                        implicitWidth: 340
-                        implicitHeight: 50
-                        radius: 5
-                        color: "transparent"
-                    }
-
-                    contentItem: Item
-                    {
-                        implicitWidth: 340
-                        implicitHeight: 50
-
-                        Rectangle
-                        {
-                            width: widget2ProgressBar.visualPosition * parent.width
-                            height: parent.height
-                            radius: 5
-                            color: "#00FF00"
-                            visible: !widget2ProgressBar.indeterminate
-                        }
-                    }
-                }
-
-                Rectangle
-                {
-                    id: uselessRectangle4
-                    width: 340
-                    height: 50
-                    border.width: 3
-                    border.color: "#E0E0E0"
-                    color: "transparent"
-                    radius: 5
-
-                    anchors
-                    {
-                        centerIn: infoWidget2
-                    }
-                }
-
-                Rectangle
-                {
-                    anchors
-                    {
-                        top: infoWidget2.top
-                        left: infoWidget2.left
-                        margins: 18
-                    }
-
-                    Text
-                    {
-                        id: infoWidget2TextLabel1
-                        text: qsTr("Text Label")
-                        color: "white"
-                        font.pixelSize: 13
-                    }
-                }
-
-                Rectangle
-                {
-                    anchors
-                    {
-                        top: infoWidget2.top
-                        left: infoWidget2.left
-                        leftMargin: 301
-                        topMargin: 18
-                        rightMargin: 18
-                        bottomMargin: 18
-                    }
-
-                    Text
-                    {
-                        id: infoWidget2TextLabel2
-                        text: qsTr("Text Label")
-                        color: "white"
-                        font.pixelSize: 13
-                    }
-                }
-
-                Rectangle
-                {
-                    id: uselessRectangle5
-
-
-                    anchors
-                    {
-                        top: widget2ProgressBar.bottom
-                        horizontalCenter: uselessRectangle4.horizontalCenter
-                        topMargin: 18
-                    }
-
-                    Text
-                    {
-                        id: infoWidget2TextLabel3
-                        text: qsTr("Text Label")
-                        color: "white"
-                        font.pixelSize: 13
-                        anchors.centerIn: uselessRectangle5
-                    }
-                }
-            }
-
-            Rectangle
-            {
-                id: infoWidget3
-
-                width: 247
-                height: 160
-                radius: 20
-                color: "#1E1E1E"
-                border.width: 3
-                border.color: (root.counter === 11) ? "#00a8ff" : "#1E1E1E"
-
-                Text
-                {
-                    id: widget3Info
-
-                    text: qsTr("0")
-                    color: "white"
-                    font.pixelSize: 70
-                    font.bold: true
-
-                    anchors
-                    {
-                        top: infoWidget3.top
-                        horizontalCenter: infoWidget3.horizontalCenter
-                        margins: 3
-                    }
-                }
-
-                Text
-                {
-                    text: qsTr("-")
-                    color: "white"
-                    font.pixelSize: 30
-                    font.bold: false
-
-                    anchors
-                    {
-                        horizontalCenter: infoWidget3.horizontalCenter
-                        bottom: infoWidget3.bottom
-                        bottomMargin: 15
-                    }
-                }
-            }
-
-            Rectangle
-            {
-                id: infoWidget4
-
-                width: 247
-                height: 160
-                radius: 20
-                color: "#1E1E1E"
-                border.width: 3
-                border.color: (root.counter === 12) ? "#00a8ff" : "#1E1E1E"
-
-                Text
-                {
-                    id: widget4Info
-
-                    text: qsTr("0")
-                    color: "white"
-                    font.pixelSize: 70
-                    font.bold: true
-
-                    anchors
-                    {
-                        top: infoWidget4.top
-                        horizontalCenter: infoWidget4.horizontalCenter
-                        margins: 3
-                    }
-                }
-
-                Text
-                {
-                    text: qsTr("-")
-                    color: "white"
-                    font.pixelSize: 30
-                    font.bold: false
-
-                    anchors
-                    {
-                        horizontalCenter: infoWidget4.horizontalCenter
-                        bottom: infoWidget4.bottom
-                        bottomMargin: 15
-                    }
-                }
-            }
-
-            Rectangle
-            {
-                id: infoWidget5
-
-                width: 246
-                height: 160
-                radius: 20
-                color: "#1E1E1E"
-                border.width: 3
-                border.color: (root.counter === 13) ? "#00a8ff" : "#1E1E1E"
-
-                Text
-                {
-                    id: widget5Info
-
-                    text: qsTr("0")
-                    color: "white"
-                    font.pixelSize: 70
-                    font.bold: true
-
-                    anchors
-                    {
-                        top: infoWidget5.top
-                        horizontalCenter: infoWidget5.horizontalCenter
-                        margins: 3
-                    }
-                }
-
-                Text
-                {
-                    text: qsTr("-")
-                    color: "white"
-                    font.pixelSize: 30
-                    font.bold: false
-
-                    anchors
-                    {
-                        horizontalCenter: infoWidget5.horizontalCenter
-                        bottom: infoWidget5.bottom
-                        bottomMargin: 15
-                    }
-                }
-            }
-        }
-
     }
 
     Rectangle
@@ -1488,8 +928,8 @@ Window
                 }
                 else if(brakeBiasScreen.visible === true)
                 {
-                    if(barSlider.value !== (100 - jsonManager.biasVal)) {
-                        updateBias(driver, (100 - barSlider.value))
+                    if(brakeBiasObject.rearBrakeBias !== (100 - jsonManager.biasVal)) {
+                        updateBias(driver, (100 - brakeBiasObject.rearBrakeBias))
                         animationLeftSpeedometer.start()
                         animationLeft.start()
 
@@ -1509,6 +949,33 @@ Window
                         counter = 0
                         currentSet = 1
                         brakeBiasScreen.visible = false
+                    }
+                }
+                else if(tractionControlScreen.visible === true)
+                {
+                    if(tract.tractionSwitch !== jsonManager.tractionSwitch)
+                    {
+                        updateTraction(driver, tract.tractionSwitch)
+                        animationLeftSpeedometer.start()
+                        animationLeft.start()
+
+                        statusMessage.text = "Settings Updated"
+                        statusImage.source = "assets/images/INFO.png"
+                        statusMessage.font.pixelSize = 20
+                        statusUpdateAnimation.start()
+
+                        counter = 0
+                        currentSet = 1
+                        tractionControlScreen.visible = false
+                    }
+                    else
+                    {
+                        animationLeftSpeedometer.start()
+                        animationLeft.start()
+
+                        counter = 0
+                        currentSet = 1
+                        tractionControlScreen.visible = false
                     }
                 }
                 else if(columnBar.x > 0 && counter === 0)
@@ -1579,8 +1046,8 @@ Window
                 }
                 else if(counter === 1 && brakeBiasScreen.visible === true)
                 {
-                    if(barSlider.value !== (100 - jsonManager.biasVal)) {
-                        updateBias(driver, (100 - barSlider.value))
+                    if(brakeBiasObject.rearBrakeBias !== (100 - jsonManager.biasVal)) {
+                        updateBias(driver, (100 - brakeBiasObject.rearBrakeBias))
                         brakeBiasScreen.visible = false
                         animationRight.start()
                         animationRightSpeedometer.start()
@@ -1604,11 +1071,30 @@ Window
                 }
                 else if(counter === 2 && tractionControlScreen.visible === true)
                 {
-                    tractionControlScreen.visible = false
-                    animationRight.start()
-                    animationRightSpeedometer.start()
-                    counter = 2
-                    currentSet = 1
+                    if(tract.tractionSwitch !== jsonManager.tractionSwitch)
+                    {
+                        updateTraction(driver, tract.tractionSwitch)
+                        animationRight.start()
+                        animationRightSpeedometer.start()
+
+                        statusMessage.text = "Setting Updated"
+                        statusImage.source = "assets/images/INFO.png"
+                        statusMessage.font.pixelSize = 20
+                        statusUpdateAnimation.start()
+
+                        counter = 2
+                        currentSet = 1
+                        tractionControlScreen.visible = false
+                    }
+                    else
+                    {
+                        animationRightSpeedometer.start()
+                        animationRight.start()
+
+                        counter = 2
+                        currentSet = 1
+                        tractionControlScreen.visible = false
+                    }
                 }
                 else if (counter === 9 && engineInfoScreen.visible === true)
                 {
@@ -1635,19 +1121,24 @@ Window
             {
                 counter = counter + 1
 
-                if(brakeBiasScreen.visible === true && biasVal > 0 && rearBrakeBias < 100)
+                if(brakeBiasScreen.visible === true && brakeBiasObject.biasVal > 0 && brakeBiasObject.rearBrakeBias < 100)
                 {
                     counter = 1
-                    biasVal -= 1
-                    rearBrakeBias += 1
+                    brakeBiasObject.biasVal -= 1
+                    brakeBiasObject.rearBrakeBias += 1
                 }
-                else if(biasVal >= 100 || rearBrakeBias >= 100)
+                else if(brakeBiasObject.biasVal >= 100 || brakeBiasObject.rearBrakeBias >= 100)
                 {
                     counter = 1
                 }
                 else if(engineInfoScreen.visible === true)
                 {
                     counter = 11
+                }
+                else if(tractionControlScreen.visible === true && tract.tractionSwitch > 0)
+                {
+                    counter = 2
+                    tract.tractionSwitch = tract.tractionSwitch - 1
                 }
                 else if(counter > 2 && counter < 5)
                 {
@@ -1673,19 +1164,24 @@ Window
             {
                 counter = counter - 1
 
-                if(brakeBiasScreen.visible === true && biasVal < 100 && rearBrakeBias > 0)
+                if(brakeBiasScreen.visible === true && brakeBiasObject.biasVal < 100 && brakeBiasObject.rearBrakeBias > 0)
                 {
                     counter = 1
-                    biasVal += 1
-                    rearBrakeBias -= 1
+                    brakeBiasObject.biasVal += 1
+                    brakeBiasObject.rearBrakeBias -= 1
                 }
-                else if(biasVal >= 100 || rearBrakeBias >= 100)
+                else if(brakeBiasObject.biasVal >= 100 || brakeBiasObject.rearBrakeBias >= 100)
                 {
                     counter = 1
                 }
                 else if(engineInfoScreen.visible === true)
                 {
                     counter = 9
+                }
+                else if(tractionControlScreen.visible === true && tract.tractionSwitch < 10)
+                {
+                    counter = 2
+                    tract.tractionSwitch = tract.tractionSwitch + 1
                 }
                 else if(counter < 0)
                 {
@@ -1722,22 +1218,22 @@ Window
         jsonManager.loadProfile(profileNum)
 
         driver = jsonManager.driver
-        biasVal = jsonManager.biasVal
-        rearBrakeBias = (100 - jsonManager.biasVal)
-        tractionSwitch = jsonManager.tractionSwitch
+        brakeBiasObject.biasVal = jsonManager.biasVal
+        brakeBiasObject.rearBrakeBias = (100 - jsonManager.biasVal)
+        tract.tractionSwitch = jsonManager.tractionSwitch
     }
 
     function updateBias(profile, bias) {
         jsonManager.updateBrakeBias(profile, bias)
 
-        biasVal = jsonManager.biasVal
-        rearBrakeBias = (100 - jsonManager.biasVal)
+        brakeBiasObject.biasVal = jsonManager.biasVal
+        brakeBiasObject.rearBrakeBias = (100 - jsonManager.biasVal)
     }
 
     function updateTraction(profile, traction) {
         jsonManager.updateTractionCtl(profile, traction)
 
-        tractionSwitch = jsonManager.tractionSwitch
+        tract.tractionSwitch = jsonManager.tractionSwitch
     }
 }
 
