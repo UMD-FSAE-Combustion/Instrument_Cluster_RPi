@@ -63,6 +63,7 @@ private:
     QJsonArray jsonArray;
     QJsonParseError jsonParse;
 
+    bool jsonLoaded;
     int m_driver;
     int m_biasVal;
     int m_tractionSwitch;

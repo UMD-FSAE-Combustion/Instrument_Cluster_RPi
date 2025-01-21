@@ -3,6 +3,7 @@
 
 JSONmanager::JSONmanager()
 {
+    jsonLoaded = false;
     loadProfileOnBoot();
 }
 
@@ -34,6 +35,8 @@ void JSONmanager::loadProfileOnBoot()
 
             //traction = jsonArray[profile].toObject().value("tcSwitch").toInt();
             m_tractionSwitch = jsonArray[m_driver].toObject().value("tcSwitch").toInt();
+
+            jsonLoaded = true;
         }
     }
     else
@@ -85,6 +88,10 @@ void JSONmanager::loadProfile(int profile)
         File.write(Doc.toJson());
         File.close();
     }
+}
+
+bool getJSONstatus() {
+    return jsonLoaded;
 }
 
 bool JSONmanager::updateBrakeBias(int profile, int bias)

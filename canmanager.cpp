@@ -163,10 +163,10 @@ bool CANmanager::sendOnce()
 void CANmanager::sendLoop()
 {
     //Delay::delayMillis(1000);
-    sendMessage();
+    //sendMessage();
 
-    //connect(&timer, &QTimer::timeout, this, &CANmanager::sendMessage);
-    //timer.start(1000);
+    connect(&timer, &QTimer::timeout, this, &CANmanager::sendMessage);
+    timer.start(1000);
 }
 
 QCanBusDevice::CanBusStatus CANmanager::getDeviceStatus()
