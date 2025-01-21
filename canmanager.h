@@ -10,11 +10,14 @@
 #include <QCanBusDevice>
 #include <QCanBusFrame>
 
+#include <QtQml>
+
 //#include "delay.h"
 
 class CANmanager : public QObject
 {
     Q_OBJECT
+    QML_ELEMENT
 public:
     CANmanager();
     CANmanager(uint);
@@ -40,7 +43,6 @@ signals:
     void signalLoop();
 
 private:
-
     QTimer timer;
     QCanBusDevice *can_device;
     QCanBusFrame frame;
