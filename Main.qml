@@ -8,7 +8,6 @@ import QtQuick.Controls.Material
 Window
 {
     id: root
-    //test comment
 
     property var info: JSON
 
@@ -17,10 +16,7 @@ Window
     property int speed: 0
     property int currentSet: 1
     property int counter: 0
-    //property int biasVal: JSON.biasVal
-    //property int rearBrakeBias: (100 - JSON.biasVal)
     property int driver: JSON.driver
-    //property int tractionSwitch: JSON.tractionSwitch
 
     width: 800
     height: 480
@@ -34,6 +30,10 @@ Window
 
     JSONmanager {
         id: jsonManager
+    }
+
+    CANmanager {
+        id: canManager
     }
 
     Image
@@ -195,10 +195,7 @@ Window
         interval: 2000
         running: true
         repeat: false
-        onTriggered:
-        {
-            root.loadingComplete = true
-        }
+        onTriggered: loadingDone()
     }
 
 
@@ -1214,6 +1211,15 @@ Window
         }
     }
 
+    function loadingDone() {
+        root.loadingComplete = true
+
+        statusMessage.text = "Profile Loaded:  " + (driver + 1)
+        statusImage.source = "assets/images/INFO.png"
+        statusMessage.font.pixelSize = 14
+        statusUpdateAnimation.start()
+    }
+
     function loadNewProfile(profileNum) {
         jsonManager.loadProfile(profileNum)
 
@@ -1225,6 +1231,7 @@ Window
 
     function updateBias(profile, bias) {
         jsonManager.updateBrakeBias(profile, bias)
+        canManager.updatePayload(0, jsonManager.biasVal)
 
         brakeBiasObject.biasVal = jsonManager.biasVal
         brakeBiasObject.rearBrakeBias = (100 - jsonManager.biasVal)
@@ -1232,6 +1239,7 @@ Window
 
     function updateTraction(profile, traction) {
         jsonManager.updateTractionCtl(profile, traction)
+        canManager.updatePayload(1, jsonManager.tractionSwitch)
 
         tract.tractionSwitch = jsonManager.tractionSwitch
     }

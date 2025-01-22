@@ -18,6 +18,7 @@ class CANmanager : public QObject
 {
     Q_OBJECT
     QML_ELEMENT
+
 public:
     CANmanager();
     CANmanager(uint);
