@@ -32,6 +32,10 @@ Window
         id: jsonManager
     }
 
+    CANmanager {
+        id: canManager
+    }
+
     Image
     {
         id: loadingImage
@@ -191,11 +195,7 @@ Window
         interval: 2000
         running: true
         repeat: false
-        onTriggered:
-        {
-            //root.loadingComplete = true
-            loadingDone()
-        }
+        onTriggered: loadingDone()
     }
 
 
@@ -1231,6 +1231,7 @@ Window
 
     function updateBias(profile, bias) {
         jsonManager.updateBrakeBias(profile, bias)
+        canManager.updatePayload(0, jsonManager.biasVal)
 
         brakeBiasObject.biasVal = jsonManager.biasVal
         brakeBiasObject.rearBrakeBias = (100 - jsonManager.biasVal)
@@ -1238,6 +1239,7 @@ Window
 
     function updateTraction(profile, traction) {
         jsonManager.updateTractionCtl(profile, traction)
+        canManager.updatePayload(1, jsonManager.tractionSwitch)
 
         tract.tractionSwitch = jsonManager.tractionSwitch
     }
