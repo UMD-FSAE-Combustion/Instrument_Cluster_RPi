@@ -3,6 +3,7 @@
 
 JSONmanager::JSONmanager()
 {
+    jsonLoadedStatus = false;
     loadProfileOnBoot();
 }
 
@@ -34,6 +35,8 @@ void JSONmanager::loadProfileOnBoot()
 
             //traction = jsonArray[profile].toObject().value("tcSwitch").toInt();
             m_tractionSwitch = jsonArray[m_driver].toObject().value("tcSwitch").toInt();
+
+            jsonLoadedStatus = true;
         }
     }
     else
@@ -235,6 +238,11 @@ bool JSONmanager::loadChannelList(std::vector<mapVals>& channelInfo)
         qDebug() << "File could not be opened";
         return false;
     }
+}
+
+bool JSONmanager::jsonLoaded() const
+{
+    return jsonLoadedStatus;
 }
 
 int JSONmanager::getBiasVal() const
