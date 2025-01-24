@@ -911,6 +911,23 @@ Window
         }
     }
 
+    Rectangle
+    {
+        id: extraInfoWidgets
+        width: 800
+        height: 310
+        color: "black"
+        visible: false
+
+        anchors.fill: parent
+
+        VehicleInfoDisplayExtraWidgets
+        {
+            id: extraInfoDisplayWidgets
+            anchors.fill: parent
+        }
+    }
+
 
 
     Item
@@ -1025,7 +1042,7 @@ Window
                 }
                 else if(engineInfoScreen.visible === true && counter === 13)
                 {
-                    counter = 9
+                    extraInfoWidgets.visible = true
                 }
 
             }
@@ -1096,6 +1113,11 @@ Window
                         tractionControlScreen.visible = false
                     }
                 }
+                else if(extraInfoWidgets.visible === true)
+                {
+                    counter = 13
+                    extraInfoWidgets.visible = false
+                }
                 else if (counter === 9 && engineInfoScreen.visible === true)
                 {
                     columnBar.visible = true
@@ -1114,6 +1136,7 @@ Window
                 {
                     counter = counter - 1
                 }
+
 
 
             }
