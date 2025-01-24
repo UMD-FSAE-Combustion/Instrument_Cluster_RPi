@@ -35,6 +35,7 @@ qt_add_qml_module(appDyno_Info
         QML_FILES TractionControl.qml
         QML_FILES BrakeBias.qml
         QML_FILES VehicleInfoDisplay.qml
+        QML_FILES VehicleInfoDisplayExtraWidgets.qml
 )
 
 
