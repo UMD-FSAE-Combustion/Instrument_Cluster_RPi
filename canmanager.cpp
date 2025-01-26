@@ -117,6 +117,9 @@ void CANmanager::processFrames()
     }
     case 0x649:
     {
+        setCoolantTemp(bytes.at(0)); // need to subtract 40?
+        setOilTemp(bytes.at(1));     // need to subtract 40?
+        setFuelTemp(bytes.at(2));    // need to subtract 40?
         break;
     }
     case 0x64A:
@@ -129,6 +132,10 @@ void CANmanager::processFrames()
     }
     case 0x655:
     {
+        uint16_t frontPressure = bytes.at(0)<< 8 | bytes.at(1);
+        uint16_t rearPressure = bytes.at(2)<< 8 | bytes.at(3);
+        setFrontBrakePres(frontPressure * 100);
+        setRearBrakePres(rearPressure * 100);
         break;
     }
     case 0x659:
