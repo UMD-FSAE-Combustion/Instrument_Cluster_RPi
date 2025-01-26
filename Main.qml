@@ -17,6 +17,7 @@ Window
     property int currentSet: 1
     property int counter: 0
     property int driver: JSON.driver
+    property int lc_Status: 0
 
     width: 800
     height: 480
@@ -206,7 +207,6 @@ Window
         {
             top: parent.top
             right: parent.right
-
         }
         width: 1040
         height: 0
@@ -216,6 +216,7 @@ Window
 
     Image
     {
+        id: teamLogo
         anchors
         {
             top: parent.top
@@ -332,6 +333,78 @@ Window
                duration: 200
             }
         }
+    }
+
+    Rectangle
+    {
+        id: iconBar
+        width: 800
+        height: 60
+        color: "transparent"
+
+        y: 60
+
+        Image
+        {
+            id: launchControlImage
+            source: "assets/images/LC.png"
+
+            anchors
+            {
+                centerIn: parent
+            }
+
+            visible: false
+        }
+
+        visible: true
+    }
+
+    Rectangle
+    {
+        id: warningIcons
+        width: 70
+        height: 400
+        color: "transparent"
+
+        anchors
+        {
+            right: parent.right
+            top: iconBar.top
+        }
+
+        Image
+        {
+            id: ecuFaultImage
+            source: "assets/images/WARN.png"
+
+            anchors
+            {
+                top: parent.top
+                horizontalCenter: parent.horizontalCenter
+            }
+            visible: false
+        }
+
+        visible: true
+    }
+
+    PropertyAnimation
+    {
+       id: animationRightIconBar
+       target: iconBar
+       property: "x"
+       to: 165
+       duration: 300
+    }
+
+    PropertyAnimation
+    {
+       id: animationLeftIconBar
+       target: iconBar
+       property: "x"
+       to: speedoNumber.horizontalCenter
+       duration: 350
     }
 
     Text
@@ -939,6 +1012,7 @@ Window
                 {
                     animationRightSpeedometer.start()
                     animationRight.start()
+                    animationRightIconBar.start()
                 }
                 else if(brakeBiasScreen.visible === true)
                 {
@@ -1041,6 +1115,41 @@ Window
                 {
                     extraInfoWidgets.visible = true
                 }
+                else if(counter === 4 && lc_Status !== 1)
+                {
+                    lc_Status = 1
+                    canManager.updatePayload(2, lc_Status)
+                    animationLeftSpeedometer.start()
+                    animationLeft.start()
+                    animationLeftIconBar.start()
+
+                    statusMessage.text = "Launch Control: Active"
+                    statusImage.source = "assets/images/INFO.png"
+                    statusMessage.font.pixelSize = 15
+                    statusUpdateAnimation.start()
+
+                    counter = 0
+                    currentSet = 1
+                    launchControlImage.visible = true
+                }
+                else if(counter === 4 && lc_Status !== 0)
+                {
+                    lc_Status = 0
+                    canManager.updatePayload(2, lc_Status)
+                    animationLeftSpeedometer.start()
+                    animationLeft.start()
+                    animationLeftIconBar.start()
+
+                    statusMessage.text = "Launch Control: Inactive"
+                    statusImage.source = "assets/images/INFO.png"
+                    statusMessage.font.pixelSize = 14
+                    statusUpdateAnimation.start()
+
+                    counter = 0
+                    currentSet = 1
+                    launchControlImage.visible = false
+                }
+
 
             }
             else if(event.key === Qt.Key_Left)
@@ -1049,6 +1158,7 @@ Window
                 {
                     animationLeftSpeedometer.start()
                     animationLeft.start()
+                    animationLeftIconBar.start()
                     counter = 0
                     currentSet = 1
                 }
@@ -1224,6 +1334,7 @@ Window
             }
             else if (event.key === Qt.Key_W)
             {
+                ecuFaultImage.visible = true
                 statusImage.source = "assets/images/WARN.png"
                 statusMessage.text = "ECU fault"
                 statusMessage.text.pixelSize = 20
