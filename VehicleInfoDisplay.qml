@@ -6,6 +6,12 @@ import QtQuick.Window
 
 Item
 {
+    property int rearBrakePres: 0
+    property int frontBrakePres: 0
+    property int coolantTemp: 0
+    property int oilTemp: 0
+    property int fuelTemp: 0
+
     Rectangle
     {
         id: engineInfoScreen
@@ -50,7 +56,7 @@ Item
 
             Rectangle
             {
-                id: infoWidget1
+                id: infoWidget1 // rear brake pressure
 
                 width: 375
                 height: 150
@@ -63,8 +69,8 @@ Item
                 {
                     id: widget1ProgressBar
                     from: 0
-                    to: 100
-                    value: 3
+                    to: 150
+                    value: 0 //change to propery later
                     anchors.centerIn: infoWidget1
 
                     background: Rectangle
@@ -119,9 +125,9 @@ Item
                     Text
                     {
                         id: infoWidget1TextLabel1
-                        text: qsTr("Text Label")
+                        text: qsTr("0")
                         color: "white"
-                        font.pixelSize: 13
+                        font.pixelSize: 18
                     }
                 }
 
@@ -131,18 +137,17 @@ Item
                     {
                         top: infoWidget1.top
                         left: infoWidget1.left
-                        leftMargin: 301
+                        leftMargin: 332
                         topMargin: 18
-                        rightMargin: 18
                         bottomMargin: 18
                     }
 
                     Text
                     {
                         id: infoWidget1TextLabel2
-                        text: qsTr("Text Label")
+                        text: qsTr("150")
                         color: "white"
-                        font.pixelSize: 13
+                        font.pixelSize: 18
                     }
                 }
 
@@ -161,9 +166,9 @@ Item
                     Text
                     {
                         id: infoWidget1TextLabel3
-                        text: qsTr("Text Label")
+                        text: qsTr("Rear Brake Pressure (Bar)")
                         color: "white"
-                        font.pixelSize: 13
+                        font.pixelSize: 18
                         anchors.centerIn: uselessRectangle3
                     }
                 }
@@ -184,8 +189,8 @@ Item
                 {
                     id: widget2ProgressBar
                     from: 0
-                    to: 100
-                    value: 3
+                    to: 150
+                    value: 0
                     anchors.centerIn: infoWidget2
 
                     background: Rectangle
@@ -240,9 +245,9 @@ Item
                     Text
                     {
                         id: infoWidget2TextLabel1
-                        text: qsTr("Text Label")
+                        text: qsTr("0")
                         color: "white"
-                        font.pixelSize: 13
+                        font.pixelSize: 18
                     }
                 }
 
@@ -252,18 +257,17 @@ Item
                     {
                         top: infoWidget2.top
                         left: infoWidget2.left
-                        leftMargin: 301
+                        leftMargin: 332
                         topMargin: 18
-                        rightMargin: 18
                         bottomMargin: 18
                     }
 
                     Text
                     {
                         id: infoWidget2TextLabel2
-                        text: qsTr("Text Label")
+                        text: qsTr("150")
                         color: "white"
-                        font.pixelSize: 13
+                        font.pixelSize: 18
                     }
                 }
 
@@ -282,9 +286,9 @@ Item
                     Text
                     {
                         id: infoWidget2TextLabel3
-                        text: qsTr("Text Label")
+                        text: qsTr("Front Brake Pressure (Bar)")
                         color: "white"
-                        font.pixelSize: 13
+                        font.pixelSize: 18
                         anchors.centerIn: uselessRectangle5
                     }
                 }
@@ -305,7 +309,7 @@ Item
                 {
                     id: widget3Info
 
-                    text: qsTr("0")
+                    text: qsTr("-")
                     color: "white"
                     font.pixelSize: 70
                     font.bold: true
@@ -320,7 +324,7 @@ Item
 
                 Text
                 {
-                    text: qsTr("-")
+                    text: qsTr("Coolant Temp")
                     color: "white"
                     font.pixelSize: 30
                     font.bold: false
@@ -349,7 +353,7 @@ Item
                 {
                     id: widget4Info
 
-                    text: qsTr("0")
+                    text: qsTr("-")
                     color: "white"
                     font.pixelSize: 70
                     font.bold: true
@@ -364,7 +368,7 @@ Item
 
                 Text
                 {
-                    text: qsTr("-")
+                    text: qsTr("Oil Temp")
                     color: "white"
                     font.pixelSize: 30
                     font.bold: false
@@ -393,7 +397,7 @@ Item
                 {
                     id: widget5Info
 
-                    text: qsTr("0")
+                    text: qsTr("-")
                     color: "white"
                     font.pixelSize: 70
                     font.bold: true
@@ -408,7 +412,7 @@ Item
 
                 Text
                 {
-                    text: qsTr("-")
+                    text: qsTr("Fuel Temp")
                     color: "white"
                     font.pixelSize: 30
                     font.bold: false
