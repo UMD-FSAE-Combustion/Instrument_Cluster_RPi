@@ -52,10 +52,14 @@ CANmanager::CANmanager()
     can_device->setConfigurationParameter(QCanBusDevice::RawFilterKey, QVariant::fromValue(filterList));
     connect(can_device, &QCanBusDevice::framesReceived, this, &CANmanager::processFrames);
     connect(this, &CANmanager::signalLoop, this, &CANmanager::sendLoop);
+    connect(&timer, &QTimer::timeout, this, &CANmanager::sendMessage); // need to test this
 
+    initialTransmission = false;
+    sendBuffer[2] = 0;
     frame.setFrameId(0x704);
 }
 
+//depreciated constructor overload
 CANmanager::CANmanager(uint filterID)
 {
     QString errorString;
@@ -88,12 +92,54 @@ CANmanager::CANmanager(uint filterID)
 
 void CANmanager::processFrames()
 {
+    /*
     QCanBusFrame frame = can_device->readFrame();
     QByteArray bytes = frame.payload();
     //qDebug() << bytes;
 
     for(int i = 0; i < 8; i++)
         frameBuffer[i] = bytes.at(i);
+    */
+
+    QCanBusFrame frame = can_device->readFrame();
+    QByteArray bytes = frame.payload();
+    //qDebug() << bytes;
+
+    switch(frame.frameId())
+    {
+    case 0x640:
+    {
+        break;
+    }
+    case 0x641:
+    {
+        break;
+    }
+    case 0x649:
+    {
+        break;
+    }
+    case 0x64A:
+    {
+        break;
+    }
+    case 0x651:
+    {
+        break;
+    }
+    case 0x655:
+    {
+        break;
+    }
+    case 0x659:
+    {
+        break;
+    }
+    default:
+    {
+        break;
+    }
+    }
 
     emit(signalUI());
 }
@@ -107,7 +153,6 @@ int CANmanager::getByte(int byte)
 {
     return frameBuffer[byte];
 }
-
 
 void CANmanager::updatePayload(int id, int data)
 {
@@ -133,8 +178,13 @@ void CANmanager::sendMessage()
 
         //qDebug() << sendBytes;
         frame.setPayload(sendBytes);
-        if(can_device->writeFrame(frame))
+        if(can_device->writeFrame(frame) && initialTransmission == false)
+        {
+            initialTransmission = true;
             emit(signalLoop());
+        }
+        else if(can_device->writeFrame(frame))
+            timer.start(1000); //should work in theory, needs test
     }
 }
 
@@ -160,16 +210,82 @@ bool CANmanager::sendOnce()
         return false;
 }
 
+//wait to delete until verifying timer in sendMessage
 void CANmanager::sendLoop()
 {
     //Delay::delayMillis(1000);
-    sendMessage();
+    //sendMessage();
 
-    //connect(&timer, &QTimer::timeout, this, &CANmanager::sendMessage);
-    //timer.start(1000);
+    timer.start(1000);
+    sendMessage();
 }
 
 QCanBusDevice::CanBusStatus CANmanager::getDeviceStatus()
 {
     return can_device->busStatus();
+}
+
+int CANmanager::rearBrakePres() const
+{
+    return m_rearBrakePres;
+}
+
+void CANmanager::setRearBrakePres(int newRearBrakePres)
+{
+    if (m_rearBrakePres == newRearBrakePres)
+        return;
+    m_rearBrakePres = newRearBrakePres;
+    emit rearBrakePresChanged();
+}
+
+int CANmanager::frontBrakePres() const
+{
+    return m_frontBrakePres;
+}
+
+void CANmanager::setFrontBrakePres(int newFrontBrakePres)
+{
+    if (m_frontBrakePres == newFrontBrakePres)
+        return;
+    m_frontBrakePres = newFrontBrakePres;
+    emit frontBrakePresChanged();
+}
+
+int CANmanager::coolantTemp() const
+{
+    return m_coolantTemp;
+}
+
+void CANmanager::setCoolantTemp(int newCoolantTemp)
+{
+    if (m_coolantTemp == newCoolantTemp)
+        return;
+    m_coolantTemp = newCoolantTemp;
+    emit coolantTempChanged();
+}
+
+int CANmanager::oilTemp() const
+{
+    return m_oilTemp;
+}
+
+void CANmanager::setOilTemp(int newOilTemp)
+{
+    if (m_oilTemp == newOilTemp)
+        return;
+    m_oilTemp = newOilTemp;
+    emit oilTempChanged();
+}
+
+int CANmanager::fuelTemp() const
+{
+    return m_fuelTemp;
+}
+
+void CANmanager::setFuelTemp(int newFuelTemp)
+{
+    if (m_fuelTemp == newFuelTemp)
+        return;
+    m_fuelTemp = newFuelTemp;
+    emit fuelTempChanged();
 }
