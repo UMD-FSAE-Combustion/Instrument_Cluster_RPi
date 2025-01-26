@@ -337,6 +337,33 @@ Window
         }
     }
 
+    Rectangle
+    {
+        id: iconBar
+        width: 800
+        height: 60
+        color: "transparent"
+
+        anchors
+        {
+            right: visualRoot.right
+            left: visualRoot.left
+            top: visualRoot.top
+            topMargin: 50
+        }
+
+        Image
+        {
+            id: launchControlImage
+            source: "assets/images/LC.png"
+
+            anchors.centerIn: parent
+            visible: false
+        }
+
+        visible: true
+    }
+
     Text
     {
         id: speedoUnitInfoScreen
@@ -1043,6 +1070,20 @@ Window
                 else if(engineInfoScreen.visible === true && counter === 13)
                 {
                     extraInfoWidgets.visible = true
+                }
+                else if(counter === 4)
+                {
+                    animationLeftSpeedometer.start()
+                    animationLeft.start()
+
+                    statusMessage.text = "Launch Control: Active"
+                    statusImage.source = "assets/images/INFO.png"
+                    statusMessage.font.pixelSize = 15
+                    statusUpdateAnimation.start()
+
+                    counter = 4
+                    currentSet = 2
+                    launchControlImage.visible = true
                 }
 
             }

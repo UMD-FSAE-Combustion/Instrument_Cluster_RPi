@@ -32,6 +32,7 @@ qt_add_qml_module(appDyno_Info
         assets/images/raceCar.png
         assets/images/INFO.png
         assets/images/WARN.png
+        assets/images/LC.png
         QML_FILES TractionControl.qml
         QML_FILES BrakeBias.qml
         QML_FILES VehicleInfoDisplay.qml
