@@ -6,6 +6,12 @@ import QtQuick.Window
 
 Item
 {
+    property int rearBrakePres: 0
+    property int frontBrakePres: 0
+    property int coolantTemp: 0
+    property int oilTemp: 0
+    property int fuelTemp: 0
+
     Rectangle
     {
         id: engineInfoScreen
