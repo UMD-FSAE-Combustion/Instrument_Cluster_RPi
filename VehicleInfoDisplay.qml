@@ -6,6 +6,7 @@ import QtQuick.Window
 
 Item
 {
+    property int vehicleSpeed: 0
     property int rearBrakePres: 0
     property int frontBrakePres: 0
     property int coolantTemp: 0

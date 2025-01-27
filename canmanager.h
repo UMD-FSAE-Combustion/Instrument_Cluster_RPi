@@ -19,6 +19,7 @@ class CANmanager : public QObject
     Q_OBJECT
     QML_ELEMENT
 
+    Q_PROPERTY(int vehicleSpeed READ vehicleSpeed WRITE setVehicleSpeed NOTIFY vehicleSpeedChanged FINAL)
     Q_PROPERTY(int rearBrakePres READ rearBrakePres WRITE setRearBrakePres NOTIFY rearBrakePresChanged FINAL)
     Q_PROPERTY(int frontBrakePres READ frontBrakePres WRITE setFrontBrakePres NOTIFY frontBrakePresChanged FINAL)
     Q_PROPERTY(int coolantTemp READ coolantTemp WRITE setCoolantTemp NOTIFY coolantTempChanged FINAL)
@@ -62,6 +63,9 @@ public:
     int fuelTemp() const;
     void setFuelTemp(int newFuelTemp);
 
+    int vehicleSpeed() const;
+    void setVehicleSpeed(int newVehicleSpeed);
+
 signals:
     void signalUI();
     void signalLoop();
@@ -76,6 +80,8 @@ signals:
 
     void fuelTempChanged();
 
+    void vehicleSpeedChanged();
+
 private:
     QTimer timer;
     QCanBusDevice *can_device;
@@ -85,6 +91,7 @@ private:
     int frameBuffer[8];
     int sendBuffer[3];
 
+    int m_vehicleSpeed;
     int m_rearBrakePres;
     int m_frontBrakePres;
     int m_coolantTemp;
