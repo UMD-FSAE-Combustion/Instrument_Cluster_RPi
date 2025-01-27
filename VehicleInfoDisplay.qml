@@ -159,9 +159,11 @@ Item
 
                     anchors
                     {
-                        top: widget1ProgressBar.bottom
+                        //top: widget1ProgressBar.bottom
+                        top:infoWidget1.top
+                        bottom: widget1ProgressBar.top
                         horizontalCenter: uselessRectangle2.horizontalCenter
-                        topMargin: 18
+                        topMargin: 4
                     }
 
                     Text
@@ -171,6 +173,28 @@ Item
                         color: "white"
                         font.pixelSize: 18
                         anchors.centerIn: uselessRectangle3
+                    }
+                }
+
+                Rectangle
+                {
+                    id: leftProgressBarText
+
+
+                    anchors
+                    {
+                        top: widget1ProgressBar.bottom
+                        horizontalCenter: uselessRectangle2.horizontalCenter
+                        topMargin: 24
+                    }
+
+                    Text
+                    {
+                        id: infoWidget1TextLabel4
+                        text: rearBrakePres
+                        color: "white"
+                        font.pixelSize: 22
+                        anchors.centerIn: parent
                     }
                 }
             }
@@ -279,9 +303,10 @@ Item
 
                     anchors
                     {
-                        top: widget2ProgressBar.bottom
+                        top:infoWidget2.top
+                        bottom: widget2ProgressBar.top
                         horizontalCenter: uselessRectangle4.horizontalCenter
-                        topMargin: 18
+                        topMargin: 4
                     }
 
                     Text
@@ -291,6 +316,28 @@ Item
                         color: "white"
                         font.pixelSize: 18
                         anchors.centerIn: uselessRectangle5
+                    }
+                }
+
+                Rectangle
+                {
+                    id: rightProgressBarText
+
+
+                    anchors
+                    {
+                        top: widget2ProgressBar.bottom
+                        horizontalCenter: uselessRectangle4.horizontalCenter
+                        topMargin: 24
+                    }
+
+                    Text
+                    {
+                        id: infoWidget2TextLabel4
+                        text: frontBrakePres
+                        color: "white"
+                        font.pixelSize: 22
+                        anchors.centerIn: parent
                     }
                 }
             }
