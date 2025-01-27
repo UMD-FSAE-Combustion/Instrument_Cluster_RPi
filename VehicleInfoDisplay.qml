@@ -6,6 +6,7 @@ import QtQuick.Window
 
 Item
 {
+    property int vehicleSpeed: 0
     property int rearBrakePres: 0
     property int frontBrakePres: 0
     property int coolantTemp: 0
@@ -70,7 +71,7 @@ Item
                     id: widget1ProgressBar
                     from: 0
                     to: 150
-                    value: 0 //change to propery later
+                    value: rearBrakePres
                     anchors.centerIn: infoWidget1
 
                     background: Rectangle
@@ -158,9 +159,11 @@ Item
 
                     anchors
                     {
-                        top: widget1ProgressBar.bottom
+                        //top: widget1ProgressBar.bottom
+                        top:infoWidget1.top
+                        bottom: widget1ProgressBar.top
                         horizontalCenter: uselessRectangle2.horizontalCenter
-                        topMargin: 18
+                        topMargin: 4
                     }
 
                     Text
@@ -170,6 +173,28 @@ Item
                         color: "white"
                         font.pixelSize: 18
                         anchors.centerIn: uselessRectangle3
+                    }
+                }
+
+                Rectangle
+                {
+                    id: leftProgressBarText
+
+
+                    anchors
+                    {
+                        top: widget1ProgressBar.bottom
+                        horizontalCenter: uselessRectangle2.horizontalCenter
+                        topMargin: 24
+                    }
+
+                    Text
+                    {
+                        id: infoWidget1TextLabel4
+                        text: rearBrakePres
+                        color: "white"
+                        font.pixelSize: 22
+                        anchors.centerIn: parent
                     }
                 }
             }
@@ -190,7 +215,7 @@ Item
                     id: widget2ProgressBar
                     from: 0
                     to: 150
-                    value: 0
+                    value: frontBrakePres
                     anchors.centerIn: infoWidget2
 
                     background: Rectangle
@@ -275,12 +300,12 @@ Item
                 {
                     id: uselessRectangle5
 
-
                     anchors
                     {
-                        top: widget2ProgressBar.bottom
+                        top:infoWidget2.top
+                        bottom: widget2ProgressBar.top
                         horizontalCenter: uselessRectangle4.horizontalCenter
-                        topMargin: 18
+                        topMargin: 4
                     }
 
                     Text
@@ -290,6 +315,27 @@ Item
                         color: "white"
                         font.pixelSize: 18
                         anchors.centerIn: uselessRectangle5
+                    }
+                }
+
+                Rectangle
+                {
+                    id: rightProgressBarText
+
+                    anchors
+                    {
+                        top: widget2ProgressBar.bottom
+                        horizontalCenter: uselessRectangle4.horizontalCenter
+                        topMargin: 24
+                    }
+
+                    Text
+                    {
+                        id: infoWidget2TextLabel4
+                        text: frontBrakePres
+                        color: "white"
+                        font.pixelSize: 22
+                        anchors.centerIn: parent
                     }
                 }
             }
@@ -309,16 +355,16 @@ Item
                 {
                     id: widget3Info
 
-                    text: qsTr("-")
+                    text: coolantTemp
                     color: "white"
-                    font.pixelSize: 70
+                    font.pixelSize: 60
                     font.bold: true
 
                     anchors
                     {
                         top: infoWidget3.top
                         horizontalCenter: infoWidget3.horizontalCenter
-                        margins: 3
+                        topMargin: 10
                     }
                 }
 
@@ -353,16 +399,16 @@ Item
                 {
                     id: widget4Info
 
-                    text: qsTr("-")
+                    text: oilTemp
                     color: "white"
-                    font.pixelSize: 70
+                    font.pixelSize: 60
                     font.bold: true
 
                     anchors
                     {
                         top: infoWidget4.top
                         horizontalCenter: infoWidget4.horizontalCenter
-                        margins: 3
+                        topMargin: 10
                     }
                 }
 
@@ -397,16 +443,16 @@ Item
                 {
                     id: widget5Info
 
-                    text: qsTr("-")
+                    text: fuelTemp
                     color: "white"
-                    font.pixelSize: 70
+                    font.pixelSize: 60
                     font.bold: true
 
                     anchors
                     {
                         top: infoWidget5.top
                         horizontalCenter: infoWidget5.horizontalCenter
-                        margins: 3
+                        topMargin: 10
                     }
                 }
 

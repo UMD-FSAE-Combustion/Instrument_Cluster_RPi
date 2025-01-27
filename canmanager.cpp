@@ -140,6 +140,8 @@ void CANmanager::processFrames()
     }
     case 0x659:
     {
+        uint16_t speed = (bytes.at(4)<<8 | bytes.at(5)) / 36;
+        setVehicleSpeed(speed);
         break;
     }
     default:
@@ -295,4 +297,17 @@ void CANmanager::setFuelTemp(int newFuelTemp)
         return;
     m_fuelTemp = newFuelTemp;
     emit fuelTempChanged();
+}
+
+int CANmanager::vehicleSpeed() const
+{
+    return m_vehicleSpeed;
+}
+
+void CANmanager::setVehicleSpeed(int newVehicleSpeed)
+{
+    if (m_vehicleSpeed == newVehicleSpeed)
+        return;
+    m_vehicleSpeed = newVehicleSpeed;
+    emit vehicleSpeedChanged();
 }

@@ -35,6 +35,10 @@ Window
 
     CANmanager {
         id: canManager
+
+        onSignalUI: {
+            updateUI()
+        }
     }
 
     Image
@@ -254,7 +258,7 @@ Window
 
                 Text
                 {
-                    text: root.speed
+                    text: vehicleInfo.vehicleSpeed
                     color: "white"
                     anchors.centerIn: speedoNumber
                     font.pixelSize: 110
@@ -1376,6 +1380,16 @@ Window
         canManager.updatePayload(1, jsonManager.tractionSwitch)
 
         tract.tractionSwitch = jsonManager.tractionSwitch
+    }
+
+    function updateUI() {
+        vehicleInfo.vehicleSpeed = canManager.vehicleSpeed
+
+        vehicleInfo.rearBrakePres = canManager.rearBrakePres
+        vehicleInfo.frontBrakePres = canManager.frontBrakePres
+        vehicleInfo.coolantTemp = canManager.coolantTemp
+        vehicleInfo.oilTemp = canManager.oilTemp
+        vehicleInfo.fuelTemp = canManager.fuelTemp
     }
 }
 
