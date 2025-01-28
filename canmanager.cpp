@@ -118,13 +118,23 @@ void CANmanager::processFrames()
     }
     case 0x649:
     {
-        setCoolantTemp(bytes.at(0) - 40); // need to subtract 40?
-        setOilTemp(bytes.at(1) - 40);     // need to subtract 40?
-        setFuelTemp(bytes.at(2) - 40);    // need to subtract 40?
+        setCoolantTemp(bytes.at(0) - 40);
+        setOilTemp(bytes.at(1) - 40);
+        setFuelTemp(bytes.at(2) - 40);
         break;
     }
     case 0x64A:
     {
+        break;
+    }
+    case 0x64C:
+    {
+        uint8_t faultStatus = bytes.at(5);
+        if(faultStatus > 0)
+            setEcuFault(true);
+        else
+            setEcuFault(false);
+
         break;
     }
     case 0x651:
@@ -311,4 +321,17 @@ void CANmanager::setVehicleSpeed(int newVehicleSpeed)
         return;
     m_vehicleSpeed = newVehicleSpeed;
     emit vehicleSpeedChanged();
+}
+
+bool CANmanager::ecuFault() const
+{
+    return m_ecuFault;
+}
+
+void CANmanager::setEcuFault(bool newEcuFault)
+{
+    if (m_ecuFault == newEcuFault)
+        return;
+    m_ecuFault = newEcuFault;
+    emit ecuFaultChanged();
 }

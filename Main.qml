@@ -19,6 +19,8 @@ Window
     property int driver: JSON.driver
     property int lc_Status: 0
 
+    property bool ecuFault: false
+
     width: 800
     height: 480
     visible: true
@@ -1390,6 +1392,18 @@ Window
         vehicleInfo.coolantTemp = canManager.coolantTemp
         vehicleInfo.oilTemp = canManager.oilTemp
         vehicleInfo.fuelTemp = canManager.fuelTemp
+
+        root.ecuFault = canManager.ecuFault
+        if(root.ecuFault === true) {
+            ecuFaultImage.visible = true
+            statusImage.source = "assets/images/WARN.png"
+            statusMessage.text = "ECU fault"
+            statusMessage.text.pixelSize = 20
+            statusUpdateAnimation.start()
+        }
+        else {
+            ecuFaultImage.visible = fasle
+        }
     }
 }
 
