@@ -118,9 +118,9 @@ void CANmanager::processFrames()
     }
     case 0x649:
     {
-        setCoolantTemp(bytes.at(0) - 40);
-        setOilTemp(bytes.at(1) - 40);
-        setFuelTemp(bytes.at(2) - 40);
+        setCoolantTemp(QString::number(bytes.at(0) - 40) + "°C");
+        setOilTemp(QString::number(bytes.at(1) - 40) + "°C");
+        setFuelTemp(QString::number(bytes.at(2) - 40) + "°C");
         break;
     }
     case 0x64A:
@@ -271,12 +271,12 @@ void CANmanager::setFrontBrakePres(int newFrontBrakePres)
     emit frontBrakePresChanged();
 }
 
-int CANmanager::coolantTemp() const
+QString CANmanager::coolantTemp() const
 {
     return m_coolantTemp;
 }
 
-void CANmanager::setCoolantTemp(int newCoolantTemp)
+void CANmanager::setCoolantTemp(QString newCoolantTemp)
 {
     if (m_coolantTemp == newCoolantTemp)
         return;
@@ -284,12 +284,12 @@ void CANmanager::setCoolantTemp(int newCoolantTemp)
     emit coolantTempChanged();
 }
 
-int CANmanager::oilTemp() const
+QString CANmanager::oilTemp() const
 {
     return m_oilTemp;
 }
 
-void CANmanager::setOilTemp(int newOilTemp)
+void CANmanager::setOilTemp(QString newOilTemp)
 {
     if (m_oilTemp == newOilTemp)
         return;
@@ -297,12 +297,12 @@ void CANmanager::setOilTemp(int newOilTemp)
     emit oilTempChanged();
 }
 
-int CANmanager::fuelTemp() const
+QString CANmanager::fuelTemp() const
 {
     return m_fuelTemp;
 }
 
-void CANmanager::setFuelTemp(int newFuelTemp)
+void CANmanager::setFuelTemp(QString newFuelTemp)
 {
     if (m_fuelTemp == newFuelTemp)
         return;
