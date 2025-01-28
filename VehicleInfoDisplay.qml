@@ -356,7 +356,7 @@ Item
                     id: widget3Info
 
                     text: coolantTemp
-                    color: "white"
+                    color: (coolantTemp > 99) ? "red" : "white"
                     font.pixelSize: 60
                     font.bold: true
 
@@ -400,7 +400,7 @@ Item
                     id: widget4Info
 
                     text: oilTemp
-                    color: "white"
+                    color: (oilTemp > 99) ? "red" : "white"
                     font.pixelSize: 60
                     font.bold: true
 
@@ -444,7 +444,7 @@ Item
                     id: widget5Info
 
                     text: fuelTemp
-                    color: "white"
+                    color: (fuelTemp > 99) ? "red" : "white"
                     font.pixelSize: 60
                     font.bold: true
 
