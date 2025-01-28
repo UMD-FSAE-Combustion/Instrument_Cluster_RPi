@@ -105,6 +105,7 @@ void CANmanager::processFrames()
     QByteArray bytes = frame.payload();
     //qDebug() << bytes;
 
+    qDebug() << frame.frameId();
     switch(frame.frameId())
     {
     case 0x640:
@@ -117,9 +118,9 @@ void CANmanager::processFrames()
     }
     case 0x649:
     {
-        setCoolantTemp(bytes.at(0)); // need to subtract 40?
-        setOilTemp(bytes.at(1));     // need to subtract 40?
-        setFuelTemp(bytes.at(2));    // need to subtract 40?
+        setCoolantTemp(bytes.at(0) - 40); // need to subtract 40?
+        setOilTemp(bytes.at(1) - 40);     // need to subtract 40?
+        setFuelTemp(bytes.at(2) - 40);    // need to subtract 40?
         break;
     }
     case 0x64A:
@@ -141,7 +142,7 @@ void CANmanager::processFrames()
     case 0x659:
     {
         uint16_t speed = (bytes.at(4)<<8 | bytes.at(5)) / 36;
-        setVehicleSpeed(speed);
+        setVehicleSpeed(speed * 2.2369); // convert from kph to mph
         break;
     }
     default:
