@@ -22,9 +22,9 @@ class CANmanager : public QObject
     Q_PROPERTY(int vehicleSpeed READ vehicleSpeed WRITE setVehicleSpeed NOTIFY vehicleSpeedChanged FINAL)
     Q_PROPERTY(int rearBrakePres READ rearBrakePres WRITE setRearBrakePres NOTIFY rearBrakePresChanged FINAL)
     Q_PROPERTY(int frontBrakePres READ frontBrakePres WRITE setFrontBrakePres NOTIFY frontBrakePresChanged FINAL)
-    Q_PROPERTY(int coolantTemp READ coolantTemp WRITE setCoolantTemp NOTIFY coolantTempChanged FINAL)
-    Q_PROPERTY(int oilTemp READ oilTemp WRITE setOilTemp NOTIFY oilTempChanged FINAL)
-    Q_PROPERTY(int fuelTemp READ fuelTemp WRITE setFuelTemp NOTIFY fuelTempChanged FINAL)
+    Q_PROPERTY(QString coolantTemp READ coolantTemp WRITE setCoolantTemp NOTIFY coolantTempChanged FINAL)
+    Q_PROPERTY(QString oilTemp READ oilTemp WRITE setOilTemp NOTIFY oilTempChanged FINAL)
+    Q_PROPERTY(QString fuelTemp READ fuelTemp WRITE setFuelTemp NOTIFY fuelTempChanged FINAL)
     Q_PROPERTY(bool ecuFault READ ecuFault WRITE setEcuFault NOTIFY ecuFaultChanged FINAL)
 
 public:
@@ -55,14 +55,14 @@ public:
     int frontBrakePres() const;
     void setFrontBrakePres(int newFrontBrakePres);
 
-    int coolantTemp() const;
-    void setCoolantTemp(int newCoolantTemp);
+    QString coolantTemp() const;
+    void setCoolantTemp(QString newCoolantTemp);
 
-    int oilTemp() const;
-    void setOilTemp(int newOilTemp);
+    QString oilTemp() const;
+    void setOilTemp(QString newOilTemp);
 
-    int fuelTemp() const;
-    void setFuelTemp(int newFuelTemp);
+    QString fuelTemp() const;
+    void setFuelTemp(QString newFuelTemp);
 
     int vehicleSpeed() const;
     void setVehicleSpeed(int newVehicleSpeed);
@@ -100,9 +100,9 @@ private:
     int m_vehicleSpeed;
     int m_rearBrakePres;
     int m_frontBrakePres;
-    int m_coolantTemp;
-    int m_oilTemp;
-    int m_fuelTemp;
+    QString m_coolantTemp;
+    QString m_oilTemp;
+    QString m_fuelTemp;
     bool m_ecuFault;
 };
 

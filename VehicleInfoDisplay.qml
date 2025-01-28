@@ -9,9 +9,9 @@ Item
     property int vehicleSpeed: 0
     property int rearBrakePres: 0
     property int frontBrakePres: 0
-    property int coolantTemp: 0
-    property int oilTemp: 0
-    property int fuelTemp: 0
+    property string coolantTemp: "0"
+    property string oilTemp: "0"
+    property string fuelTemp: "0"
 
     Rectangle
     {
@@ -355,8 +355,8 @@ Item
                 {
                     id: widget3Info
 
-                    text: coolantTemp
-                    color: (coolantTemp > 99) ? "red" : "white"
+                    text: coolantTemp + "°C"
+                    color: (Number(coolantTemp.slice(0, coolantTemp.length - 2)) > 99) ? "red" : "white"
                     font.pixelSize: 60
                     font.bold: true
 
@@ -399,8 +399,8 @@ Item
                 {
                     id: widget4Info
 
-                    text: oilTemp
-                    color: (oilTemp > 99) ? "red" : "white"
+                    text: oilTemp + "°C"
+                    color: (Number(oilTemp.slice(0, oilTemp.length - 2)) > 99) ? "red" : "white"
                     font.pixelSize: 60
                     font.bold: true
 
@@ -443,8 +443,8 @@ Item
                 {
                     id: widget5Info
 
-                    text: fuelTemp
-                    color: (fuelTemp > 99) ? "red" : "white"
+                    text: fuelTemp + "°C"
+                    color: (Number(fuelTemp.slice(0, fuelTemp.length - 2)) > 99) ? "red" : "white"
                     font.pixelSize: 60
                     font.bold: true
 
