@@ -25,6 +25,7 @@ class CANmanager : public QObject
     Q_PROPERTY(int coolantTemp READ coolantTemp WRITE setCoolantTemp NOTIFY coolantTempChanged FINAL)
     Q_PROPERTY(int oilTemp READ oilTemp WRITE setOilTemp NOTIFY oilTempChanged FINAL)
     Q_PROPERTY(int fuelTemp READ fuelTemp WRITE setFuelTemp NOTIFY fuelTempChanged FINAL)
+    Q_PROPERTY(bool ecuFault READ ecuFault WRITE setEcuFault NOTIFY ecuFaultChanged FINAL)
 
 public:
     CANmanager();
@@ -66,6 +67,9 @@ public:
     int vehicleSpeed() const;
     void setVehicleSpeed(int newVehicleSpeed);
 
+    bool ecuFault() const;
+    void setEcuFault(bool newEcuFault);
+
 signals:
     void signalUI();
     void signalLoop();
@@ -82,6 +86,8 @@ signals:
 
     void vehicleSpeedChanged();
 
+    void ecuFaultChanged();
+
 private:
     QTimer timer;
     QCanBusDevice *can_device;
@@ -97,6 +103,7 @@ private:
     int m_coolantTemp;
     int m_oilTemp;
     int m_fuelTemp;
+    bool m_ecuFault;
 };
 
 #endif // CANMANAGER_H
