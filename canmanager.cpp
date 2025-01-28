@@ -117,9 +117,9 @@ void CANmanager::processFrames()
     }
     case 0x649:
     {
-        setCoolantTemp(bytes.at(0)); // need to subtract 40?
-        setOilTemp(bytes.at(1));     // need to subtract 40?
-        setFuelTemp(bytes.at(2));    // need to subtract 40?
+        setCoolantTemp(bytes.at(0) - 40); // need to subtract 40?
+        setOilTemp(bytes.at(1) - 40);     // need to subtract 40?
+        setFuelTemp(bytes.at(2) - 40);    // need to subtract 40?
         break;
     }
     case 0x64A:
