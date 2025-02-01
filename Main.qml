@@ -1474,11 +1474,20 @@ Window
 
         root.ecuFault = canManager.ecuFault
         if(root.ecuFault === true) {
-            ecuFaultImage.visible = true
-            statusImage.source = "assets/images/WARN.png"
-            statusMessage.text = "ECU fault"
-            statusMessage.text.pixelSize = 20
-            statusUpdateAnimation.start()
+            if(engineInfoScreen.visible === true) {
+                ecuFaultImage.visible = true
+                statusImageAdvancedView.source = "assets/images/WARN.png"
+                statusMessageAdvancedView.text = "ECU fault"
+                statusMessageAdvancedView.text.pixelSize = 20
+                advancedViewStatusUpdateAnimation.start()
+            }
+            else {
+                ecuFaultImage.visible = true
+                statusImage.source = "assets/images/WARN.png"
+                statusMessage.text = "ECU fault"
+                statusMessage.text.pixelSize = 20
+                statusUpdateAnimation.start()
+            }
         }
         else {
             ecuFaultImage.visible = fasle
