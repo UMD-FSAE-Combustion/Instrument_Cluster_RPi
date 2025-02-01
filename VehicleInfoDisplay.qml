@@ -63,8 +63,6 @@ Item
                 height: 150
                 radius: 20
                 color: "#1E1E1E"
-                border.width: 3
-                border.color: (root.counter === 9) ? "#00a8ff" : "#1E1E1E"
 
                 ProgressBar
                 {
@@ -207,8 +205,6 @@ Item
                 height: 150
                 radius: 20
                 color: "#1E1E1E"
-                border.width: 3
-                border.color: (root.counter === 10) ? "#00a8ff" : "#1E1E1E"
 
                 ProgressBar
                 {
@@ -348,8 +344,6 @@ Item
                 height: 160
                 radius: 20
                 color: "#1E1E1E"
-                border.width: 3
-                border.color: (root.counter === 11) ? "#00a8ff" : "#1E1E1E"
 
                 Text
                 {
@@ -392,8 +386,6 @@ Item
                 height: 160
                 radius: 20
                 color: "#1E1E1E"
-                border.width: 3
-                border.color: (root.counter === 12) ? "#00a8ff" : "#1E1E1E"
 
                 Text
                 {
@@ -436,8 +428,6 @@ Item
                 height: 160
                 radius: 20
                 color: "#1E1E1E"
-                border.width: 3
-                border.color: (root.counter === 13) ? "#00a8ff" : "#1E1E1E"
 
                 Text
                 {

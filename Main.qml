@@ -314,29 +314,11 @@ Window
 
             PropertyAnimation
             {
-               id: animationUpSpeedometer
-               target: visualRoot
-               property: "y"
-               to: -180
-               duration: 200
-            }
-
-            PropertyAnimation
-            {
                id: animationDownSpeedometer
                target: visualRoot
                property: "y"
                to: speedoNumber.verticalCenter
                duration: 300
-            }
-
-            PropertyAnimation
-            {
-               id: animationTopLeftSpeedometer
-               target: visualRoot
-               property: "x"
-               to: -320
-               duration: 200
             }
         }
     }
@@ -348,7 +330,7 @@ Window
         height: 60
         color: "transparent"
 
-        y: 60
+        y: 15
 
         Image
         {
@@ -357,7 +339,8 @@ Window
 
             anchors
             {
-                centerIn: parent
+                right: parent.right
+                rightMargin: 80
             }
 
             visible: false
@@ -376,7 +359,7 @@ Window
         anchors
         {
             right: parent.right
-            top: iconBar.top
+            top: teamLogo.bottom
         }
 
         Image
@@ -395,34 +378,39 @@ Window
         visible: true
     }
 
-    PropertyAnimation
-    {
-       id: animationRightIconBar
-       target: iconBar
-       property: "x"
-       to: 165
-       duration: 300
-    }
-
-    PropertyAnimation
-    {
-       id: animationLeftIconBar
-       target: iconBar
-       property: "x"
-       to: speedoNumber.horizontalCenter
-       duration: 350
-    }
-
     Text
     {
         id: speedoUnitInfoScreen
 
-        x: 130
+        x: 110
         y: -20
         text: qsTr("MPH")
         font.pixelSize: 40
         font.bold: true
         color: "#1e272e"
+        visible: false
+    }
+
+    Rectangle
+    {
+        id: speedoNumberInfoScreen
+        width: 150
+        height: 150
+        x: -10
+        y: -15
+
+        color: "transparent"
+
+
+        Text
+        {
+            text: root.speed
+            color: "white"
+            anchors.centerIn: speedoNumberInfoScreen
+            font.pixelSize: 110
+            font.bold: true
+        }
+
         visible: false
     }
 
@@ -925,6 +913,52 @@ Window
         }
     }
 
+    Rectangle
+    {
+        id: statusUpdateAdvancedView
+
+        width: 230
+        height: 45
+        radius: 10
+        x: 290
+        y: -500
+
+        color: "#1E1E1E"
+
+        Text
+        {
+            id: statusMessageAdvancedView
+            text: qsTr("Default")
+            color: "white"
+            font.bold: true
+            font.pixelSize: 20
+
+            anchors
+            {
+                left: statusImageAdvancedView.right
+                right: statusUpdateAdvancedView.right
+                verticalCenter: statusUpdateAdvancedView.verticalCenter
+                margins: 15
+
+            }
+        }
+
+        Image
+        {
+            id: statusImageAdvancedView
+            source: "assets/images/INFO.png"
+            height: 40
+            width: 40
+
+            anchors
+            {
+                verticalCenter: statusUpdateAdvancedView.verticalCenter
+                left: statusUpdateAdvancedView.left
+                margins: 5
+            }
+        }
+    }
+
     SequentialAnimation
     {
         id: statusUpdateAnimation
@@ -987,15 +1021,56 @@ Window
         }
     }
 
+    SequentialAnimation
+    {
+        id: advancedViewStatusUpdateAnimation
+        running: false
+
+        PauseAnimation
+        {
+            duration: 600
+        }
+
+        ParallelAnimation
+        {
+            NumberAnimation
+            {
+                id: advancedViewStatusUpdateAnimationUp
+                target: statusUpdateAdvancedView
+                property: "y"
+                to: 55
+                duration: 300
+                easing.type: Easing.InOutQuad
+            }
+        }
+
+        PauseAnimation
+        {
+            duration: 1750
+        }
+
+        ParallelAnimation
+        {
+            NumberAnimation
+            {
+                id: advancedViewStatusUpdateAnimationDown
+                target: statusUpdateAdvancedView
+                property: "y"
+                to: -500
+                duration: 300
+                easing.type: Easing.InOutQuad
+            }
+        }
+    }
+
     Rectangle
     {
         id: extraInfoWidgets
         width: 800
-        height: 310
+        height: 360
+        y: 110
         color: "black"
         visible: false
-
-        anchors.fill: parent
 
         VehicleInfoDisplayExtraWidgets
         {
@@ -1018,7 +1093,6 @@ Window
                 {
                     animationRightSpeedometer.start()
                     animationRight.start()
-                    animationRightIconBar.start()
                 }
                 else if(brakeBiasScreen.visible === true)
                 {
@@ -1104,20 +1178,16 @@ Window
                 {
                     columnBar.visible = false
                     engineInfoAnimationRight.start()
-                    animationUpSpeedometer.start()
-                    //animationLeftSpeedometer.start()
-                    animationTopLeftSpeedometer.start()
                     animationDownInfoScreenSpeedometer.start()
                     engineInfoScreen.visible = true
                     speedoUnitInfoScreen.visible = true
                     speedoUnit.visible = false
+                    speedoNumberInfoScreen.visible = true
+                    speedoNumber.visible = false
+                    statusUpdate.visible = false
                     counter = 9
                 }
-                else if(engineInfoScreen.visible === true && counter < 13)
-                {
-                   counter = counter + 1
-                }
-                else if(engineInfoScreen.visible === true && counter === 13)
+                else if(engineInfoScreen.visible === true && counter === 9)
                 {
                     extraInfoWidgets.visible = true
                 }
@@ -1127,7 +1197,6 @@ Window
                     canManager.updatePayload(2, lc_Status)
                     animationLeftSpeedometer.start()
                     animationLeft.start()
-                    animationLeftIconBar.start()
 
                     statusMessage.text = "Launch Control: Active"
                     statusImage.source = "assets/images/INFO.png"
@@ -1144,7 +1213,6 @@ Window
                     canManager.updatePayload(2, lc_Status)
                     animationLeftSpeedometer.start()
                     animationLeft.start()
-                    animationLeftIconBar.start()
 
                     statusMessage.text = "Launch Control: Inactive"
                     statusImage.source = "assets/images/INFO.png"
@@ -1164,7 +1232,6 @@ Window
                 {
                     animationLeftSpeedometer.start()
                     animationLeft.start()
-                    animationLeftIconBar.start()
                     counter = 0
                     currentSet = 1
                 }
@@ -1228,7 +1295,7 @@ Window
                 }
                 else if(extraInfoWidgets.visible === true)
                 {
-                    counter = 13
+                    counter = 9
                     extraInfoWidgets.visible = false
                 }
                 else if (counter === 9 && engineInfoScreen.visible === true)
@@ -1242,6 +1309,9 @@ Window
                     animationUpInfoScreenSpeedometer.start()
                     speedoUnit.visible = true
                     speedoUnitInfoScreen.visible = false
+                    speedoNumberInfoScreen.visible = false
+                    speedoNumber.visible = true
+                    statusUpdate.visible = true
                     counter = 3
                     currentSet = 2
                 }
@@ -1340,13 +1410,22 @@ Window
             }
             else if (event.key === Qt.Key_W)
             {
-                ecuFaultImage.visible = true
-                statusImage.source = "assets/images/WARN.png"
-                statusMessage.text = "ECU fault"
-                statusMessage.text.pixelSize = 20
-                statusUpdateAnimation.start()
-
-
+                if(engineInfoScreen.visible === true)
+                {
+                    ecuFaultImage.visible = true
+                    statusImageAdvancedView.source = "assets/images/WARN.png"
+                    statusMessageAdvancedView.text = "ECU fault"
+                    statusMessageAdvancedView.text.pixelSize = 20
+                    advancedViewStatusUpdateAnimation.start()
+                }
+                else
+                {
+                    ecuFaultImage.visible = true
+                    statusImage.source = "assets/images/WARN.png"
+                    statusMessage.text = "ECU fault"
+                    statusMessage.text.pixelSize = 20
+                    statusUpdateAnimation.start()
+                }
             }
         }
     }
