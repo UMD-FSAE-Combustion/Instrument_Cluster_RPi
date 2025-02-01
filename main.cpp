@@ -1,6 +1,7 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
+#include <QUrl>
 
 #include "jsonmanager.h"
 #include "canmanager.h"
@@ -20,6 +21,8 @@ int main(int argc, char *argv[])
 
     engine.rootContext()->setContextProperty("JSON", &json);
     engine.rootContext()->setContextProperty("canBus", &canBus);
+
+    qDebug() << qVersion();
 
     QObject::connect(
         &engine,
