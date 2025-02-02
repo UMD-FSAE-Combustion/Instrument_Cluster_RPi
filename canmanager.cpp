@@ -110,10 +110,18 @@ void CANmanager::processFrames()
     {
     case 0x640:
     {
+        uint16_t inletManPres = (bytes.at(2)<< 8 | bytes.at(3)) * 100;
+        uint16_t airTemp = (bytes.at(4)<< 8 | bytes.at(5)) / 10;
+        setInletManifoldPres(inletManPres);
+        setInletAirTemp(QString::number(airTemp) + "°C");
         break;
     }
     case 0x641:
     {
+        uint16_t fuelPres = (bytes.at(4)<< 8 | bytes.at(5)) * 100;
+        uint16_t fuelMix = (bytes.at(2)<< 8 | bytes.at(3)) / 100;
+        setFuelPres(fuelPres);
+        setFuelMixAim(fuelMix);
         break;
     }
     case 0x649:
@@ -125,6 +133,8 @@ void CANmanager::processFrames()
     }
     case 0x64A:
     {
+        uint16_t exhaust = (bytes.at(0)<< 8 | bytes.at(1)) / 10;
+        setExhaustTemp(QString::number(exhaust) + "°C");
         break;
     }
     case 0x64C:
@@ -139,6 +149,7 @@ void CANmanager::processFrames()
     }
     case 0x651:
     {
+        setExhaustLambda(bytes.at(0) / 100);
         break;
     }
     case 0x655:
@@ -334,4 +345,82 @@ void CANmanager::setEcuFault(bool newEcuFault)
         return;
     m_ecuFault = newEcuFault;
     emit ecuFaultChanged();
+}
+
+QString CANmanager::exhaustTemp() const
+{
+    return m_exhaustTemp;
+}
+
+void CANmanager::setExhaustTemp(const QString &newExhaustTemp)
+{
+    if (m_exhaustTemp == newExhaustTemp)
+        return;
+    m_exhaustTemp = newExhaustTemp;
+    emit exhaustTempChanged();
+}
+
+QString CANmanager::inletAirTemp() const
+{
+    return m_inletAirTemp;
+}
+
+void CANmanager::setInletAirTemp(const QString &newInletAirTemp)
+{
+    if (m_inletAirTemp == newInletAirTemp)
+        return;
+    m_inletAirTemp = newInletAirTemp;
+    emit inletAirTempChanged();
+}
+
+int CANmanager::inletManifoldPres() const
+{
+    return m_inletManifoldPres;
+}
+
+void CANmanager::setInletManifoldPres(int newInletManifoldPres)
+{
+    if (m_inletManifoldPres == newInletManifoldPres)
+        return;
+    m_inletManifoldPres = newInletManifoldPres;
+    emit inletManifoldPresChanged();
+}
+
+int CANmanager::fuelPres() const
+{
+    return m_fuelPres;
+}
+
+void CANmanager::setFuelPres(int newFuelPres)
+{
+    if (m_fuelPres == newFuelPres)
+        return;
+    m_fuelPres = newFuelPres;
+    emit fuelPresChanged();
+}
+
+int CANmanager::fuelMixAim() const
+{
+    return m_fuelMixAim;
+}
+
+void CANmanager::setFuelMixAim(int newFuelMixAim)
+{
+    if (m_fuelMixAim == newFuelMixAim)
+        return;
+    m_fuelMixAim = newFuelMixAim;
+    emit fuelMixAimChanged();
+}
+
+int CANmanager::exhaustLambda() const
+{
+    return m_exhaustLambda;
+}
+
+void CANmanager::setExhaustLambda(int newExhaustLambda)
+{
+    if (m_exhaustLambda == newExhaustLambda)
+        return;
+    m_exhaustLambda = newExhaustLambda;
+    emit exhaustLambdaChanged();
 }
