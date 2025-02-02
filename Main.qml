@@ -1177,6 +1177,14 @@ Window
                     //animationLeftSpeedometer.start()
                     animationTopLeftSpeedometer.start()
                     animationDownInfoScreenSpeedometer.start()
+
+                    if(statusUpdateAnimation.running) {
+                        statusUpdateAnimation.stop()
+                        statusUpdate.visible = false
+                        statusUpdate.y = 500
+                        statusUpdate.visible = true
+                    }
+
                     engineInfoScreen.visible = true
                     speedoUnitInfoScreen.visible = true
                     speedoUnit.visible = false
