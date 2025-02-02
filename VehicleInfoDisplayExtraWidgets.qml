@@ -6,6 +6,13 @@ import QtQuick.Window
 
 Item
 {
+    property string exhaustTemp: "0°C"
+    property string airInletTemp: "0°C"
+    property int inletManifoldPres: 0
+    property int fuelPres: 0
+    property int fuelMixAim: 0
+    property int exhaustLambda: 0
+
     GridLayout
     {
         id: widgets
@@ -33,7 +40,7 @@ Item
             {
                 id: widget6Info
 
-                text: qsTr("0")
+                text: fuelPres
                 color: "white"
                 font.pixelSize: 70
                 font.bold: true
@@ -48,9 +55,9 @@ Item
 
             Text
             {
-                text: qsTr("-")
+                text: qsTr("Fuel Pressure (psi)")
                 color: "white"
-                font.pixelSize: 30
+                font.pixelSize: 28
                 font.bold: false
 
                 anchors
@@ -74,8 +81,8 @@ Item
             {
                 id: widget7Info
 
-                text: qsTr("0")
-                color: "white"
+                text: exhaustTemp
+                color: (Number(exhaustTemp.slice(0, exhaustTemp.length - 2)) > 99) ? "red" : "white"
                 font.pixelSize: 70
                 font.bold: true
 
@@ -89,7 +96,7 @@ Item
 
             Text
             {
-                text: qsTr("-")
+                text: qsTr("Exhaust Temp")
                 color: "white"
                 font.pixelSize: 30
                 font.bold: false
@@ -115,7 +122,7 @@ Item
             {
                 id: widget8Info
 
-                text: qsTr("0")
+                text: exhaustLambda
                 color: "white"
                 font.pixelSize: 70
                 font.bold: true
@@ -130,7 +137,7 @@ Item
 
             Text
             {
-                text: qsTr("-")
+                text: qsTr("Exhaust Lambda")
                 color: "white"
                 font.pixelSize: 30
                 font.bold: false
@@ -156,7 +163,7 @@ Item
             {
                 id: widget9Info
 
-                text: qsTr("0")
+                text: fuelMixAim
                 color: "white"
                 font.pixelSize: 70
                 font.bold: true
@@ -171,7 +178,7 @@ Item
 
             Text
             {
-                text: qsTr("-")
+                text: qsTr("Fuel Mix Aim")
                 color: "white"
                 font.pixelSize: 30
                 font.bold: false
@@ -197,8 +204,8 @@ Item
             {
                 id: widget10Info
 
-                text: qsTr("0")
-                color: "white"
+                text: airInletTemp
+                color: (Number(airInletTemp.slice(0, airInletTemp.length - 2)) > 99) ? "red" : "white"
                 font.pixelSize: 70
                 font.bold: true
 
@@ -212,7 +219,7 @@ Item
 
             Text
             {
-                text: qsTr("-")
+                text: qsTr("Inlet Air Temp")
                 color: "white"
                 font.pixelSize: 30
                 font.bold: false
@@ -238,7 +245,7 @@ Item
             {
                 id: widget11Info
 
-                text: qsTr("0")
+                text: inletManifoldPres
                 color: "white"
                 font.pixelSize: 70
                 font.bold: true
@@ -253,9 +260,9 @@ Item
 
             Text
             {
-                text: qsTr("-")
+                text: qsTr("Manifold Pressure (kPa)")
                 color: "white"
-                font.pixelSize: 30
+                font.pixelSize: 21
                 font.bold: false
 
                 anchors

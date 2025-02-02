@@ -313,12 +313,30 @@ Window
             }
 
             PropertyAnimation
+           {
+              id: animationUpSpeedometer
+              target: visualRoot
+              property: "y"
+              to: -180
+              duration: 200
+           }
+
+            PropertyAnimation
             {
                id: animationDownSpeedometer
                target: visualRoot
                property: "y"
                to: speedoNumber.verticalCenter
                duration: 300
+            }
+
+            PropertyAnimation
+            {
+               id: animationTopLeftSpeedometer
+               target: visualRoot
+               property: "x"
+               to: -320
+               duration: 200
             }
         }
     }
@@ -382,35 +400,12 @@ Window
     {
         id: speedoUnitInfoScreen
 
-        x: 110
+        x: 130 //110?
         y: -20
         text: qsTr("MPH")
         font.pixelSize: 40
         font.bold: true
         color: "#1e272e"
-        visible: false
-    }
-
-    Rectangle
-    {
-        id: speedoNumberInfoScreen
-        width: 150
-        height: 150
-        x: -10
-        y: -15
-
-        color: "transparent"
-
-
-        Text
-        {
-            text: root.speed
-            color: "white"
-            anchors.centerIn: speedoNumberInfoScreen
-            font.pixelSize: 110
-            font.bold: true
-        }
-
         visible: false
     }
 
@@ -1178,13 +1173,21 @@ Window
                 {
                     columnBar.visible = false
                     engineInfoAnimationRight.start()
+                    animationUpSpeedometer.start()
+                    //animationLeftSpeedometer.start()
+                    animationTopLeftSpeedometer.start()
                     animationDownInfoScreenSpeedometer.start()
+
+                    if(statusUpdateAnimation.running) {
+                        statusUpdateAnimation.stop()
+                        statusUpdate.visible = false
+                        statusUpdate.y = 500
+                        statusUpdate.visible = true
+                    }
+
                     engineInfoScreen.visible = true
                     speedoUnitInfoScreen.visible = true
                     speedoUnit.visible = false
-                    speedoNumberInfoScreen.visible = true
-                    speedoNumber.visible = false
-                    statusUpdate.visible = false
                     counter = 9
                 }
                 else if(engineInfoScreen.visible === true && counter === 9)
@@ -1309,9 +1312,6 @@ Window
                     animationUpInfoScreenSpeedometer.start()
                     speedoUnit.visible = true
                     speedoUnitInfoScreen.visible = false
-                    speedoNumberInfoScreen.visible = false
-                    speedoNumber.visible = true
-                    statusUpdate.visible = true
                     counter = 3
                     currentSet = 2
                 }
