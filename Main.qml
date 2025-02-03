@@ -31,6 +31,11 @@ Window
 
     Material.theme: Material.Light
 
+    //temporary, will delete later
+    ShutdownHandler {
+        id: shutdownHandler
+    }
+
     JSONmanager {
         id: jsonManager
     }
@@ -1426,6 +1431,9 @@ Window
                     statusMessage.text.pixelSize = 20
                     statusUpdateAnimation.start()
                 }
+            }
+            else if (event.key === Qt.Key_P) {
+                shutdownHandler.powerOFF()
             }
         }
     }
