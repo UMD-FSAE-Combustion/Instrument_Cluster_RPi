@@ -23,6 +23,7 @@ qt_add_qml_module(appDyno_Info
         jsonmanager.h jsonmanager.cpp
         canmanager.h canmanager.cpp
         mapVals.h
+        shutdownhandler.h
 
         RESOURCES
         assets/images/blockM.png
