@@ -16,10 +16,10 @@ public:
         qDebug() << QSysInfo::productType();
         if(QSysInfo::productType() == "pop")
             qDebug() << "VM detected, skipping shutdown";
-        else
+        else if (QSysInfo::productType() == "debian")
         {
             QProcess proc;
-            proc.startCommand("sudo shutdown -h now");
+            proc.startDetached("/usr/bin/sudo", QStringList() << "shutdown" << "-h" << "now");
         }
     };
 };
