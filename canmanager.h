@@ -36,6 +36,7 @@ class CANmanager : public QObject
 public:
     CANmanager();
     CANmanager(uint);
+    ~CANmanager();
     void processFrames();
     int* getFrame();
     int getByte(int);

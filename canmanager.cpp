@@ -1,7 +1,7 @@
 #include "canmanager.h"
 
 /*
- * WHEN SETTING UP ON NEW DEVICE:
+ * WHEN SETTING UP ON NEW DEVICE, IF NOT INSTALLED FROM ONLINE INSTALLER:
  *
  * apt-get install libqt6serialbus
  * apt-get install libqt6serialbus-dev
@@ -88,6 +88,10 @@ CANmanager::CANmanager(uint filterID)
 
 
     frame.setFrameId(0x704);
+}
+
+CANmanager::~CANmanager() {
+    delete can_device;
 }
 
 void CANmanager::processFrames()
