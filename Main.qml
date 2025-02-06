@@ -43,9 +43,19 @@ Window
     CANmanager {
         id: canManager
 
-        onSignalUI: {
-            updateUI()
-        }
+        onVehicleSpeedChanged:  vehicleInfo.vehicleSpeed = canManager.vehicleSpeed
+        onRearBrakePresChanged: vehicleInfo.rearBrakePres = canManager.rearBrakePres
+        onFrontBrakePresChanged: vehicleInfo.frontBrakePres = canManager.frontBrakePres
+        onCoolantTempChanged: vehicleInfo.coolantTemp = canManager.coolantTemp
+        onOilTempChanged: vehicleInfo.oilTemp = canManager.oilTemp
+        onFuelTempChanged: vehicleInfo.fuelTemp = canManager.fuelTemp
+        onExhaustTempChanged: extraInfoDisplayWidgets.exhaustTemp = canManager.exhaustTemp
+        onInletAirTempChanged: extraInfoDisplayWidgets.inletAirTemp = canManager.inletAirTemp
+        onInletManifoldPresChanged: extraInfoDisplayWidgets.inletManifoldPres = canManager.inletManifoldPres
+        onFuelPresChanged: extraInfoDisplayWidgets.fuelPres = canManager.fuelPres
+        onFuelMixAimChanged: extraInfoDisplayWidgets.fuelMixAim = canManager.fuelMixAim
+        onExhaustLambdaChanged: extraInfoDisplayWidgets.exhaustLambda = canManager.exhaustLambda
+        onEcuFaultChanged: showECUfault()
     }
 
     Image
@@ -1471,6 +1481,7 @@ Window
         tract.tractionSwitch = jsonManager.tractionSwitch
     }
 
+    /* Delete if no longer needed
     function updateUI() {
         vehicleInfo.vehicleSpeed = canManager.vehicleSpeed
 
@@ -1480,6 +1491,30 @@ Window
         vehicleInfo.oilTemp = canManager.oilTemp
         vehicleInfo.fuelTemp = canManager.fuelTemp
 
+        root.ecuFault = canManager.ecuFault
+        if(root.ecuFault === true) {
+            if(engineInfoScreen.visible === true) {
+                ecuFaultImage.visible = true
+                statusImageAdvancedView.source = "assets/images/WARN.png"
+                statusMessageAdvancedView.text = "ECU fault"
+                statusMessageAdvancedView.text.pixelSize = 20
+                advancedViewStatusUpdateAnimation.start()
+            }
+            else {
+                ecuFaultImage.visible = true
+                statusImage.source = "assets/images/WARN.png"
+                statusMessage.text = "ECU fault"
+                statusMessage.text.pixelSize = 20
+                statusUpdateAnimation.start()
+            }
+        }
+        else {
+            ecuFaultImage.visible = fasle
+        }
+    }
+    */
+
+    function showECUfault() {
         root.ecuFault = canManager.ecuFault
         if(root.ecuFault === true) {
             if(engineInfoScreen.visible === true) {
