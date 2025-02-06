@@ -176,7 +176,9 @@ void CANmanager::processFrames()
     }
     }
 
-    emit(signalUI());
+    //clear input buffer to attempt to recover from buffer overflow
+    can_device->clear(QCanBusDevice::Input);
+    //emit(signalUI());
 }
 
 int* CANmanager::getFrame()
