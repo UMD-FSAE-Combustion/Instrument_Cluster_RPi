@@ -1423,6 +1423,10 @@ Window
             {
                 close()
             }
+            else if(event.key === Qt.Key_Q)
+            {
+                close()
+            }
             else if (event.key === Qt.Key_W)
             {
                 if(engineInfoScreen.visible === true)
