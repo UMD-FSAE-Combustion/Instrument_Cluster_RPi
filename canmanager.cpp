@@ -114,7 +114,7 @@ void CANmanager::processFrames()
     {
     case 0x640:
     {
-        uint16_t inletManPres = (bytes.at(2)<< 8 | bytes.at(3)) * 100;
+        uint16_t inletManPres = (bytes.at(2)<< 8 | bytes.at(3)) / 10;
         uint16_t airTemp = (bytes.at(4)<< 8 | bytes.at(5)) / 10;
         setInletManifoldPres(inletManPres);
         setInletAirTemp(QString::number(airTemp) + "°C");
@@ -122,9 +122,9 @@ void CANmanager::processFrames()
     }
     case 0x641:
     {
-        uint16_t fuelPres = (bytes.at(4)<< 8 | bytes.at(5)) * 100;
+        uint16_t fuelPres = (bytes.at(4)<< 8 | bytes.at(5)) / 10;
         uint16_t fuelMix = (bytes.at(2)<< 8 | bytes.at(3)) / 100;
-        setFuelPres(fuelPres);
+        setFuelPres(fuelPres / 6.895);
         setFuelMixAim(fuelMix);
         break;
     }
@@ -138,7 +138,11 @@ void CANmanager::processFrames()
     case 0x64A:
     {
         uint16_t exhaust = (bytes.at(0)<< 8 | bytes.at(1)) / 10;
-        setExhaustTemp(QString::number(exhaust) + "°C");
+        if(exhaust < 65535)
+            setExhaustTemp(QString::number(exhaust) + "°C");
+        else
+            setExhaustTemp("X");
+
         break;
     }
     case 0x64C:
@@ -153,7 +157,8 @@ void CANmanager::processFrames()
     }
     case 0x651:
     {
-        setExhaustLambda(bytes.at(0) / 100);
+        double exhaustLam = (bytes.at(0) / 100);
+        setExhaustLambda(exhaustLam);
         break;
     }
     case 0x655:

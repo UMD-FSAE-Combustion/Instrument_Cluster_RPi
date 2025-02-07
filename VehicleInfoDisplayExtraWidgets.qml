@@ -11,7 +11,7 @@ Item
     property int inletManifoldPres: 0
     property int fuelPres: 0
     property int fuelMixAim: 0
-    property int exhaustLambda: 0
+    property double exhaustLambda: 0
 
     GridLayout
     {
@@ -204,8 +204,8 @@ Item
             {
                 id: widget10Info
 
-                text: airInletTemp
-                color: (Number(airInletTemp.slice(0, airInletTemp.length - 2)) > 99) ? "red" : "white"
+                text: inletAirTemp
+                color: (Number(inletAirTemp.slice(0, inletAirTemp.length - 2)) > 99) ? "red" : "white"
                 font.pixelSize: 70
                 font.bold: true
 
