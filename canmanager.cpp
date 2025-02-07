@@ -138,7 +138,7 @@ void CANmanager::processFrames()
     case 0x64A:
     {
         uint16_t exhaust = (bytes.at(0)<< 8 | bytes.at(1)) / 10;
-        if(exhaust < 65535)
+        if(exhaust < 6553)
             setExhaustTemp(QString::number(exhaust) + "°C");
         else
             setExhaustTemp("X");
@@ -423,12 +423,12 @@ void CANmanager::setFuelMixAim(int newFuelMixAim)
     emit fuelMixAimChanged();
 }
 
-int CANmanager::exhaustLambda() const
+double CANmanager::exhaustLambda() const
 {
     return m_exhaustLambda;
 }
 
-void CANmanager::setExhaustLambda(int newExhaustLambda)
+void CANmanager::setExhaustLambda(double newExhaustLambda)
 {
     if (m_exhaustLambda == newExhaustLambda)
         return;

@@ -11,7 +11,7 @@ Item
     property int inletManifoldPres: 0
     property int fuelPres: 0
     property int fuelMixAim: 0
-    property double exhaustLambda: 0
+    property double exhaustLambda: 0.0
 
     GridLayout
     {

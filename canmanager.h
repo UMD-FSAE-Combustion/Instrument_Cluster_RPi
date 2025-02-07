@@ -31,7 +31,7 @@ class CANmanager : public QObject
     Q_PROPERTY(int inletManifoldPres READ inletManifoldPres WRITE setInletManifoldPres NOTIFY inletManifoldPresChanged FINAL)
     Q_PROPERTY(int fuelPres READ fuelPres WRITE setFuelPres NOTIFY fuelPresChanged FINAL)
     Q_PROPERTY(int fuelMixAim READ fuelMixAim WRITE setFuelMixAim NOTIFY fuelMixAimChanged FINAL)
-     Q_PROPERTY(double exhaustLambda READ exhaustLambda WRITE setExhaustLambda NOTIFY exhaustLambdaChanged FINAL)
+    Q_PROPERTY(double exhaustLambda READ exhaustLambda WRITE setExhaustLambda NOTIFY exhaustLambdaChanged FINAL)
 
 public:
     CANmanager();
@@ -92,8 +92,8 @@ public:
     int fuelMixAim() const;
     void setFuelMixAim(int newFuelMixAim);
 
-    int exhaustLambda() const;
-    void setExhaustLambda(int newExhaustLambda);
+    double exhaustLambda() const;
+    void setExhaustLambda(double newExhaustLambda);
 
 signals:
     void signalUI();
