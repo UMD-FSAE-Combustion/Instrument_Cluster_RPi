@@ -157,7 +157,7 @@ void CANmanager::processFrames()
     }
     case 0x651:
     {
-        double exhaustLam = (bytes.at(0) / 100);
+        double exhaustLam = (double(bytes.at(0)) / 100);
         setExhaustLambda(exhaustLam);
         break;
     }
