@@ -96,9 +96,10 @@ public:
     void setExhaustLambda(double newExhaustLambda);
 
 signals:
-    void signalUI();
-    void signalLoop();
+    void signalUI(); // not needed?
+    void signalLoop(); // not needed?
 
+    // NEEDED //
     void vehicleSpeedChanged();
     void ecuFaultChanged();
 
@@ -114,6 +115,7 @@ signals:
     void fuelPresChanged();
     void fuelMixAimChanged();
     void exhaustLambdaChanged();
+    ////////////
 
 private:
     QTimer timer;
