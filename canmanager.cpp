@@ -51,7 +51,7 @@ CANmanager::CANmanager()
 
     can_device->setConfigurationParameter(QCanBusDevice::RawFilterKey, QVariant::fromValue(filterList));
     connect(can_device, &QCanBusDevice::framesReceived, this, &CANmanager::processFrames);
-    connect(this, &CANmanager::signalLoop, this, &CANmanager::sendLoop);
+    //connect(this, &CANmanager::signalLoop, this, &CANmanager::sendLoop);
     connect(&timer, &QTimer::timeout, this, &CANmanager::sendMessage); // need to test this
 
     initialTransmission = false;
@@ -84,8 +84,8 @@ CANmanager::CANmanager(uint filterID)
 
     can_device->setConfigurationParameter(QCanBusDevice::RawFilterKey, QVariant::fromValue(filterList));
     connect(can_device, &QCanBusDevice::framesReceived, this, &CANmanager::processFrames);
-    connect(this, &CANmanager::signalLoop, this, &CANmanager::sendLoop);
-
+    //connect(this, &CANmanager::signalLoop, this, &CANmanager::sendLoop);
+    connect(&timer, &QTimer::timeout, this, &CANmanager::sendMessage);
 
     frame.setFrameId(0x704);
 }
@@ -215,18 +215,20 @@ void CANmanager::sendMessage()
         QByteArray sendBytes;
         for(int i = 0; i < 3; i++)
         {
+            sendBytes.append(0x00);
             sendBytes.append(char(sendBuffer[i]));
         }
 
         //qDebug() << sendBytes;
         frame.setPayload(sendBytes);
-        if(can_device->writeFrame(frame) && initialTransmission == false)
+        if(can_device->writeFrame(frame))
         {
-            initialTransmission = true;
-            emit(signalLoop());
-        }
-        else if(can_device->writeFrame(frame))
+            //initialTransmission = true;
+            //emit(signalLoop());
             timer.start(1000); //should work in theory, needs test
+        }
+        //else if(can_device->writeFrame(frame))
+        //     timer.start(1000); //should work in theory, needs test
     }
 }
 
