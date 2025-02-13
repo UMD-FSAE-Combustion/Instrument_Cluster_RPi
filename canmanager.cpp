@@ -215,7 +215,7 @@ void CANmanager::sendMessage()
         QByteArray sendBytes;
         for(int i = 0; i < 3; i++)
         {
-            sendBytes.append(0x00);
+            sendBytes.append(char(0x00));
             sendBytes.append(char(sendBuffer[i]));
         }
 
