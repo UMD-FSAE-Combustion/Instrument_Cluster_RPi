@@ -117,6 +117,8 @@ signals:
     void exhaustLambdaChanged();
     ////////////
 
+private slots:
+    void CAN_Loop();
 private:
     QTimer timer;
     QCanBusDevice *can_device;
