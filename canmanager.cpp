@@ -49,6 +49,9 @@ CANmanager::CANmanager()
     filter.frameId = 0x651;
     filterList.append(filter);
 
+    QVariant baudRate = QVariant::fromValue(1000000);
+    can_device->setConfigurationParameter(QCanBusDevice::BitRateKey, baudRate);
+
     can_device->setConfigurationParameter(QCanBusDevice::RawFilterKey, QVariant::fromValue(filterList));
     connect(can_device, &QCanBusDevice::framesReceived, this, &CANmanager::processFrames);
     //connect(this, &CANmanager::signalLoop, this, &CANmanager::sendLoop);
