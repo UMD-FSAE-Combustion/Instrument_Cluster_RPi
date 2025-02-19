@@ -26,6 +26,10 @@ CANmanager::CANmanager()
     {
         QVariant baudRate = QVariant::fromValue(1000000);
         can_device->setConfigurationParameter(QCanBusDevice::BitRateKey, baudRate);
+
+        QProcess proc;
+        proc.start("/usr/bin/sudo", QStringList() << "ip" << "link" << "set" << "up" << "can0");
+
         can_device->connectDevice();
         qDebug() << "CAN Device connected!";
     }
