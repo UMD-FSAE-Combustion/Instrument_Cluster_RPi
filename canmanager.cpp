@@ -52,7 +52,7 @@ CANmanager::CANmanager()
     can_device->setConfigurationParameter(QCanBusDevice::RawFilterKey, QVariant::fromValue(filterList));
     connect(can_device, &QCanBusDevice::framesReceived, this, &CANmanager::processFrames);
     //connect(this, &CANmanager::signalLoop, this, &CANmanager::sendLoop);
-    connect(&timer, &QTimer::timeout, this, &CANmanager::sendMessage); // need to test this
+    connect(&timer, SIGNAL(timeout()), this, SLOT(CAN_Loop())); // need to test this
 
     initialTransmission = false;
     sendBuffer[2] = 0;
@@ -184,6 +184,11 @@ void CANmanager::processFrames()
     //clear input buffer to attempt to recover from buffer overflow
     can_device->clear(QCanBusDevice::Input);
     //emit(signalUI());
+}
+
+void CANmanager::CAN_Loop()
+{
+    sendMessage();
 }
 
 int* CANmanager::getFrame()
