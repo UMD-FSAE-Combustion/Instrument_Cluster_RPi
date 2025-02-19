@@ -28,7 +28,7 @@ CANmanager::CANmanager()
         can_device->setConfigurationParameter(QCanBusDevice::BitRateKey, baudRate);
 
         QProcess proc;
-        proc.start("/usr/bin/sudo", QStringList() << "ip" << "link" << "set" << "up" << "can0");
+        proc.startDetached("/usr/bin/sudo", QStringList() << "ip" << "link" << "set" << "up" << "can0");
 
         can_device->connectDevice();
         qDebug() << "CAN Device connected!";
@@ -55,15 +55,14 @@ CANmanager::CANmanager()
     filter.frameId = 0x651;
     filterList.append(filter);
 
+    sendBuffer[2] = 0;
+    frame.setFrameId(0x704);
+
     can_device->setConfigurationParameter(QCanBusDevice::RawFilterKey, QVariant::fromValue(filterList));
     connect(can_device, &QCanBusDevice::framesReceived, this, &CANmanager::processFrames);
     //connect(this, &CANmanager::signalLoop, this, &CANmanager::sendLoop);
     connect(&timer, SIGNAL(timeout()), this, SLOT(CAN_Loop())); // need to test this
     timer.start(1000);
-
-    initialTransmission = false;
-    sendBuffer[2] = 0;
-    frame.setFrameId(0x704);
 }
 
 //depreciated constructor overload
@@ -235,9 +234,10 @@ void CANmanager::sendMessage()
         frame.setPayload(sendBytes);
         if(can_device->writeFrame(frame))
         {
+            qDebug() << "Frame 0x704 sent";
             //initialTransmission = true;
             //emit(signalLoop());
-            timer.start(1000); //should work in theory, needs test
+            //timer.start(1000); //should work in theory, needs test
         }
         //else if(can_device->writeFrame(frame))
         //     timer.start(1000); //should work in theory, needs test
