@@ -53,6 +53,7 @@ CANmanager::CANmanager()
     connect(can_device, &QCanBusDevice::framesReceived, this, &CANmanager::processFrames);
     //connect(this, &CANmanager::signalLoop, this, &CANmanager::sendLoop);
     connect(&timer, SIGNAL(timeout()), this, SLOT(CAN_Loop())); // need to test this
+    timer.start(1000);
 
     initialTransmission = false;
     sendBuffer[2] = 0;
