@@ -46,7 +46,6 @@ public:
 
     Q_INVOKABLE void updatePayload(int, int);
 
-    void sendMessage(); // delete later
     void sendLoop();
 
     QCanBusDevice::CanBusStatus getDeviceStatus();
@@ -98,9 +97,6 @@ public:
     void setExhaustLambda(double newExhaustLambda);
 
 signals:
-    void signalUI(); // not needed?
-
-    // NEEDED //
     void vehicleSpeedChanged();
     void ecuFaultChanged();
 
@@ -116,10 +112,10 @@ signals:
     void fuelPresChanged();
     void fuelMixAimChanged();
     void exhaustLambdaChanged();
-    ////////////
 
 private slots:
     void CAN_Loop();
+
 private:
     QTimer *timer;
     QCanBusDevice *can_device;
@@ -127,8 +123,6 @@ private:
 
     bool initialTransmission;
     int frameBuffer[8];
-    //QVector<int>* sendBuffer;
-
 
     int m_vehicleSpeed;
     bool m_ecuFault;
