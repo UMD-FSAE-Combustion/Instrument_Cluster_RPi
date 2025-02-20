@@ -1468,6 +1468,9 @@ Window
         brakeBiasObject.biasVal = jsonManager.biasVal
         brakeBiasObject.rearBrakeBias = (100 - jsonManager.biasVal)
         tract.tractionSwitch = jsonManager.tractionSwitch
+
+        canManager.updatePayload(0, brakeBiasObject.biasVal)
+        canManager.updatePayload(1, tract.tractionSwitch)
     }
 
     function updateBias(profile, bias) {

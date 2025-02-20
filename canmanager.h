@@ -11,6 +11,7 @@
 #include <QCanBusFrame>
 
 #include <QtQml>
+#include <QVector>
 
 //#include "delay.h"
 
@@ -34,6 +35,8 @@ class CANmanager : public QObject
     Q_PROPERTY(double exhaustLambda READ exhaustLambda WRITE setExhaustLambda NOTIFY exhaustLambdaChanged FINAL)
 
 public:
+    static QVector<int> sendBuffer;
+
     CANmanager();
     CANmanager(uint);
     ~CANmanager();
@@ -43,8 +46,7 @@ public:
 
     Q_INVOKABLE void updatePayload(int, int);
 
-    void sendMessage();
-    bool sendOnce();
+    void sendMessage(); // delete later
     void sendLoop();
 
     QCanBusDevice::CanBusStatus getDeviceStatus();
@@ -97,7 +99,6 @@ public:
 
 signals:
     void signalUI(); // not needed?
-    void signalLoop(); // not needed?
 
     // NEEDED //
     void vehicleSpeedChanged();
@@ -120,13 +121,14 @@ signals:
 private slots:
     void CAN_Loop();
 private:
-    QTimer timer;
+    QTimer *timer;
     QCanBusDevice *can_device;
     QCanBusFrame frame;
 
     bool initialTransmission;
     int frameBuffer[8];
-    int sendBuffer[3];
+    //QVector<int>* sendBuffer;
+
 
     int m_vehicleSpeed;
     bool m_ecuFault;
