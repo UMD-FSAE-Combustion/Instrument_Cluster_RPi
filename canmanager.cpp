@@ -53,7 +53,7 @@ CANmanager::CANmanager()
             can_device->setConfigurationParameter(QCanBusDevice::BitRateKey, baudRate);
 
             QProcess proc;
-            proc.startDetached("/usr/bin/sudo", QStringList() << "/home/pi/scripts/can-up.sh");
+            proc.startDetached("/usr/bin/sudo", QStringList() << "ip link set set can0 type can bitrate 1000000 ; ip link set up can0");
 
             can_device->connectDevice();
             qDebug() << "CAN Device connected!";
