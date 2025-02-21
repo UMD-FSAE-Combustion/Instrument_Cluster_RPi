@@ -13,8 +13,6 @@
 #include <QtQml>
 #include <QVector>
 
-//#include "delay.h"
-
 class CANmanager : public QObject
 {
     Q_OBJECT
