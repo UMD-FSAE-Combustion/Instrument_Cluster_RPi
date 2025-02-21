@@ -49,8 +49,17 @@ CANmanager::CANmanager()
         }
         else
         {
-            can_device->connectDevice();
-            qDebug() << "CAN Device connected!";
+            QProcess proc;
+            proc.setProgram("bin/bash");
+            proc.setArguments("/home/scripts/can-up.sh");
+
+            proc.start();
+            proc.waitForFinished();
+
+            if(can_device->connectDevice())
+                qDebug() << "CAN Device connected!";
+            else
+                qDebug() << "device not connected: " << errorString;
         }
     }
 
