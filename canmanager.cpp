@@ -20,8 +20,8 @@ CANmanager::CANmanager()
     QString errorString;
     if(QSysInfo::productType() == "pop")
     {
-        qDebug() << "Virtual CAN interface created";
         can_device = QCanBus::instance()->createDevice(QStringLiteral("socketcan"), QStringLiteral("vcan0"), &errorString);
+        qDebug() << "Virtual CAN interface created";
         if (!can_device)
         {
             // Error handling goes here
@@ -29,11 +29,7 @@ CANmanager::CANmanager()
         }
         else
         {
-            QVariant baudRate = QVariant::fromValue(1000000);
-            can_device->setConfigurationParameter(QCanBusDevice::BitRateKey, baudRate);
-
-            QProcess proc;
-            proc.startDetached("/usr/bin/sudo", QStringList() << "ip" << "link" << "set" << "up" << "vcan0");
+            QProcess::execute("/usr/bin/sudo", QStringList() << "ip" << "link" << "set" << "up" << "vcan0");
 
             can_device->connectDevice();
             qDebug() << "CAN Device connected!";
@@ -48,13 +44,8 @@ CANmanager::CANmanager()
             qDebug() << errorString;
         }
         else
-        {
-            QProcess proc;
-            proc.setProgram("bin/bash");
-            proc.setArguments("/home/scripts/can-up.sh");
-
-            proc.start();
-            proc.waitForFinished();
+        {   
+            QProcess::execute("/usr/bin/sudo", QStringList() << "/home/scripts/can-up.sh");
 
             if(can_device->connectDevice())
                 qDebug() << "CAN Device connected!";
