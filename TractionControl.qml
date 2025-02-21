@@ -38,8 +38,8 @@ Item
                 orientation: Qt.Vertical
                 width: 50
                 height: 410
-                from: 10
-                to: 0
+                from: 9
+                to: 1
                 value: tractionSwitch
                 enabled: false
 
