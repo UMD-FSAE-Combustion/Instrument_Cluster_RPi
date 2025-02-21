@@ -49,12 +49,6 @@ CANmanager::CANmanager()
         }
         else
         {
-            QVariant baudRate = QVariant::fromValue(1000000);
-            can_device->setConfigurationParameter(QCanBusDevice::BitRateKey, baudRate);
-
-            QProcess proc;
-            proc.startDetached("/usr/bin/sudo", QStringList() << "ip" << "link" << "set" << "can0" << "type" << "can"  << "bitrate"  << "1000000" << "&&" << "ip" << "link" << "set" << "up" << "can0");
-
             can_device->connectDevice();
             qDebug() << "CAN Device connected!";
         }
@@ -95,15 +89,6 @@ CANmanager::~CANmanager()
 
 void CANmanager::processFrames()
 {
-    /*
-    QCanBusFrame frame = can_device->readFrame();
-    QByteArray bytes = frame.payload();
-    //qDebug() << bytes;
-
-    for(int i = 0; i < 8; i++)
-        frameBuffer[i] = bytes.at(i);
-    */
-
     QCanBusFrame frame = can_device->readFrame();
     QByteArray bytes = frame.payload();
     //qDebug() << bytes;
@@ -182,7 +167,6 @@ void CANmanager::processFrames()
 
     //clear input buffer to attempt to recover from buffer overflow
     can_device->clear(QCanBusDevice::Input);
-    //emit(signalUI());
 }
 
 void CANmanager::CAN_Loop()
