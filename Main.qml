@@ -1356,7 +1356,7 @@ Window
                 {
                     counter = 11
                 }
-                else if(tractionControlScreen.visible === true && tract.tractionSwitch > 0)
+                else if(tractionControlScreen.visible === true && tract.tractionSwitch > 1)
                 {
                     counter = 2
                     tract.tractionSwitch = tract.tractionSwitch - 1
@@ -1399,7 +1399,7 @@ Window
                 {
                     counter = 9
                 }
-                else if(tractionControlScreen.visible === true && tract.tractionSwitch < 10)
+                else if(tractionControlScreen.visible === true && tract.tractionSwitch < 9)
                 {
                     counter = 2
                     tract.tractionSwitch = tract.tractionSwitch + 1
