@@ -1,5 +1,5 @@
 import Dyno_Info
-// aaa
+
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
@@ -20,6 +20,8 @@ Window
     property int lc_Status: 0
 
     property bool ecuFault: false
+    property bool gameMenuVisible: false
+    property int gameMenuCounter: 0
 
     width: 800
     height: 480
@@ -513,6 +515,9 @@ Window
         }
 
 
+
+
+
         Component
         {
             id: set1Component
@@ -773,10 +778,88 @@ Window
             }
         }
     }
+    Loader {
+        id: gameMenuLoader
+        anchors {
+            top: uselessRectangle.bottom
+            bottom: parent.bottom
+            margins: 15
+        }
+        x: root.width
+        width: 300
+        visible: gameMenuVisible
+        sourceComponent: gameMenuComponent
+    }
+    Component {
+        id: gameMenuComponent
+        Rectangle {
+            id: gameMenuBackground
+            color: "#1E1E1E"
+            radius: 20
 
+            GridLayout {
+                anchors.fill: parent
+                columns: 1
+                rows: 2
+                rowSpacing: 5
+                anchors.margins: 10
 
+                Rectangle {
+                    id: pongGame
+                    height: 130
+                    width: 290
+                    Layout.topMargin: 25
+                    Layout.rightMargin: 5
+                    Layout.leftMargin: 5
+                    radius: 20
+                    color: (gameMenuCounter === 0) ? "#00a8ff" : "white"
 
+                    Text {
+                        text: qsTr("Pong")
+                        color: (gameMenuCounter === 0) ? "white" : "black"
+                        anchors.centerIn: parent
+                        font.pixelSize: 30
+                        font.bold: true
+                    }
+                }
 
+                Rectangle {
+                    id: pacmanGame
+                    height: 130
+                    width: 290
+                    Layout.bottomMargin: 25
+                    Layout.rightMargin: 5
+                    Layout.leftMargin: 5
+                    radius: 20
+                    color: (gameMenuCounter === 1) ? "#00a8ff" : "white"
+
+                    Text {
+                        text: qsTr("Pacman")
+                        color: (gameMenuCounter === 1) ? "white" : "black"
+                        anchors.centerIn: parent
+                        font.pixelSize: 30
+                        font.bold: true
+                    }
+                }
+            }
+        }
+    }
+
+    PropertyAnimation {
+        id: slideOutAnimation
+        target: gameMenuLoader
+        property: "x"
+        to: root.width
+        duration: 300
+    }
+
+    PropertyAnimation {
+        id: slideInAnimation
+        target: gameMenuLoader
+        property: "x"
+        to: root.width - gameMenuLoader.width
+        duration: 300
+    }
 
     PropertyAnimation
     {
@@ -1099,7 +1182,13 @@ Window
         {
             if (event.key === Qt.Key_Right)
             {
-                if(columnBar.x < 0)
+                if (gameMenuVisible) {
+                    gameMenuVisible = false
+                    slideOutAnimation.start()
+                    gameMenuCounter = 0
+                }
+
+                else if(columnBar.x < 0)
                 {
                     animationRightSpeedometer.start()
                     animationRight.start()
@@ -1244,17 +1333,30 @@ Window
 
 
             }
-            else if(event.key === Qt.Key_Left)
-            {
-                if(counter >= 0 && counter <= 4 && engineInfoScreen.visible === false && brakeBiasScreen.visible === false && tractionControlScreen.visible === false)
-                {
+            else if(event.key === Qt.Key_Left) {
+
+                if(columnBar.x < 0){
+                    if (!gameMenuVisible) {
+                        gameMenuVisible = true
+                        gameMenuLoader.x = root.width
+                        slideInAnimation.start()
+                    } else {
+                        if (gameMenuCounter === 0) {
+                            console.log("Launching Pong")
+                        } else if (gameMenuCounter === 1) {
+                            console.log("Launching Pacman")
+                        }
+                    }
+                }
+
+                else if(counter >= 0 && counter <= 4 && engineInfoScreen.visible === false &&
+                   brakeBiasScreen.visible === false && tractionControlScreen.visible === false) {
                     animationLeftSpeedometer.start()
                     animationLeft.start()
                     counter = 0
                     currentSet = 1
                 }
-                else if(counter === 6 || counter === 7 || counter === 8 && currentSet === 3)
-                {
+                else if(counter === 6 || counter === 7 || counter === 8 && currentSet === 3) {
                     currentSet = 1
                     counter = 0
                     animationRight.start()
@@ -1335,11 +1437,14 @@ Window
                     counter = counter - 1
                 }
 
-
-
             }
+
             else if(event.key === Qt.Key_Down)
             {
+                if (gameMenuVisible) {
+                    gameMenuCounter = Math.min(1, gameMenuCounter + 1)
+                    return
+                }
                 counter = counter + 1
 
                 if(brakeBiasScreen.visible === true && brakeBiasObject.biasVal > 0 && brakeBiasObject.rearBrakeBias < 100)
@@ -1383,6 +1488,10 @@ Window
             }
             else if(event.key === Qt.Key_Up)
             {
+                if (gameMenuVisible) {
+                    gameMenuCounter = Math.max(0, gameMenuCounter - 1)
+                    return
+                }
                 counter = counter - 1
 
                 if(brakeBiasScreen.visible === true && brakeBiasObject.biasVal < 100 && brakeBiasObject.rearBrakeBias > 0)
