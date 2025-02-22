@@ -1442,8 +1442,7 @@ Window
             else if(event.key === Qt.Key_Down)
             {
                 if (gameMenuVisible) {
-                    gameMenuCounter = Math.min(1, gameMenuCounter + 1)
-                    return
+                    gameMenuCounter = 1
                 }
                 counter = counter + 1
 
@@ -1489,8 +1488,7 @@ Window
             else if(event.key === Qt.Key_Up)
             {
                 if (gameMenuVisible) {
-                    gameMenuCounter = Math.max(0, gameMenuCounter - 1)
-                    return
+                    gameMenuCounter = 0
                 }
                 counter = counter - 1
 
