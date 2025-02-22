@@ -322,11 +322,19 @@ Window
 
             PropertyAnimation
             {
-               id: animationLeftSpeedometer
+               id: animationCenterSpeedometer
                target: visualRoot
                property: "x"
                to: speedoNumber.horizontalCenter
                duration: 350
+            }
+            PropertyAnimation
+            {
+               id: animationLeftSpeedometer
+               target: visualRoot
+               property: "x"
+               to: -165
+               duration: 300
             }
 
             PropertyAnimation
@@ -846,15 +854,15 @@ Window
     }
 
     PropertyAnimation {
-        id: slideOutAnimation
+        id: gameMenuAnimationRight
         target: gameMenuLoader
         property: "x"
-        to: root.width
+        to: root.width + 785
         duration: 300
     }
 
     PropertyAnimation {
-        id: slideInAnimation
+        id: gameMenuAnimationLeft
         target: gameMenuLoader
         property: "x"
         to: root.width - gameMenuLoader.width
@@ -1184,7 +1192,8 @@ Window
             {
                 if (gameMenuVisible) {
                     gameMenuVisible = false
-                    slideOutAnimation.start()
+                    animationCenterSpeedometer.start()
+                    gameMenuAnimationRight.start()
                     gameMenuCounter = 0
                 }
 
@@ -1197,7 +1206,7 @@ Window
                 {
                     if(brakeBiasObject.rearBrakeBias !== (100 - jsonManager.biasVal)) {
                         updateBias(driver, (100 - brakeBiasObject.rearBrakeBias))
-                        animationLeftSpeedometer.start()
+                        animationCenterSpeedometer.start()
                         animationLeft.start()
 
                         statusMessage.text = "Settings Updated"
@@ -1210,7 +1219,7 @@ Window
                         brakeBiasScreen.visible = false
                     }
                     else {
-                        animationLeftSpeedometer.start()
+                        animationCenterSpeedometer.start()
                         animationLeft.start()
 
                         counter = 0
@@ -1223,7 +1232,7 @@ Window
                     if(tract.tractionSwitch !== jsonManager.tractionSwitch)
                     {
                         updateTraction(driver, tract.tractionSwitch)
-                        animationLeftSpeedometer.start()
+                        animationCenterSpeedometer.start()
                         animationLeft.start()
 
                         statusMessage.text = "Settings Updated"
@@ -1237,7 +1246,7 @@ Window
                     }
                     else
                     {
-                        animationLeftSpeedometer.start()
+                        animationCenterSpeedometer.start()
                         animationLeft.start()
 
                         counter = 0
@@ -1253,7 +1262,7 @@ Window
                 else if(currentSet === 3)
                 {
                     loadNewProfile(counter - 6)
-                    animationLeftSpeedometer.start()
+                    animationCenterSpeedometer.start()
                     animationLeft.start()
 
                     statusMessage.text = "Profile Loaded:  " + (driver + 1)
@@ -1278,7 +1287,7 @@ Window
                     columnBar.visible = false
                     engineInfoAnimationRight.start()
                     animationUpSpeedometer.start()
-                    //animationLeftSpeedometer.start()
+                    //animationCenterSpeedometer.start()
                     animationTopLeftSpeedometer.start()
                     animationDownInfoScreenSpeedometer.start()
 
@@ -1302,7 +1311,7 @@ Window
                 {
                     lc_Status = 1
                     canManager.updatePayload(2, lc_Status)
-                    animationLeftSpeedometer.start()
+                    animationCenterSpeedometer.start()
                     animationLeft.start()
 
                     statusMessage.text = "Launch Control: Active"
@@ -1318,7 +1327,7 @@ Window
                 {
                     lc_Status = 0
                     canManager.updatePayload(2, lc_Status)
-                    animationLeftSpeedometer.start()
+                    animationCenterSpeedometer.start()
                     animationLeft.start()
 
                     statusMessage.text = "Launch Control: Inactive"
@@ -1339,7 +1348,8 @@ Window
                     if (!gameMenuVisible) {
                         gameMenuVisible = true
                         gameMenuLoader.x = root.width
-                        slideInAnimation.start()
+                        animationLeftSpeedometer.start()
+                        gameMenuAnimationLeft.start()
                     } else {
                         if (gameMenuCounter === 0) {
                             console.log("Launching Pong")
@@ -1351,7 +1361,7 @@ Window
 
                 else if(counter >= 0 && counter <= 4 && engineInfoScreen.visible === false &&
                    brakeBiasScreen.visible === false && tractionControlScreen.visible === false) {
-                    animationLeftSpeedometer.start()
+                    animationCenterSpeedometer.start()
                     animationLeft.start()
                     counter = 0
                     currentSet = 1
