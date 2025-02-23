@@ -805,6 +805,7 @@ Window
             color: "#1E1E1E"
             radius: 20
 
+
             GridLayout {
                 anchors.fill: parent
                 columns: 1
@@ -857,8 +858,11 @@ Window
         id: gameMenuAnimationRight
         target: gameMenuLoader
         property: "x"
-        to: root.width + 785
+        to: root.width
         duration: 300
+        onFinished: {
+            gameMenuVisible = false
+        }
     }
 
     PropertyAnimation {
@@ -1191,7 +1195,6 @@ Window
             if (event.key === Qt.Key_Right)
             {
                 if (gameMenuVisible) {
-                    gameMenuVisible = false
                     animationCenterSpeedometer.start()
                     gameMenuAnimationRight.start()
                     gameMenuCounter = 0
