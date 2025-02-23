@@ -10,6 +10,7 @@ Window
     id: root
 
     property var info: JSON
+    property var canManager: canBus
 
     property bool loadingComplete: false
     property bool displayProfiles: false
@@ -18,10 +19,11 @@ Window
     property int counter: 0
     property int driver: JSON.driver
     property int lc_Status: 0
-
     property bool ecuFault: false
     property bool gameMenuVisible: false
     property int gameMenuCounter: 0
+
+    property bool menuShown: false
 
     width: 800
     height: 480
@@ -42,22 +44,23 @@ Window
         id: jsonManager
     }
 
-    CANmanager {
-        id: canManager
 
-        onVehicleSpeedChanged:  vehicleInfo.vehicleSpeed = canManager.vehicleSpeed
-        onRearBrakePresChanged: vehicleInfo.rearBrakePres = canManager.rearBrakePres
-        onFrontBrakePresChanged: vehicleInfo.frontBrakePres = canManager.frontBrakePres
-        onCoolantTempChanged: vehicleInfo.coolantTemp = canManager.coolantTemp
-        onOilTempChanged: vehicleInfo.oilTemp = canManager.oilTemp
-        onFuelTempChanged: vehicleInfo.fuelTemp = canManager.fuelTemp
-        onExhaustTempChanged: extraInfoDisplayWidgets.exhaustTemp = canManager.exhaustTemp
-        onInletAirTempChanged: extraInfoDisplayWidgets.inletAirTemp = canManager.inletAirTemp
-        onInletManifoldPresChanged: extraInfoDisplayWidgets.inletManifoldPres = canManager.inletManifoldPres
-        onFuelPresChanged: extraInfoDisplayWidgets.fuelPres = canManager.fuelPres
-        onFuelMixAimChanged: extraInfoDisplayWidgets.fuelMixAim = canManager.fuelMixAim
-        onExhaustLambdaChanged: extraInfoDisplayWidgets.exhaustLambda = canManager.exhaustLambda
-        onEcuFaultChanged: showECUfault()
+    Connections {
+        target: canManager
+
+        function onVehicleSpeedChanged(canManager) {vehicleInfo.vehicleSpeed = canManager.vehicleSpeed}
+        function onRearBrakePresChanged(canManager) {vehicleInfo.rearBrakePres = canManager.rearBrakePres}
+        function onFrontBrakePresChanged(canManager) {vehicleInfo.frontBrakePres = canManager.frontBrakePres}
+        function onCoolantTempChanged(canManager) {vehicleInfo.coolantTemp = canManager.coolantTemp}
+        function onOilTempChanged(canManager) {vehicleInfo.oilTemp = canManager.oilTemp}
+        function onFuelTempChanged(canManager) {vehicleInfo.fuelTemp = canManager.fuelTemp}
+        function onExhaustTempChanged(canManager) {extraInfoDisplayWidgets.exhaustTemp = canManager.exhaustTemp}
+        function onInletAirTempChanged(canManager) {extraInfoDisplayWidgets.inletAirTemp = canManager.inletAirTemp}
+        function onInletManifoldPresChanged(canManager) {extraInfoDisplayWidgets.inletManifoldPres = canManager.inletManifoldPres}
+        function onFuelPresChanged(canManager) {extraInfoDisplayWidgets.fuelPres = canManager.fuelPres}
+        function onFuelMixAimChanged(canManager) {extraInfoDisplayWidgets.fuelMixAim = canManager.fuelMixAim}
+        function onExhaustLambdaChanged(canManager) {extraInfoDisplayWidgets.exhaustLambda = canManager.exhaustLambda}
+        function onEcuFaultChanged(canManager) {showECUfault()}
     }
 
     Image
@@ -786,6 +789,7 @@ Window
             }
         }
     }
+
     Loader {
         id: gameMenuLoader
         anchors {
@@ -798,6 +802,7 @@ Window
         visible: gameMenuVisible
         sourceComponent: gameMenuComponent
     }
+
     Component {
         id: gameMenuComponent
         Rectangle {
@@ -1197,11 +1202,14 @@ Window
                 if (gameMenuVisible) {
                     animationCenterSpeedometer.start()
                     gameMenuAnimationRight.start()
+                    gameMenuVisible = false
                     gameMenuCounter = 0
+                    menuShown = false
                 }
 
-                else if(columnBar.x < 0)
+                else if(columnBar.x < 0 && menuShown === false)
                 {
+                    menuShown = true
                     animationRightSpeedometer.start()
                     animationRight.start()
                 }
@@ -1220,6 +1228,7 @@ Window
                         counter = 0
                         currentSet = 1
                         brakeBiasScreen.visible = false
+                        menuShown = false
                     }
                     else {
                         animationCenterSpeedometer.start()
@@ -1228,6 +1237,7 @@ Window
                         counter = 0
                         currentSet = 1
                         brakeBiasScreen.visible = false
+                        menuShown = false
                     }
                 }
                 else if(tractionControlScreen.visible === true)
@@ -1246,6 +1256,7 @@ Window
                         counter = 0
                         currentSet = 1
                         tractionControlScreen.visible = false
+                        menuShown = false
                     }
                     else
                     {
@@ -1255,6 +1266,7 @@ Window
                         counter = 0
                         currentSet = 1
                         tractionControlScreen.visible = false
+                        menuShown = false
                     }
                 }
                 else if(columnBar.x > 0 && counter === 0)
@@ -1275,6 +1287,7 @@ Window
 
                     counter = 0
                     currentSet = 1
+                    menuShown = false
                 }
 
                 else if(counter === 1)
@@ -1325,6 +1338,7 @@ Window
                     counter = 0
                     currentSet = 1
                     launchControlImage.visible = true
+                    menuShown = false
                 }
                 else if(counter === 4 && lc_Status !== 0)
                 {
@@ -1341,6 +1355,7 @@ Window
                     counter = 0
                     currentSet = 1
                     launchControlImage.visible = false
+                    menuShown = false
                 }
 
 
@@ -1348,26 +1363,35 @@ Window
             else if(event.key === Qt.Key_Left) {
 
                 if(columnBar.x < 0){
-                    if (!gameMenuVisible) {
+                    if (!gameMenuVisible && menuShown === false)
+                    {
+                        menuShown = true
                         gameMenuVisible = true
                         gameMenuLoader.x = root.width
                         animationLeftSpeedometer.start()
                         gameMenuAnimationLeft.start()
-                    } else {
-                        if (gameMenuCounter === 0) {
+                    }
+                    else
+                    {
+                        if (gameMenuCounter === 0)
+                        {
                             console.log("Launching Pong")
-                        } else if (gameMenuCounter === 1) {
+                        }
+                        else if (gameMenuCounter === 1)
+                        {
                             console.log("Launching Pacman")
                         }
                     }
                 }
 
                 else if(counter >= 0 && counter <= 4 && engineInfoScreen.visible === false &&
-                   brakeBiasScreen.visible === false && tractionControlScreen.visible === false) {
+                        brakeBiasScreen.visible === false && tractionControlScreen.visible === false)
+                {
                     animationCenterSpeedometer.start()
                     animationLeft.start()
                     counter = 0
                     currentSet = 1
+                    menuShown = false
                 }
                 else if(counter === 6 || counter === 7 || counter === 8 && currentSet === 3) {
                     currentSet = 1
@@ -1473,7 +1497,7 @@ Window
                 {
                     counter = 11
                 }
-                else if(tractionControlScreen.visible === true && tract.tractionSwitch > 0)
+                else if(tractionControlScreen.visible === true && tract.tractionSwitch > 1)
                 {
                     counter = 2
                     tract.tractionSwitch = tract.tractionSwitch - 1
@@ -1519,7 +1543,7 @@ Window
                 {
                     counter = 9
                 }
-                else if(tractionControlScreen.visible === true && tract.tractionSwitch < 10)
+                else if(tractionControlScreen.visible === true && tract.tractionSwitch < 9)
                 {
                     counter = 2
                     tract.tractionSwitch = tract.tractionSwitch + 1
@@ -1588,6 +1612,9 @@ Window
         brakeBiasObject.biasVal = jsonManager.biasVal
         brakeBiasObject.rearBrakeBias = (100 - jsonManager.biasVal)
         tract.tractionSwitch = jsonManager.tractionSwitch
+
+        canManager.updatePayload(0, brakeBiasObject.biasVal)
+        canManager.updatePayload(1, tract.tractionSwitch)
     }
 
     function updateBias(profile, bias) {

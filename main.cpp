@@ -13,11 +13,11 @@ int main(int argc, char *argv[])
     QQmlApplicationEngine engine;
 
     JSONmanager json;
-
     CANmanager canBus;
+
     canBus.updatePayload(CANmanager::FRONTBIAS, json.getBiasVal());
     canBus.updatePayload(CANmanager::TCSWITCH, json.getTractionSwitch());
-    canBus.sendOnce();
+    canBus.sendLoop();
 
     engine.rootContext()->setContextProperty("JSON", &json);
     engine.rootContext()->setContextProperty("canBus", &canBus);

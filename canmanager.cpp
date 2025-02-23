@@ -13,24 +13,49 @@
  *
  */
 
+QVector<int> CANmanager::sendBuffer(3);
+
 CANmanager::CANmanager()
 {
     QString errorString;
-    can_device = QCanBus::instance()->createDevice(QStringLiteral("socketcan"), QStringLiteral("can0"), &errorString);
-    if (!can_device)
+    if(QSysInfo::productType() == "pop")
     {
-        // Error handling goes here
-        qDebug() << errorString;
+        can_device = QCanBus::instance()->createDevice(QStringLiteral("socketcan"), QStringLiteral("vcan0"), &errorString);
+        qDebug() << "Virtual CAN interface created";
+        if (!can_device)
+        {
+            // Error handling goes here
+            qDebug() << errorString;
+        }
+        else
+        {
+            QProcess::execute("/usr/bin/sudo", QStringList() << "ip" << "link" << "set" << "up" << "vcan0");
+
+            can_device->connectDevice();
+            qDebug() << "CAN Device connected!";
+        }
     }
     else
     {
-        can_device->connectDevice();
-        qDebug() << "CAN Device connected!";
+        can_device = QCanBus::instance()->createDevice(QStringLiteral("socketcan"), QStringLiteral("can0"), &errorString);
+        if (!can_device)
+        {
+            // Error handling goes here
+            qDebug() << errorString;
+        }
+        else
+        {   
+            QProcess::execute("/usr/bin/sudo", QStringList() << "/home/scripts/can-up.sh");
+
+            if(can_device->connectDevice())
+                qDebug() << "CAN Device connected!";
+            else
+                qDebug() << "device not connected: " << errorString;
+        }
     }
 
     QCanBusDevice::Filter filter;
     QList<QCanBusDevice::Filter> filterList;
-
 
     filter.frameIdMask = 0xFFFu;
     filter.format = QCanBusDevice::Filter::MatchBaseFormat;
@@ -49,62 +74,21 @@ CANmanager::CANmanager()
     filter.frameId = 0x651;
     filterList.append(filter);
 
+    sendBuffer.replace(2, 0);
+    frame.setFrameId(0x704);
+
     can_device->setConfigurationParameter(QCanBusDevice::RawFilterKey, QVariant::fromValue(filterList));
     connect(can_device, &QCanBusDevice::framesReceived, this, &CANmanager::processFrames);
-    //connect(this, &CANmanager::signalLoop, this, &CANmanager::sendLoop);
-    connect(&timer, &QTimer::timeout, this, &CANmanager::sendMessage); // need to test this
-
-    initialTransmission = false;
-    sendBuffer[2] = 0;
-    frame.setFrameId(0x704);
 }
 
-//depreciated constructor overload
-CANmanager::CANmanager(uint filterID)
+CANmanager::~CANmanager()
 {
-    QString errorString;
-    can_device = QCanBus::instance()->createDevice(QStringLiteral("socketcan"), QStringLiteral("can0"), &errorString);
-    if (!can_device)
-    {
-        // Error handling goes here
-        qDebug() << errorString;
-    }
-    else
-    {
-        can_device->connectDevice();
-        qDebug() << "CAN Device connected!";
-    }
-
-    QCanBusDevice::Filter filter;
-    QList<QCanBusDevice::Filter> filterList;
-    filter.frameId = filterID;
-    filter.frameIdMask = 0xFFFu;
-    filter.format = QCanBusDevice::Filter::MatchBaseFormat;
-    filterList.append(filter);
-
-    can_device->setConfigurationParameter(QCanBusDevice::RawFilterKey, QVariant::fromValue(filterList));
-    connect(can_device, &QCanBusDevice::framesReceived, this, &CANmanager::processFrames);
-    //connect(this, &CANmanager::signalLoop, this, &CANmanager::sendLoop);
-    connect(&timer, &QTimer::timeout, this, &CANmanager::sendMessage);
-
-    frame.setFrameId(0x704);
-}
-
-CANmanager::~CANmanager() {
+    delete timer;
     delete can_device;
 }
 
 void CANmanager::processFrames()
 {
-    /*
-    QCanBusFrame frame = can_device->readFrame();
-    QByteArray bytes = frame.payload();
-    //qDebug() << bytes;
-
-    for(int i = 0; i < 8; i++)
-        frameBuffer[i] = bytes.at(i);
-    */
-
     QCanBusFrame frame = can_device->readFrame();
     QByteArray bytes = frame.payload();
     //qDebug() << bytes;
@@ -183,7 +167,25 @@ void CANmanager::processFrames()
 
     //clear input buffer to attempt to recover from buffer overflow
     can_device->clear(QCanBusDevice::Input);
-    //emit(signalUI());
+}
+
+void CANmanager::CAN_Loop()
+{
+    if(can_device->busStatus() != QCanBusDevice::CanBusStatus::BusOff && can_device->busStatus() != QCanBusDevice::CanBusStatus::Error)
+    {
+        QByteArray sendBytes;
+        for(int i = 0; i < 3; i++)
+        {
+            sendBytes.append(char(0x00));
+            sendBytes.append(char(sendBuffer.at(i)));
+        }
+
+        frame.setPayload(sendBytes);
+        if(can_device->writeFrame(frame))
+            qDebug() << "Frame 0x704 sent";
+        else
+            qDebug() << can_device->errorString();
+    }
 }
 
 int* CANmanager::getFrame()
@@ -205,63 +207,14 @@ void CANmanager::updatePayload(int id, int data)
     *   1      | TractionValue
     *   2      | Launch Flag (on/off)
     */
-    sendBuffer[id] = data;
+    sendBuffer.replace(id, data);
 }
 
-void CANmanager::sendMessage()
-{
-    if(can_device->busStatus() != QCanBusDevice::CanBusStatus::BusOff && can_device->busStatus() != QCanBusDevice::CanBusStatus::Error)
-    {
-        QByteArray sendBytes;
-        for(int i = 0; i < 3; i++)
-        {
-            sendBytes.append(0x00);
-            sendBytes.append(char(sendBuffer[i]));
-        }
-
-        //qDebug() << sendBytes;
-        frame.setPayload(sendBytes);
-        if(can_device->writeFrame(frame))
-        {
-            //initialTransmission = true;
-            //emit(signalLoop());
-            timer.start(1000); //should work in theory, needs test
-        }
-        //else if(can_device->writeFrame(frame))
-        //     timer.start(1000); //should work in theory, needs test
-    }
-}
-
-bool CANmanager::sendOnce()
-{
-    if(can_device->busStatus() != QCanBusDevice::CanBusStatus::BusOff && can_device->busStatus() != QCanBusDevice::CanBusStatus::Error)
-    {
-        QByteArray sendBytes;
-        for(int i = 0; i < 3; i++)
-        {
-            sendBytes.append(char(sendBuffer[i]));
-        }
-
-        //qDebug() << sendBytes;
-        frame.setPayload(sendBytes);
-
-        if(can_device->writeFrame(frame))
-            return true;
-        else
-            return false;
-    }
-    else
-        return false;
-}
-
-//wait to delete until verifying timer in sendMessage
 void CANmanager::sendLoop()
 {
-    //Delay::delayMillis(1000);
-    //sendMessage();
-
-    timer.start(1000);
-    sendMessage();
+    timer = new QTimer(this);
+    connect(timer, SIGNAL(timeout()), this, SLOT(CAN_Loop()));
+    timer->start(1000);
 }
 
 QCanBusDevice::CanBusStatus CANmanager::getDeviceStatus()
