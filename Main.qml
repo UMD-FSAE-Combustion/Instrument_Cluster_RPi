@@ -8,19 +8,21 @@ import QtQuick.Controls.Material
 Window
 {
     id: root
-    //test comment
 
     property var info: JSON
+    property var canManager: canBus
 
     property bool loadingComplete: false
     property bool displayProfiles: false
     property int speed: 0
     property int currentSet: 1
     property int counter: 0
-    //property int biasVal: JSON.biasVal
-    //property int rearBrakeBias: (100 - JSON.biasVal)
     property int driver: JSON.driver
-    //property int tractionSwitch: JSON.tractionSwitch
+    property int lc_Status: 0
+
+    property bool ecuFault: false
+    property bool gameMenuVisible: false
+    property int gameMenuCounter: 0
 
     width: 800
     height: 480
@@ -32,8 +34,32 @@ Window
 
     Material.theme: Material.Light
 
+    //temporary, will delete later
+    ShutdownHandler {
+        id: shutdownHandler
+    }
+
     JSONmanager {
         id: jsonManager
+    }
+
+
+    Connections {
+        target: canManager
+
+        function onVehicleSpeedChanged(canManager) {vehicleInfo.vehicleSpeed = canManager.vehicleSpeed}
+        function onRearBrakePresChanged(canManager) {vehicleInfo.rearBrakePres = canManager.rearBrakePres}
+        function onFrontBrakePresChanged(canManager) {vehicleInfo.frontBrakePres = canManager.frontBrakePres}
+        function onCoolantTempChanged(canManager) {vehicleInfo.coolantTemp = canManager.coolantTemp}
+        function onOilTempChanged(canManager) {vehicleInfo.oilTemp = canManager.oilTemp}
+        function onFuelTempChanged(canManager) {vehicleInfo.fuelTemp = canManager.fuelTemp}
+        function onExhaustTempChanged(canManager) {extraInfoDisplayWidgets.exhaustTemp = canManager.exhaustTemp}
+        function onInletAirTempChanged(canManager) {extraInfoDisplayWidgets.inletAirTemp = canManager.inletAirTemp}
+        function onInletManifoldPresChanged(canManager) {extraInfoDisplayWidgets.inletManifoldPres = canManager.inletManifoldPres}
+        function onFuelPresChanged(canManager) {extraInfoDisplayWidgets.fuelPres = canManager.fuelPres}
+        function onFuelMixAimChanged(canManager) {extraInfoDisplayWidgets.fuelMixAim = canManager.fuelMixAim}
+        function onExhaustLambdaChanged(canManager) {extraInfoDisplayWidgets.exhaustLambda = canManager.exhaustLambda}
+        function onEcuFaultChanged(canManager) {showECUfault()}
     }
 
     Image
@@ -195,10 +221,7 @@ Window
         interval: 2000
         running: true
         repeat: false
-        onTriggered:
-        {
-            root.loadingComplete = true
-        }
+        onTriggered: loadingDone()
     }
 
 
@@ -209,7 +232,6 @@ Window
         {
             top: parent.top
             right: parent.right
-
         }
         width: 1040
         height: 0
@@ -219,6 +241,7 @@ Window
 
     Image
     {
+        id: teamLogo
         anchors
         {
             top: parent.top
@@ -256,7 +279,7 @@ Window
 
                 Text
                 {
-                    text: root.speed
+                    text: vehicleInfo.vehicleSpeed
                     color: "white"
                     anchors.centerIn: speedoNumber
                     font.pixelSize: 110
@@ -301,21 +324,29 @@ Window
 
             PropertyAnimation
             {
-               id: animationLeftSpeedometer
+               id: animationCenterSpeedometer
                target: visualRoot
                property: "x"
                to: speedoNumber.horizontalCenter
                duration: 350
             }
-
             PropertyAnimation
             {
-               id: animationUpSpeedometer
+               id: animationLeftSpeedometer
                target: visualRoot
-               property: "y"
-               to: -180
-               duration: 200
+               property: "x"
+               to: -165
+               duration: 300
             }
+
+            PropertyAnimation
+           {
+              id: animationUpSpeedometer
+              target: visualRoot
+              property: "y"
+              to: -180
+              duration: 200
+           }
 
             PropertyAnimation
             {
@@ -337,11 +368,66 @@ Window
         }
     }
 
+    Rectangle
+    {
+        id: iconBar
+        width: 800
+        height: 60
+        color: "transparent"
+
+        y: 15
+
+        Image
+        {
+            id: launchControlImage
+            source: "assets/images/LC.png"
+
+            anchors
+            {
+                right: parent.right
+                rightMargin: 80
+            }
+
+            visible: false
+        }
+
+        visible: true
+    }
+
+    Rectangle
+    {
+        id: warningIcons
+        width: 70
+        height: 400
+        color: "transparent"
+
+        anchors
+        {
+            right: parent.right
+            top: teamLogo.bottom
+        }
+
+        Image
+        {
+            id: ecuFaultImage
+            source: "assets/images/WARN.png"
+
+            anchors
+            {
+                top: parent.top
+                horizontalCenter: parent.horizontalCenter
+            }
+            visible: false
+        }
+
+        visible: true
+    }
+
     Text
     {
         id: speedoUnitInfoScreen
 
-        x: 130
+        x: 130 //110?
         y: -20
         text: qsTr("MPH")
         font.pixelSize: 40
@@ -437,6 +523,9 @@ Window
             }
             property alias columBarRef: columnBar
         }
+
+
+
 
 
         Component
@@ -699,10 +788,88 @@ Window
             }
         }
     }
+    Loader {
+        id: gameMenuLoader
+        anchors {
+            top: uselessRectangle.bottom
+            bottom: parent.bottom
+            margins: 15
+        }
+        x: root.width
+        width: 300
+        visible: gameMenuVisible
+        sourceComponent: gameMenuComponent
+    }
+    Component {
+        id: gameMenuComponent
+        Rectangle {
+            id: gameMenuBackground
+            color: "#1E1E1E"
+            radius: 20
 
+            GridLayout {
+                anchors.fill: parent
+                columns: 1
+                rows: 2
+                rowSpacing: 5
+                anchors.margins: 10
 
+                Rectangle {
+                    id: pongGame
+                    height: 130
+                    width: 290
+                    Layout.topMargin: 25
+                    Layout.rightMargin: 5
+                    Layout.leftMargin: 5
+                    radius: 20
+                    color: (gameMenuCounter === 0) ? "#00a8ff" : "white"
 
+                    Text {
+                        text: qsTr("Pong")
+                        color: (gameMenuCounter === 0) ? "white" : "black"
+                        anchors.centerIn: parent
+                        font.pixelSize: 30
+                        font.bold: true
+                    }
+                }
 
+                Rectangle {
+                    id: pacmanGame
+                    height: 130
+                    width: 290
+                    Layout.bottomMargin: 25
+                    Layout.rightMargin: 5
+                    Layout.leftMargin: 5
+                    radius: 20
+                    color: (gameMenuCounter === 1) ? "#00a8ff" : "white"
+
+                    Text {
+                        text: qsTr("Pacman")
+                        color: (gameMenuCounter === 1) ? "white" : "black"
+                        anchors.centerIn: parent
+                        font.pixelSize: 30
+                        font.bold: true
+                    }
+                }
+            }
+        }
+    }
+
+    PropertyAnimation {
+        id: gameMenuAnimationRight
+        target: gameMenuLoader
+        property: "x"
+        to: root.width + 785
+        duration: 300
+    }
+
+    PropertyAnimation {
+        id: gameMenuAnimationLeft
+        target: gameMenuLoader
+        property: "x"
+        to: root.width - gameMenuLoader.width
+        duration: 300
+    }
 
     PropertyAnimation
     {
@@ -849,6 +1016,52 @@ Window
         }
     }
 
+    Rectangle
+    {
+        id: statusUpdateAdvancedView
+
+        width: 230
+        height: 45
+        radius: 10
+        x: 290
+        y: -500
+
+        color: "#1E1E1E"
+
+        Text
+        {
+            id: statusMessageAdvancedView
+            text: qsTr("Default")
+            color: "white"
+            font.bold: true
+            font.pixelSize: 20
+
+            anchors
+            {
+                left: statusImageAdvancedView.right
+                right: statusUpdateAdvancedView.right
+                verticalCenter: statusUpdateAdvancedView.verticalCenter
+                margins: 15
+
+            }
+        }
+
+        Image
+        {
+            id: statusImageAdvancedView
+            source: "assets/images/INFO.png"
+            height: 40
+            width: 40
+
+            anchors
+            {
+                verticalCenter: statusUpdateAdvancedView.verticalCenter
+                left: statusUpdateAdvancedView.left
+                margins: 5
+            }
+        }
+    }
+
     SequentialAnimation
     {
         id: statusUpdateAnimation
@@ -911,6 +1124,64 @@ Window
         }
     }
 
+    SequentialAnimation
+    {
+        id: advancedViewStatusUpdateAnimation
+        running: false
+
+        PauseAnimation
+        {
+            duration: 600
+        }
+
+        ParallelAnimation
+        {
+            NumberAnimation
+            {
+                id: advancedViewStatusUpdateAnimationUp
+                target: statusUpdateAdvancedView
+                property: "y"
+                to: 55
+                duration: 300
+                easing.type: Easing.InOutQuad
+            }
+        }
+
+        PauseAnimation
+        {
+            duration: 1750
+        }
+
+        ParallelAnimation
+        {
+            NumberAnimation
+            {
+                id: advancedViewStatusUpdateAnimationDown
+                target: statusUpdateAdvancedView
+                property: "y"
+                to: -500
+                duration: 300
+                easing.type: Easing.InOutQuad
+            }
+        }
+    }
+
+    Rectangle
+    {
+        id: extraInfoWidgets
+        width: 800
+        height: 360
+        y: 110
+        color: "black"
+        visible: false
+
+        VehicleInfoDisplayExtraWidgets
+        {
+            id: extraInfoDisplayWidgets
+            anchors.fill: parent
+        }
+    }
+
 
 
     Item
@@ -921,7 +1192,14 @@ Window
         {
             if (event.key === Qt.Key_Right)
             {
-                if(columnBar.x < 0)
+                if (gameMenuVisible) {
+                    gameMenuVisible = false
+                    animationCenterSpeedometer.start()
+                    gameMenuAnimationRight.start()
+                    gameMenuCounter = 0
+                }
+
+                else if(columnBar.x < 0)
                 {
                     animationRightSpeedometer.start()
                     animationRight.start()
@@ -930,7 +1208,7 @@ Window
                 {
                     if(brakeBiasObject.rearBrakeBias !== (100 - jsonManager.biasVal)) {
                         updateBias(driver, (100 - brakeBiasObject.rearBrakeBias))
-                        animationLeftSpeedometer.start()
+                        animationCenterSpeedometer.start()
                         animationLeft.start()
 
                         statusMessage.text = "Settings Updated"
@@ -943,7 +1221,7 @@ Window
                         brakeBiasScreen.visible = false
                     }
                     else {
-                        animationLeftSpeedometer.start()
+                        animationCenterSpeedometer.start()
                         animationLeft.start()
 
                         counter = 0
@@ -956,7 +1234,7 @@ Window
                     if(tract.tractionSwitch !== jsonManager.tractionSwitch)
                     {
                         updateTraction(driver, tract.tractionSwitch)
-                        animationLeftSpeedometer.start()
+                        animationCenterSpeedometer.start()
                         animationLeft.start()
 
                         statusMessage.text = "Settings Updated"
@@ -970,7 +1248,7 @@ Window
                     }
                     else
                     {
-                        animationLeftSpeedometer.start()
+                        animationCenterSpeedometer.start()
                         animationLeft.start()
 
                         counter = 0
@@ -986,7 +1264,7 @@ Window
                 else if(currentSet === 3)
                 {
                     loadNewProfile(counter - 6)
-                    animationLeftSpeedometer.start()
+                    animationCenterSpeedometer.start()
                     animationLeft.start()
 
                     statusMessage.text = "Profile Loaded:  " + (driver + 1)
@@ -1011,35 +1289,86 @@ Window
                     columnBar.visible = false
                     engineInfoAnimationRight.start()
                     animationUpSpeedometer.start()
-                    //animationLeftSpeedometer.start()
+                    //animationCenterSpeedometer.start()
                     animationTopLeftSpeedometer.start()
                     animationDownInfoScreenSpeedometer.start()
+
+                    if(statusUpdateAnimation.running) {
+                        statusUpdateAnimation.stop()
+                        statusUpdate.visible = false
+                        statusUpdate.y = 500
+                        statusUpdate.visible = true
+                    }
+
                     engineInfoScreen.visible = true
                     speedoUnitInfoScreen.visible = true
                     speedoUnit.visible = false
                     counter = 9
                 }
-                else if(engineInfoScreen.visible === true && counter < 13)
+                else if(engineInfoScreen.visible === true && counter === 9)
                 {
-                   counter = counter + 1
+                    extraInfoWidgets.visible = true
                 }
-                else if(engineInfoScreen.visible === true && counter === 13)
+                else if(counter === 4 && lc_Status !== 1)
                 {
-                    counter = 9
+                    lc_Status = 1
+                    canManager.updatePayload(2, lc_Status)
+                    animationCenterSpeedometer.start()
+                    animationLeft.start()
+
+                    statusMessage.text = "Launch Control: Active"
+                    statusImage.source = "assets/images/INFO.png"
+                    statusMessage.font.pixelSize = 15
+                    statusUpdateAnimation.start()
+
+                    counter = 0
+                    currentSet = 1
+                    launchControlImage.visible = true
+                }
+                else if(counter === 4 && lc_Status !== 0)
+                {
+                    lc_Status = 0
+                    canManager.updatePayload(2, lc_Status)
+                    animationCenterSpeedometer.start()
+                    animationLeft.start()
+
+                    statusMessage.text = "Launch Control: Inactive"
+                    statusImage.source = "assets/images/INFO.png"
+                    statusMessage.font.pixelSize = 14
+                    statusUpdateAnimation.start()
+
+                    counter = 0
+                    currentSet = 1
+                    launchControlImage.visible = false
                 }
 
+
             }
-            else if(event.key === Qt.Key_Left)
-            {
-                if(counter >= 0 && counter <= 4 && engineInfoScreen.visible === false && brakeBiasScreen.visible === false && tractionControlScreen.visible === false)
-                {
-                    animationLeftSpeedometer.start()
+            else if(event.key === Qt.Key_Left) {
+
+                if(columnBar.x < 0){
+                    if (!gameMenuVisible) {
+                        gameMenuVisible = true
+                        gameMenuLoader.x = root.width
+                        animationLeftSpeedometer.start()
+                        gameMenuAnimationLeft.start()
+                    } else {
+                        if (gameMenuCounter === 0) {
+                            console.log("Launching Pong")
+                        } else if (gameMenuCounter === 1) {
+                            console.log("Launching Pacman")
+                        }
+                    }
+                }
+
+                else if(counter >= 0 && counter <= 4 && engineInfoScreen.visible === false &&
+                   brakeBiasScreen.visible === false && tractionControlScreen.visible === false) {
+                    animationCenterSpeedometer.start()
                     animationLeft.start()
                     counter = 0
                     currentSet = 1
                 }
-                else if(counter === 6 || counter === 7 || counter === 8 && currentSet === 3)
-                {
+                else if(counter === 6 || counter === 7 || counter === 8 && currentSet === 3) {
                     currentSet = 1
                     counter = 0
                     animationRight.start()
@@ -1096,6 +1425,11 @@ Window
                         tractionControlScreen.visible = false
                     }
                 }
+                else if(extraInfoWidgets.visible === true)
+                {
+                    counter = 9
+                    extraInfoWidgets.visible = false
+                }
                 else if (counter === 9 && engineInfoScreen.visible === true)
                 {
                     columnBar.visible = true
@@ -1115,10 +1449,13 @@ Window
                     counter = counter - 1
                 }
 
-
             }
+
             else if(event.key === Qt.Key_Down)
             {
+                if (gameMenuVisible) {
+                    gameMenuCounter = 1
+                }
                 counter = counter + 1
 
                 if(brakeBiasScreen.visible === true && brakeBiasObject.biasVal > 0 && brakeBiasObject.rearBrakeBias < 100)
@@ -1135,7 +1472,7 @@ Window
                 {
                     counter = 11
                 }
-                else if(tractionControlScreen.visible === true && tract.tractionSwitch > 0)
+                else if(tractionControlScreen.visible === true && tract.tractionSwitch > 1)
                 {
                     counter = 2
                     tract.tractionSwitch = tract.tractionSwitch - 1
@@ -1162,6 +1499,9 @@ Window
             }
             else if(event.key === Qt.Key_Up)
             {
+                if (gameMenuVisible) {
+                    gameMenuCounter = 0
+                }
                 counter = counter - 1
 
                 if(brakeBiasScreen.visible === true && brakeBiasObject.biasVal < 100 && brakeBiasObject.rearBrakeBias > 0)
@@ -1178,7 +1518,7 @@ Window
                 {
                     counter = 9
                 }
-                else if(tractionControlScreen.visible === true && tract.tractionSwitch < 10)
+                else if(tractionControlScreen.visible === true && tract.tractionSwitch < 9)
                 {
                     counter = 2
                     tract.tractionSwitch = tract.tractionSwitch + 1
@@ -1202,16 +1542,42 @@ Window
             {
                 close()
             }
+            else if(event.key === Qt.Key_Q)
+            {
+                close()
+            }
             else if (event.key === Qt.Key_W)
             {
-                statusImage.source = "assets/images/WARN.png"
-                statusMessage.text = "ECU fault"
-                statusMessage.text.pixelSize = 20
-                statusUpdateAnimation.start()
-
-
+                if(engineInfoScreen.visible === true)
+                {
+                    ecuFaultImage.visible = true
+                    statusImageAdvancedView.source = "assets/images/WARN.png"
+                    statusMessageAdvancedView.text = "ECU fault"
+                    statusMessageAdvancedView.text.pixelSize = 20
+                    advancedViewStatusUpdateAnimation.start()
+                }
+                else
+                {
+                    ecuFaultImage.visible = true
+                    statusImage.source = "assets/images/WARN.png"
+                    statusMessage.text = "ECU fault"
+                    statusMessage.text.pixelSize = 20
+                    statusUpdateAnimation.start()
+                }
+            }
+            else if (event.key === Qt.Key_P) {
+                shutdownHandler.powerOFF()
             }
         }
+    }
+
+    function loadingDone() {
+        root.loadingComplete = true
+
+        statusMessage.text = "Profile Loaded:  " + (driver + 1)
+        statusImage.source = "assets/images/INFO.png"
+        statusMessage.font.pixelSize = 14
+        statusUpdateAnimation.start()
     }
 
     function loadNewProfile(profileNum) {
@@ -1221,10 +1587,14 @@ Window
         brakeBiasObject.biasVal = jsonManager.biasVal
         brakeBiasObject.rearBrakeBias = (100 - jsonManager.biasVal)
         tract.tractionSwitch = jsonManager.tractionSwitch
+
+        canManager.updatePayload(0, brakeBiasObject.biasVal)
+        canManager.updatePayload(1, tract.tractionSwitch)
     }
 
     function updateBias(profile, bias) {
         jsonManager.updateBrakeBias(profile, bias)
+        canManager.updatePayload(0, jsonManager.biasVal)
 
         brakeBiasObject.biasVal = jsonManager.biasVal
         brakeBiasObject.rearBrakeBias = (100 - jsonManager.biasVal)
@@ -1232,8 +1602,65 @@ Window
 
     function updateTraction(profile, traction) {
         jsonManager.updateTractionCtl(profile, traction)
+        canManager.updatePayload(1, jsonManager.tractionSwitch)
 
         tract.tractionSwitch = jsonManager.tractionSwitch
+    }
+
+    /* Delete if no longer needed
+    function updateUI() {
+        vehicleInfo.vehicleSpeed = canManager.vehicleSpeed
+
+        vehicleInfo.rearBrakePres = canManager.rearBrakePres
+        vehicleInfo.frontBrakePres = canManager.frontBrakePres
+        vehicleInfo.coolantTemp = canManager.coolantTemp
+        vehicleInfo.oilTemp = canManager.oilTemp
+        vehicleInfo.fuelTemp = canManager.fuelTemp
+
+        root.ecuFault = canManager.ecuFault
+        if(root.ecuFault === true) {
+            if(engineInfoScreen.visible === true) {
+                ecuFaultImage.visible = true
+                statusImageAdvancedView.source = "assets/images/WARN.png"
+                statusMessageAdvancedView.text = "ECU fault"
+                statusMessageAdvancedView.text.pixelSize = 20
+                advancedViewStatusUpdateAnimation.start()
+            }
+            else {
+                ecuFaultImage.visible = true
+                statusImage.source = "assets/images/WARN.png"
+                statusMessage.text = "ECU fault"
+                statusMessage.text.pixelSize = 20
+                statusUpdateAnimation.start()
+            }
+        }
+        else {
+            ecuFaultImage.visible = fasle
+        }
+    }
+    */
+
+    function showECUfault() {
+        root.ecuFault = canManager.ecuFault
+        if(root.ecuFault === true) {
+            if(engineInfoScreen.visible === true) {
+                ecuFaultImage.visible = true
+                statusImageAdvancedView.source = "assets/images/WARN.png"
+                statusMessageAdvancedView.text = "ECU fault"
+                statusMessageAdvancedView.text.pixelSize = 20
+                advancedViewStatusUpdateAnimation.start()
+            }
+            else {
+                ecuFaultImage.visible = true
+                statusImage.source = "assets/images/WARN.png"
+                statusMessage.text = "ECU fault"
+                statusMessage.text.pixelSize = 20
+                statusUpdateAnimation.start()
+            }
+        }
+        else {
+            ecuFaultImage.visible = fasle
+        }
     }
 }
 

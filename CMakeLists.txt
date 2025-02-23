@@ -23,6 +23,7 @@ qt_add_qml_module(appDyno_Info
         jsonmanager.h jsonmanager.cpp
         canmanager.h canmanager.cpp
         mapVals.h
+        shutdownhandler.h
 
         RESOURCES
         assets/images/blockM.png
@@ -32,9 +33,11 @@ qt_add_qml_module(appDyno_Info
         assets/images/raceCar.png
         assets/images/INFO.png
         assets/images/WARN.png
+        assets/images/LC.png
         QML_FILES TractionControl.qml
         QML_FILES BrakeBias.qml
         QML_FILES VehicleInfoDisplay.qml
+        QML_FILES VehicleInfoDisplayExtraWidgets.qml
 )
 
 

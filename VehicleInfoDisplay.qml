@@ -6,6 +6,13 @@ import QtQuick.Window
 
 Item
 {
+    property int vehicleSpeed: 0
+    property int rearBrakePres: 0
+    property int frontBrakePres: 0
+    property string coolantTemp: "0°C"
+    property string oilTemp: "0°C"
+    property string fuelTemp: "0°C"
+
     Rectangle
     {
         id: engineInfoScreen
@@ -50,21 +57,19 @@ Item
 
             Rectangle
             {
-                id: infoWidget1
+                id: infoWidget1 // rear brake pressure
 
                 width: 375
                 height: 150
                 radius: 20
                 color: "#1E1E1E"
-                border.width: 3
-                border.color: (root.counter === 9) ? "#00a8ff" : "#1E1E1E"
 
                 ProgressBar
                 {
                     id: widget1ProgressBar
                     from: 0
-                    to: 100
-                    value: 3
+                    to: 150
+                    value: rearBrakePres
                     anchors.centerIn: infoWidget1
 
                     background: Rectangle
@@ -119,9 +124,9 @@ Item
                     Text
                     {
                         id: infoWidget1TextLabel1
-                        text: qsTr("Text Label")
+                        text: qsTr("0")
                         color: "white"
-                        font.pixelSize: 13
+                        font.pixelSize: 18
                     }
                 }
 
@@ -131,18 +136,17 @@ Item
                     {
                         top: infoWidget1.top
                         left: infoWidget1.left
-                        leftMargin: 301
+                        leftMargin: 332
                         topMargin: 18
-                        rightMargin: 18
                         bottomMargin: 18
                     }
 
                     Text
                     {
                         id: infoWidget1TextLabel2
-                        text: qsTr("Text Label")
+                        text: qsTr("150")
                         color: "white"
-                        font.pixelSize: 13
+                        font.pixelSize: 18
                     }
                 }
 
@@ -153,18 +157,42 @@ Item
 
                     anchors
                     {
-                        top: widget1ProgressBar.bottom
+                        //top: widget1ProgressBar.bottom
+                        top:infoWidget1.top
+                        bottom: widget1ProgressBar.top
                         horizontalCenter: uselessRectangle2.horizontalCenter
-                        topMargin: 18
+                        topMargin: 4
                     }
 
                     Text
                     {
                         id: infoWidget1TextLabel3
-                        text: qsTr("Text Label")
+                        text: qsTr("Rear Brake Pressure (Bar)")
                         color: "white"
-                        font.pixelSize: 13
+                        font.pixelSize: 18
                         anchors.centerIn: uselessRectangle3
+                    }
+                }
+
+                Rectangle
+                {
+                    id: leftProgressBarText
+
+
+                    anchors
+                    {
+                        top: widget1ProgressBar.bottom
+                        horizontalCenter: uselessRectangle2.horizontalCenter
+                        topMargin: 24
+                    }
+
+                    Text
+                    {
+                        id: infoWidget1TextLabel4
+                        text: rearBrakePres
+                        color: "white"
+                        font.pixelSize: 22
+                        anchors.centerIn: parent
                     }
                 }
             }
@@ -177,15 +205,13 @@ Item
                 height: 150
                 radius: 20
                 color: "#1E1E1E"
-                border.width: 3
-                border.color: (root.counter === 10) ? "#00a8ff" : "#1E1E1E"
 
                 ProgressBar
                 {
                     id: widget2ProgressBar
                     from: 0
-                    to: 100
-                    value: 3
+                    to: 150
+                    value: frontBrakePres
                     anchors.centerIn: infoWidget2
 
                     background: Rectangle
@@ -240,9 +266,9 @@ Item
                     Text
                     {
                         id: infoWidget2TextLabel1
-                        text: qsTr("Text Label")
+                        text: qsTr("0")
                         color: "white"
-                        font.pixelSize: 13
+                        font.pixelSize: 18
                     }
                 }
 
@@ -252,18 +278,17 @@ Item
                     {
                         top: infoWidget2.top
                         left: infoWidget2.left
-                        leftMargin: 301
+                        leftMargin: 332
                         topMargin: 18
-                        rightMargin: 18
                         bottomMargin: 18
                     }
 
                     Text
                     {
                         id: infoWidget2TextLabel2
-                        text: qsTr("Text Label")
+                        text: qsTr("150")
                         color: "white"
-                        font.pixelSize: 13
+                        font.pixelSize: 18
                     }
                 }
 
@@ -271,21 +296,42 @@ Item
                 {
                     id: uselessRectangle5
 
-
                     anchors
                     {
-                        top: widget2ProgressBar.bottom
+                        top:infoWidget2.top
+                        bottom: widget2ProgressBar.top
                         horizontalCenter: uselessRectangle4.horizontalCenter
-                        topMargin: 18
+                        topMargin: 4
                     }
 
                     Text
                     {
                         id: infoWidget2TextLabel3
-                        text: qsTr("Text Label")
+                        text: qsTr("Front Brake Pressure (Bar)")
                         color: "white"
-                        font.pixelSize: 13
+                        font.pixelSize: 18
                         anchors.centerIn: uselessRectangle5
+                    }
+                }
+
+                Rectangle
+                {
+                    id: rightProgressBarText
+
+                    anchors
+                    {
+                        top: widget2ProgressBar.bottom
+                        horizontalCenter: uselessRectangle4.horizontalCenter
+                        topMargin: 24
+                    }
+
+                    Text
+                    {
+                        id: infoWidget2TextLabel4
+                        text: frontBrakePres
+                        color: "white"
+                        font.pixelSize: 22
+                        anchors.centerIn: parent
                     }
                 }
             }
@@ -298,29 +344,27 @@ Item
                 height: 160
                 radius: 20
                 color: "#1E1E1E"
-                border.width: 3
-                border.color: (root.counter === 11) ? "#00a8ff" : "#1E1E1E"
 
                 Text
                 {
                     id: widget3Info
 
-                    text: qsTr("0")
-                    color: "white"
-                    font.pixelSize: 70
+                    text: coolantTemp
+                    color: (Number(coolantTemp.slice(0, coolantTemp.length - 2)) > 99) ? "red" : "white"
+                    font.pixelSize: 60
                     font.bold: true
 
                     anchors
                     {
                         top: infoWidget3.top
                         horizontalCenter: infoWidget3.horizontalCenter
-                        margins: 3
+                        topMargin: 10
                     }
                 }
 
                 Text
                 {
-                    text: qsTr("-")
+                    text: qsTr("Coolant Temp")
                     color: "white"
                     font.pixelSize: 30
                     font.bold: false
@@ -342,29 +386,27 @@ Item
                 height: 160
                 radius: 20
                 color: "#1E1E1E"
-                border.width: 3
-                border.color: (root.counter === 12) ? "#00a8ff" : "#1E1E1E"
 
                 Text
                 {
                     id: widget4Info
 
-                    text: qsTr("0")
-                    color: "white"
-                    font.pixelSize: 70
+                    text: oilTemp
+                    color: (Number(oilTemp.slice(0, oilTemp.length - 2)) > 99) ? "red" : "white"
+                    font.pixelSize: 60
                     font.bold: true
 
                     anchors
                     {
                         top: infoWidget4.top
                         horizontalCenter: infoWidget4.horizontalCenter
-                        margins: 3
+                        topMargin: 10
                     }
                 }
 
                 Text
                 {
-                    text: qsTr("-")
+                    text: qsTr("Oil Temp")
                     color: "white"
                     font.pixelSize: 30
                     font.bold: false
@@ -386,29 +428,27 @@ Item
                 height: 160
                 radius: 20
                 color: "#1E1E1E"
-                border.width: 3
-                border.color: (root.counter === 13) ? "#00a8ff" : "#1E1E1E"
 
                 Text
                 {
                     id: widget5Info
 
-                    text: qsTr("0")
-                    color: "white"
-                    font.pixelSize: 70
+                    text: fuelTemp
+                    color: (Number(fuelTemp.slice(0, fuelTemp.length - 2)) > 99) ? "red" : "white"
+                    font.pixelSize: 60
                     font.bold: true
 
                     anchors
                     {
                         top: infoWidget5.top
                         horizontalCenter: infoWidget5.horizontalCenter
-                        margins: 3
+                        topMargin: 10
                     }
                 }
 
                 Text
                 {
-                    text: qsTr("-")
+                    text: qsTr("Fuel Temp")
                     color: "white"
                     font.pixelSize: 30
                     font.bold: false
