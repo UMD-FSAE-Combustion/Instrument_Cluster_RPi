@@ -1229,7 +1229,7 @@ Window
         {
             if (event.key === Qt.Key_Right)
             {
-                if (gameMenuVisible) {
+                if (gameMenuVisible &&  gameMenuLoader.x === root.width - gameMenuLoader.width - 15) {
                     animationCenterSpeedometer.start()
                     gameMenuAnimationRight.start()
                     gameMenuCounter = 0
