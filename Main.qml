@@ -19,10 +19,11 @@ Window
     property int counter: 0
     property int driver: JSON.driver
     property int lc_Status: 0
-
     property bool ecuFault: false
     property bool gameMenuVisible: false
     property int gameMenuCounter: 0
+
+    property bool menuShown: false
 
     width: 800
     height: 480
@@ -788,6 +789,7 @@ Window
             }
         }
     }
+
     Loader {
         id: gameMenuLoader
         anchors {
@@ -800,6 +802,7 @@ Window
         visible: gameMenuVisible
         sourceComponent: gameMenuComponent
     }
+
     Component {
         id: gameMenuComponent
         Rectangle {
@@ -1193,14 +1196,16 @@ Window
             if (event.key === Qt.Key_Right)
             {
                 if (gameMenuVisible) {
-                    gameMenuVisible = false
                     animationCenterSpeedometer.start()
                     gameMenuAnimationRight.start()
+                    gameMenuVisible = false
                     gameMenuCounter = 0
+                    menuShown = false
                 }
 
-                else if(columnBar.x < 0)
+                else if(columnBar.x < 0 && menuShown === false)
                 {
+                    menuShown = true
                     animationRightSpeedometer.start()
                     animationRight.start()
                 }
@@ -1219,6 +1224,7 @@ Window
                         counter = 0
                         currentSet = 1
                         brakeBiasScreen.visible = false
+                        menuShown = false
                     }
                     else {
                         animationCenterSpeedometer.start()
@@ -1227,6 +1233,7 @@ Window
                         counter = 0
                         currentSet = 1
                         brakeBiasScreen.visible = false
+                        menuShown = false
                     }
                 }
                 else if(tractionControlScreen.visible === true)
@@ -1245,6 +1252,7 @@ Window
                         counter = 0
                         currentSet = 1
                         tractionControlScreen.visible = false
+                        menuShown = false
                     }
                     else
                     {
@@ -1254,6 +1262,7 @@ Window
                         counter = 0
                         currentSet = 1
                         tractionControlScreen.visible = false
+                        menuShown = false
                     }
                 }
                 else if(columnBar.x > 0 && counter === 0)
@@ -1274,6 +1283,7 @@ Window
 
                     counter = 0
                     currentSet = 1
+                    menuShown = false
                 }
 
                 else if(counter === 1)
@@ -1324,6 +1334,7 @@ Window
                     counter = 0
                     currentSet = 1
                     launchControlImage.visible = true
+                    menuShown = false
                 }
                 else if(counter === 4 && lc_Status !== 0)
                 {
@@ -1340,6 +1351,7 @@ Window
                     counter = 0
                     currentSet = 1
                     launchControlImage.visible = false
+                    menuShown = false
                 }
 
 
@@ -1347,26 +1359,35 @@ Window
             else if(event.key === Qt.Key_Left) {
 
                 if(columnBar.x < 0){
-                    if (!gameMenuVisible) {
+                    if (!gameMenuVisible && menuShown === false)
+                    {
+                        menuShown = true
                         gameMenuVisible = true
                         gameMenuLoader.x = root.width
                         animationLeftSpeedometer.start()
                         gameMenuAnimationLeft.start()
-                    } else {
-                        if (gameMenuCounter === 0) {
+                    }
+                    else
+                    {
+                        if (gameMenuCounter === 0)
+                        {
                             console.log("Launching Pong")
-                        } else if (gameMenuCounter === 1) {
+                        }
+                        else if (gameMenuCounter === 1)
+                        {
                             console.log("Launching Pacman")
                         }
                     }
                 }
 
                 else if(counter >= 0 && counter <= 4 && engineInfoScreen.visible === false &&
-                   brakeBiasScreen.visible === false && tractionControlScreen.visible === false) {
+                        brakeBiasScreen.visible === false && tractionControlScreen.visible === false)
+                {
                     animationCenterSpeedometer.start()
                     animationLeft.start()
                     counter = 0
                     currentSet = 1
+                    menuShown = false
                 }
                 else if(counter === 6 || counter === 7 || counter === 8 && currentSet === 3) {
                     currentSet = 1
