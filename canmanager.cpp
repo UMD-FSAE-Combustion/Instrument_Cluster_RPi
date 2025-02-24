@@ -75,7 +75,7 @@ CANmanager::CANmanager()
     filterList.append(filter);
 
     sendBuffer.replace(2, 0);
-    frame.setFrameId(0x704);
+    frame.setFrameId(0x680);
 
     can_device->setConfigurationParameter(QCanBusDevice::RawFilterKey, QVariant::fromValue(filterList));
     connect(can_device, &QCanBusDevice::framesReceived, this, &CANmanager::processFrames);
@@ -182,7 +182,7 @@ void CANmanager::CAN_Loop()
 
         frame.setPayload(sendBytes);
         if(can_device->writeFrame(frame))
-            qDebug() << "Frame 0x704 sent";
+            qDebug() << "Frame 0x680 sent";
         else
             qDebug() << can_device->errorString();
     }
@@ -214,7 +214,7 @@ void CANmanager::sendLoop()
 {
     timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(CAN_Loop()));
-    timer->start(1000);
+    timer->start(100);
 }
 
 QCanBusDevice::CanBusStatus CANmanager::getDeviceStatus()
