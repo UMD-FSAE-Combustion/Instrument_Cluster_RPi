@@ -214,7 +214,7 @@ void CANmanager::sendLoop()
 {
     timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(CAN_Loop()));
-    timer->start(100);
+    timer->start(90); // slightly faster than 10Hz due to slight variation (attempt to fix MoTeC comms timeout)
 }
 
 QCanBusDevice::CanBusStatus CANmanager::getDeviceStatus()
