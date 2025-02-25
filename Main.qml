@@ -1510,7 +1510,11 @@ Window
                 if (gameMenuVisible) {
                     gameMenuCounter = gameMenuCounter + 1
                 }
-                counter = counter + 1
+                else {
+                    counter = counter + 1
+                }
+
+
 
                 if(brakeBiasScreen.visible === true && brakeBiasObject.biasVal > 0 && brakeBiasObject.rearBrakeBias < 100)
                 {
