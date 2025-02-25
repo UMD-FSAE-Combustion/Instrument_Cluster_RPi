@@ -125,7 +125,7 @@ void CANmanager::processFrames()
         if(exhaust < 6553)
             setExhaustTemp(QString::number(exhaust) + "°C");
         else
-            setExhaustTemp("X");
+            setExhaustTemp("-");
 
         break;
     }
