@@ -796,9 +796,11 @@ Window
             top: uselessRectangle.bottom
             bottom: parent.bottom
             margins: 15
+
         }
         x: root.width
         width: 300
+        height: 50
         visible: gameMenuVisible
         sourceComponent: gameMenuComponent
     }
@@ -809,13 +811,43 @@ Window
             id: gameMenuBackground
             color: "#1E1E1E"
             radius: 20
+            anchors.fill: parent
+
+            Text {
+                text: "⯅"
+                width: 20
+                font.pixelSize: 20
+                font.bold: true
+                color: "#4b4b4b"
+                anchors {
+                    top: gameMenuBackground.top
+                    horizontalCenter: gameMenuBackground.horizontalCenter
+                }
+            }
+
+            Text {
+                text: "⯆"
+                width: 20
+                font.pixelSize: 20
+                font.bold: true
+                color: "#4b4b4b"
+                anchors {
+                    margins: -5
+                    bottom: gameMenuBackground.bottom
+                    horizontalCenter: gameMenuBackground.horizontalCenter
+                }
+            }
 
             GridLayout {
-                anchors.fill: parent
+                width: parent.width
+                anchors {
+                    top: parent.top
+                    left: parent.left
+                    right: parent.right
+                }
                 columns: 1
                 rows: 2
                 rowSpacing: 5
-                anchors.margins: 10
 
                 Rectangle {
                     id: pongGame
@@ -825,11 +857,11 @@ Window
                     Layout.rightMargin: 5
                     Layout.leftMargin: 5
                     radius: 20
-                    color: (gameMenuCounter === 0) ? "#00a8ff" : "white"
+                    color: (gameMenuCounter % 2 === 0) ? "#00a8ff" : "white"
 
                     Text {
                         text: qsTr("Pong")
-                        color: (gameMenuCounter === 0) ? "white" : "black"
+                        color: (gameMenuCounter % 2 === 0) ? "white" : "black"
                         anchors.centerIn: parent
                         font.pixelSize: 30
                         font.bold: true
@@ -840,15 +872,14 @@ Window
                     id: pacmanGame
                     height: 130
                     width: 290
-                    Layout.bottomMargin: 25
                     Layout.rightMargin: 5
                     Layout.leftMargin: 5
                     radius: 20
-                    color: (gameMenuCounter === 1) ? "#00a8ff" : "white"
+                    color: (Math.abs(gameMenuCounter % 2) === 1) ? "#00a8ff" : "white"
 
                     Text {
                         text: qsTr("Pacman")
-                        color: (gameMenuCounter === 1) ? "white" : "black"
+                        color: (Math.abs(gameMenuCounter % 2) === 1) ? "white" : "black"
                         anchors.centerIn: parent
                         font.pixelSize: 30
                         font.bold: true
@@ -862,15 +893,18 @@ Window
         id: gameMenuAnimationRight
         target: gameMenuLoader
         property: "x"
-        to: root.width + 785
+        to: root.width
         duration: 300
+        onFinished: {
+            gameMenuVisible = false
+        }
     }
 
     PropertyAnimation {
         id: gameMenuAnimationLeft
         target: gameMenuLoader
         property: "x"
-        to: root.width - gameMenuLoader.width
+        to: root.width - gameMenuLoader.width - 15
         duration: 300
     }
 
@@ -1195,10 +1229,9 @@ Window
         {
             if (event.key === Qt.Key_Right)
             {
-                if (gameMenuVisible) {
+                if (gameMenuVisible &&  gameMenuLoader.x === root.width - gameMenuLoader.width - 15) {
                     animationCenterSpeedometer.start()
                     gameMenuAnimationRight.start()
-                    gameMenuVisible = false
                     gameMenuCounter = 0
                     menuShown = false
                 }
@@ -1367,13 +1400,13 @@ Window
                         animationLeftSpeedometer.start()
                         gameMenuAnimationLeft.start()
                     }
-                    else
+                    else if(gameMenuVisible && gameMenuLoader.x === root.width - gameMenuLoader.width - 15)
                     {
-                        if (gameMenuCounter === 0)
+                        if (gameMenuCounter % 2 === 0)
                         {
                             console.log("Launching Pong")
                         }
-                        else if (gameMenuCounter === 1)
+                        else if (Math.abs(gameMenuCounter) % 2 === 1)
                         {
                             console.log("Launching Pacman")
                         }
@@ -1475,7 +1508,7 @@ Window
             else if(event.key === Qt.Key_Down)
             {
                 if (gameMenuVisible) {
-                    gameMenuCounter = 1
+                    gameMenuCounter = gameMenuCounter + 1
                 }
                 counter = counter + 1
 
@@ -1521,8 +1554,8 @@ Window
             else if(event.key === Qt.Key_Up)
             {
                 if (gameMenuVisible) {
-                    gameMenuCounter = 0
-                }
+                    gameMenuCounter = gameMenuCounter - 1
+               }
                 counter = counter - 1
 
                 if(brakeBiasScreen.visible === true && brakeBiasObject.biasVal < 100 && brakeBiasObject.rearBrakeBias > 0)
