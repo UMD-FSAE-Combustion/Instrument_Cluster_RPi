@@ -44,8 +44,8 @@ CANmanager::CANmanager()
             qDebug() << errorString;
         }
         else
-        {   
-            QProcess::execute("/usr/bin/sudo", QStringList() << "/home/scripts/can-up.sh");
+        {
+            QProcess::execute("/usr/bin/sudo", QStringList() << "/home/pi/scripts/can-up.sh");
 
             if(can_device->connectDevice())
                 qDebug() << "CAN Device connected!";

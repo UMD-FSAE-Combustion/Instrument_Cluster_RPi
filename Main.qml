@@ -48,19 +48,19 @@ Window
     Connections {
         target: canManager
 
-        onVehicleSpeedChanged: vehicleInfo.vehicleSpeed = canManager.vehicleSpeed
-        onRearBrakePresChanged: vehicleInfo.rearBrakePres = canManager.rearBrakePres
-        onFrontBrakePresChanged: vehicleInfo.frontBrakePres = canManager.frontBrakePres
-        onCoolantTempChanged: vehicleInfo.coolantTemp = canManager.coolantTemp
-        onOilTempChanged: vehicleInfo.oilTemp = canManager.oilTemp
-        onFuelTempChanged: vehicleInfo.fuelTemp = canManager.fuelTemp
-        onExhaustTempChanged: extraInfoDisplayWidgets.exhaustTemp = canManager.exhaustTemp
-        onInletAirTempChanged: extraInfoDisplayWidgets.inletAirTemp = canManager.inletAirTemp
-        onInletManifoldPresChanged: extraInfoDisplayWidgets.inletManifoldPres = canManager.inletManifoldPres
-        onFuelPresChanged: extraInfoDisplayWidgets.fuelPres = canManager.fuelPres
-        onFuelMixAimChanged: extraInfoDisplayWidgets.fuelMixAim = canManager.fuelMixAim
-        onExhaustLambdaChanged: extraInfoDisplayWidgets.exhaustLambda = canManager.exhaustLambda
-        onEcuFaultChanged: showECUfault()
+        function onVehicleSpeedChanged() { vehicleInfo.vehicleSpeed = canManager.vehicleSpeed }
+        function onRearBrakePresChanged() { vehicleInfo.rearBrakePres = canManager.rearBrakePres }
+        function onFrontBrakePresChanged() { vehicleInfo.frontBrakePres = canManager.frontBrakePres }
+        function onCoolantTempChanged() { vehicleInfo.coolantTemp = canManager.coolantTemp }
+        function onOilTempChanged() { vehicleInfo.oilTemp = canManager.oilTemp }
+        function onFuelTempChanged() { vehicleInfo.fuelTemp = canManager.fuelTemp }
+        function onExhaustTempChanged() { extraInfoDisplayWidgets.exhaustTemp = canManager.exhaustTemp }
+        function onInletAirTempChanged() { extraInfoDisplayWidgets.inletAirTemp = canManager.inletAirTemp }
+        function onInletManifoldPresChanged() { extraInfoDisplayWidgets.inletManifoldPres = canManager.inletManifoldPres }
+        function onFuelPresChanged() { extraInfoDisplayWidgets.fuelPres = canManager.fuelPres }
+        function onFuelMixAimChanged() { extraInfoDisplayWidgets.fuelMixAim = canManager.fuelMixAim }
+        function onExhaustLambdaChanged() { extraInfoDisplayWidgets.exhaustLambda = canManager.exhaustLambda }
+        function onEcuFaultChanged() { showECUfault() }
     }
 
     Image
