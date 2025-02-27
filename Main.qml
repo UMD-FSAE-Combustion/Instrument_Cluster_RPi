@@ -44,7 +44,6 @@ Window
         id: jsonManager
     }
 
-
     Connections {
         target: canManager
 
@@ -473,6 +472,12 @@ Window
         x: -columnBar.width
         visible: true
 
+        OptionsMenu {
+            id: optMenu
+            anchors.fill: parent
+        }
+
+        /*
         Text
         {
             text: "⯅"
@@ -526,9 +531,6 @@ Window
         }
 
 
-
-
-
         Component
         {
             id: set1Component
@@ -554,12 +556,12 @@ Window
                     Layout.leftMargin: 5
                     radius: 20
 
-                    color: (root.counter === 0) ? "#00a8ff" : "white"
+                    color: (counter === 0) ? "#00a8ff" : "white"
 
                     Text
                     {
                         text: qsTr("Load Profile")
-                        color: (root.counter === 0) ? "white" : "black"
+                        color: (counter === 0) ? "white" : "black"
                         anchors.centerIn: parent
                         font.pixelSize: 30
                         font.bold: true
@@ -690,14 +692,14 @@ Window
 
                     color: "transparent"
 
-                    /*Text
+                    Text
                     {
                         text: qsTr("Terrain Mode")
                         color: (counter === 5) ? "white" : "black"
                         anchors.centerIn: parent
                         font.pixelSize: 30
                         font.bold: true
-                    }*/
+                    }
                 }
             }
         }
@@ -788,6 +790,8 @@ Window
                 }
             }
         }
+    }
+    */
     }
 
     Loader {
@@ -1664,39 +1668,6 @@ Window
 
         tract.tractionSwitch = jsonManager.tractionSwitch
     }
-
-    /* Delete if no longer needed
-    function updateUI() {
-        vehicleInfo.vehicleSpeed = canManager.vehicleSpeed
-
-        vehicleInfo.rearBrakePres = canManager.rearBrakePres
-        vehicleInfo.frontBrakePres = canManager.frontBrakePres
-        vehicleInfo.coolantTemp = canManager.coolantTemp
-        vehicleInfo.oilTemp = canManager.oilTemp
-        vehicleInfo.fuelTemp = canManager.fuelTemp
-
-        root.ecuFault = canManager.ecuFault
-        if(root.ecuFault === true) {
-            if(engineInfoScreen.visible === true) {
-                ecuFaultImage.visible = true
-                statusImageAdvancedView.source = "assets/images/WARN.png"
-                statusMessageAdvancedView.text = "ECU fault"
-                statusMessageAdvancedView.text.pixelSize = 20
-                advancedViewStatusUpdateAnimation.start()
-            }
-            else {
-                ecuFaultImage.visible = true
-                statusImage.source = "assets/images/WARN.png"
-                statusMessage.text = "ECU fault"
-                statusMessage.text.pixelSize = 20
-                statusUpdateAnimation.start()
-            }
-        }
-        else {
-            ecuFaultImage.visible = fasle
-        }
-    }
-    */
 
     function showECUfault() {
         root.ecuFault = canManager.ecuFault
