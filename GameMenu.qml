@@ -1,0 +1,101 @@
+import QtQuick
+import QtQuick.Layouts
+
+Item {
+    id: gameMenuRoot
+    anchors {
+        top: parent.top
+        bottom: parent.bottom
+        horizontalCenter: parent.horizontalCenter
+    }
+
+    Text {
+        text: "⯅"
+        width: 20
+        font.pixelSize: 20
+        font.bold: true
+        color: "#4b4b4b"
+        anchors {
+            top: parent.top
+            horizontalCenter: parent.horizontalCenter
+        }
+    }
+
+    Text {
+        text: "⯆"
+        width: 20
+        font.pixelSize: 20
+        font.bold: true
+        color: "#4b4b4b"
+        anchors {
+            margins: -5
+            bottom: parent.bottom
+            horizontalCenter: parent.horizontalCenter
+        }
+    }
+
+
+    Loader {
+        id: gameMenuLoader
+        sourceComponent: gameMenuComponent
+    }
+
+    Component {
+        id: gameMenuComponent
+        Rectangle {
+            id: gameMenuBackground
+            color: "#1E1E1E"
+            radius: 20
+            anchors.fill: parent
+
+            GridLayout {
+                width: parent.width
+                anchors {
+                    top: parent.top
+                    left: parent.left
+                    right: parent.right
+                }
+                columns: 1
+                rows: 2
+                rowSpacing: 5
+
+                Rectangle {
+                    id: pongGame
+                    height: 130
+                    width: 290
+                    Layout.topMargin: 25
+                    Layout.rightMargin: 5
+                    Layout.leftMargin: 5
+                    radius: 20
+                    color: (gameMenuCounter % 2 === 0) ? "#00a8ff" : "white"
+
+                    Text {
+                        text: qsTr("Pong")
+                        color: (gameMenuCounter % 2 === 0) ? "white" : "black"
+                        anchors.centerIn: parent
+                        font.pixelSize: 30
+                        font.bold: true
+                    }
+                }
+
+                Rectangle {
+                    id: pacmanGame
+                    height: 130
+                    width: 290
+                    Layout.rightMargin: 5
+                    Layout.leftMargin: 5
+                    radius: 20
+                    color: (Math.abs(gameMenuCounter % 2) === 1) ? "#00a8ff" : "white"
+
+                    Text {
+                        text: qsTr("Pacman")
+                        color: (Math.abs(gameMenuCounter % 2) === 1) ? "white" : "black"
+                        anchors.centerIn: parent
+                        font.pixelSize: 30
+                        font.bold: true
+                    }
+                }
+            }
+        }
+    }
+}
