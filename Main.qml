@@ -478,8 +478,10 @@ Window
         }
     }
 
-    Loader {
-        id: gameMenuLoader
+    Rectangle
+    {
+        id: gameMenuRect
+
         anchors {
             top: uselessRectangle.bottom
             bottom: parent.bottom
@@ -490,96 +492,18 @@ Window
         width: 300
         height: 50
         visible: gameMenuVisible
-        sourceComponent: gameMenuComponent
-    }
+        color: "#1E1E1E"
+        radius: 20
 
-    Component {
-        id: gameMenuComponent
-        Rectangle {
-            id: gameMenuBackground
-            color: "#1E1E1E"
-            radius: 20
+        GameMenu {
+            id: gameMenu
             anchors.fill: parent
-
-            Text {
-                text: "⯅"
-                width: 20
-                font.pixelSize: 20
-                font.bold: true
-                color: "#4b4b4b"
-                anchors {
-                    top: gameMenuBackground.top
-                    horizontalCenter: gameMenuBackground.horizontalCenter
-                }
-            }
-
-            Text {
-                text: "⯆"
-                width: 20
-                font.pixelSize: 20
-                font.bold: true
-                color: "#4b4b4b"
-                anchors {
-                    margins: -5
-                    bottom: gameMenuBackground.bottom
-                    horizontalCenter: gameMenuBackground.horizontalCenter
-                }
-            }
-
-            GridLayout {
-                width: parent.width
-                anchors {
-                    top: parent.top
-                    left: parent.left
-                    right: parent.right
-                }
-                columns: 1
-                rows: 2
-                rowSpacing: 5
-
-                Rectangle {
-                    id: pongGame
-                    height: 130
-                    width: 290
-                    Layout.topMargin: 25
-                    Layout.rightMargin: 5
-                    Layout.leftMargin: 5
-                    radius: 20
-                    color: (gameMenuCounter % 2 === 0) ? "#00a8ff" : "white"
-
-                    Text {
-                        text: qsTr("Pong")
-                        color: (gameMenuCounter % 2 === 0) ? "white" : "black"
-                        anchors.centerIn: parent
-                        font.pixelSize: 30
-                        font.bold: true
-                    }
-                }
-
-                Rectangle {
-                    id: pacmanGame
-                    height: 130
-                    width: 290
-                    Layout.rightMargin: 5
-                    Layout.leftMargin: 5
-                    radius: 20
-                    color: (Math.abs(gameMenuCounter % 2) === 1) ? "#00a8ff" : "white"
-
-                    Text {
-                        text: qsTr("Pacman")
-                        color: (Math.abs(gameMenuCounter % 2) === 1) ? "white" : "black"
-                        anchors.centerIn: parent
-                        font.pixelSize: 30
-                        font.bold: true
-                    }
-                }
-            }
         }
     }
 
     PropertyAnimation {
         id: gameMenuAnimationRight
-        target: gameMenuLoader
+        target: gameMenuRect
         property: "x"
         to: root.width
         duration: 300
@@ -590,9 +514,9 @@ Window
 
     PropertyAnimation {
         id: gameMenuAnimationLeft
-        target: gameMenuLoader
+        target: gameMenuRect
         property: "x"
-        to: root.width - gameMenuLoader.width - 15
+        to: root.width - gameMenuRect.width - 15
         duration: 300
     }
 
@@ -907,17 +831,14 @@ Window
         }
     }
 
-
-
     Item
     {
         focus: true
-
         Keys.onPressed: (event) =>
         {
             if (event.key === Qt.Key_Right)
             {
-                if (gameMenuVisible &&  gameMenuLoader.x === root.width - gameMenuLoader.width - 15) {
+                if (gameMenuVisible &&  gameMenuRect.x === root.width - gameMenuRect.width - 15) {
                     animationCenterSpeedometer.start()
                     gameMenuAnimationRight.start()
                     gameMenuCounter = 0
@@ -1006,7 +927,6 @@ Window
                     currentSet = 1
                     menuShown = false
                 }
-
                 else if(counter === 1)
                 {
                     brakeBiasScreen.visible = true
@@ -1074,8 +994,6 @@ Window
                     launchControlImage.visible = false
                     menuShown = false
                 }
-
-
             }
             else if(event.key === Qt.Key_Left) {
 
@@ -1084,11 +1002,11 @@ Window
                     {
                         menuShown = true
                         gameMenuVisible = true
-                        gameMenuLoader.x = root.width
+                        gameMenu.x = root.width
                         animationLeftSpeedometer.start()
                         gameMenuAnimationLeft.start()
                     }
-                    else if(gameMenuVisible && gameMenuLoader.x === root.width - gameMenuLoader.width - 15)
+                    else if(gameMenuVisible && gameMenu.x === root.width - gameMenu.width - 15)
                     {
                         if (gameMenuCounter % 2 === 0)
                         {
@@ -1100,7 +1018,6 @@ Window
                         }
                     }
                 }
-
                 else if(counter >= 0 && counter <= 4 && engineInfoScreen.visible === false &&
                         brakeBiasScreen.visible === false && tractionControlScreen.visible === false)
                 {
@@ -1190,9 +1107,7 @@ Window
                 {
                     counter = counter - 1
                 }
-
             }
-
             else if(event.key === Qt.Key_Down)
             {
                 if (gameMenuVisible) {
@@ -1201,8 +1116,6 @@ Window
                 else {
                     counter = counter + 1
                 }
-
-
 
                 if(brakeBiasScreen.visible === true && brakeBiasObject.biasVal > 0 && brakeBiasObject.rearBrakeBias < 100)
                 {
@@ -1240,15 +1153,15 @@ Window
                 {
                     counter = 6
                 }
-
-
             }
             else if(event.key === Qt.Key_Up)
             {
                 if (gameMenuVisible) {
                     gameMenuCounter = gameMenuCounter - 1
-               }
-                counter = counter - 1
+                }
+                else {
+                    counter = counter - 1
+                }
 
                 if(brakeBiasScreen.visible === true && brakeBiasObject.biasVal < 100 && brakeBiasObject.rearBrakeBias > 0)
                 {
@@ -1376,6 +1289,3 @@ Window
         }
     }
 }
-
-
-
