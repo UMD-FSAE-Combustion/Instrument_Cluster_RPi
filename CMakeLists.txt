@@ -40,6 +40,7 @@ qt_add_qml_module(appDyno_Info
         QML_FILES VehicleInfoDisplayExtraWidgets.qml
         QML_FILES OptionsMenu.qml
         QML_FILES GameMenu.qml
+        QML_FILES AnimationManager.qml
 )
 
 
