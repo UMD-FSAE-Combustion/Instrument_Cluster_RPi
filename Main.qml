@@ -884,7 +884,12 @@ Window
             else if(event.key === Qt.Key_Down)
             {
                 if (gameMenuVisible) {
-                    gameMenuCounter = gameMenuCounter + 1
+                    if (gameMenuCounter < gameMenu.getGameList() - 1) {
+                        gameMenuCounter = gameMenuCounter + 1
+                    }
+                    else {
+                        gameMenuCounter = 0
+                    }
                 }
                 else {
                     counter = counter + 1
@@ -930,7 +935,12 @@ Window
             else if(event.key === Qt.Key_Up)
             {
                 if (gameMenuVisible) {
-                    gameMenuCounter = gameMenuCounter - 1
+                    if (gameMenuCounter === 0) {
+                        gameMenuCounter = gameMenu.getGameList() - 1
+                    }
+                    else {
+                        gameMenuCounter = gameMenuCounter - 1
+                    }
                 }
                 else {
                     counter = counter - 1
@@ -999,6 +1009,9 @@ Window
             }
             else if (event.key === Qt.Key_P) {
                 shutdownHandler.powerOFF()
+            }
+            else if (event.key === Qt.Key_M) {
+                console.log(gameMenuCounter)
             }
         }
     }
