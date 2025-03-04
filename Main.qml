@@ -44,6 +44,10 @@ Window
         id: jsonManager
     }
 
+    AnimationManager {
+        id: animator
+    }
+
     Connections {
         target: canManager
 
@@ -312,59 +316,6 @@ Window
                     visible: root.loadingComplete
                 }
             }
-
-            PropertyAnimation
-            {
-               id: animationRightSpeedometer
-               target: visualRoot
-               property: "x"
-               to: 165
-               duration: 300
-            }
-
-            PropertyAnimation
-            {
-               id: animationCenterSpeedometer
-               target: visualRoot
-               property: "x"
-               to: speedoNumber.horizontalCenter
-               duration: 350
-            }
-            PropertyAnimation
-            {
-               id: animationLeftSpeedometer
-               target: visualRoot
-               property: "x"
-               to: -165
-               duration: 300
-            }
-
-            PropertyAnimation
-           {
-              id: animationUpSpeedometer
-              target: visualRoot
-              property: "y"
-              to: -180
-              duration: 200
-           }
-
-            PropertyAnimation
-            {
-               id: animationDownSpeedometer
-               target: visualRoot
-               property: "y"
-               to: speedoNumber.verticalCenter
-               duration: 300
-            }
-
-            PropertyAnimation
-            {
-               id: animationTopLeftSpeedometer
-               target: visualRoot
-               property: "x"
-               to: -320
-               duration: 200
-            }
         }
     }
 
@@ -436,24 +387,6 @@ Window
         visible: false
     }
 
-    PropertyAnimation
-    {
-       id: animationDownInfoScreenSpeedometer
-       target: speedoUnitInfoScreen
-       property: "y"
-       to: 60
-       duration: 300
-    }
-
-    PropertyAnimation
-    {
-       id: animationUpInfoScreenSpeedometer
-       target: speedoUnitInfoScreen
-       property: "y"
-       to: -20
-       duration: 300
-    }
-
     Rectangle
     {
         id: columnBar
@@ -499,61 +432,6 @@ Window
             id: gameMenu
             anchors.fill: parent
         }
-    }
-
-    PropertyAnimation {
-        id: gameMenuAnimationRight
-        target: gameMenuRect
-        property: "x"
-        to: root.width
-        duration: 300
-        onFinished: {
-            gameMenuVisible = false
-        }
-    }
-
-    PropertyAnimation {
-        id: gameMenuAnimationLeft
-        target: gameMenuRect
-        property: "x"
-        to: root.width - gameMenuRect.width - 15
-        duration: 300
-    }
-
-    PropertyAnimation
-    {
-       id: animationRight
-       target: columnBar
-       property: "x"
-       to: root.width - 785
-       duration: 300
-    }
-
-    PropertyAnimation
-    {
-       id: animationLeft
-       target: columnBar
-       property: "x"
-       to: columnBar.width - root.width
-       duration: 300
-    }
-
-    PropertyAnimation
-    {
-        id: engineInfoAnimationRight
-        target: engineInfoScreen
-        property: "x"
-        to: 800
-        duration: 300
-    }
-
-    PropertyAnimation
-    {
-        id: engineInfoAnimationLeft
-        target: engineInfoScreen
-        property: "x"
-        to: -800
-        duration: 300
     }
 
     Rectangle
@@ -711,110 +589,6 @@ Window
         }
     }
 
-    SequentialAnimation
-    {
-        id: statusUpdateAnimation
-        running: false
-
-        PauseAnimation
-        {
-            duration: 600
-        }
-
-        ParallelAnimation
-        {
-            NumberAnimation
-            {
-                target: visualRoot
-                property: "y"
-                to: -50
-                duration: 300
-                easing.type: Easing.InOutQuad
-            }
-
-
-            NumberAnimation
-            {
-                id: statusUpdateAnimationUp
-                target: statusUpdate
-                property: "y"
-                to: 330
-                duration: 300
-                easing.type: Easing.InOutQuad
-            }
-        }
-
-
-        PauseAnimation
-        {
-            duration: 1750
-        }
-
-        ParallelAnimation
-        {
-            NumberAnimation
-            {
-                id: statusUpdateAnimationDown
-                target: statusUpdate
-                property: "y"
-                to: 500
-                duration: 300
-                easing.type: Easing.InOutQuad
-            }
-
-            NumberAnimation
-            {
-                target: visualRoot
-                property: "y"
-                to: 0
-                duration: 300
-                easing.type: Easing.InOutQuad
-            }
-        }
-    }
-
-    SequentialAnimation
-    {
-        id: advancedViewStatusUpdateAnimation
-        running: false
-
-        PauseAnimation
-        {
-            duration: 600
-        }
-
-        ParallelAnimation
-        {
-            NumberAnimation
-            {
-                id: advancedViewStatusUpdateAnimationUp
-                target: statusUpdateAdvancedView
-                property: "y"
-                to: 55
-                duration: 300
-                easing.type: Easing.InOutQuad
-            }
-        }
-
-        PauseAnimation
-        {
-            duration: 1750
-        }
-
-        ParallelAnimation
-        {
-            NumberAnimation
-            {
-                id: advancedViewStatusUpdateAnimationDown
-                target: statusUpdateAdvancedView
-                property: "y"
-                to: -500
-                duration: 300
-                easing.type: Easing.InOutQuad
-            }
-        }
-    }
-
     Rectangle
     {
         id: extraInfoWidgets
@@ -839,8 +613,8 @@ Window
             if (event.key === Qt.Key_Right)
             {
                 if (gameMenuVisible &&  gameMenuRect.x === root.width - gameMenuRect.width - 15) {
-                    animationCenterSpeedometer.start()
-                    gameMenuAnimationRight.start()
+                    animator.animationCenterSpeedometer_START()
+                    animator.gameMenuAnimationRight_START()
                     gameMenuCounter = 0
                     menuShown = false
                 }
@@ -848,20 +622,20 @@ Window
                 else if(columnBar.x < 0 && menuShown === false)
                 {
                     menuShown = true
-                    animationRightSpeedometer.start()
-                    animationRight.start()
+                    animator.animationRightSpeedometer_START()
+                    animator.animationRight_START()
                 }
                 else if(brakeBiasScreen.visible === true)
                 {
                     if(brakeBiasObject.rearBrakeBias !== (100 - jsonManager.biasVal)) {
                         updateBias(driver, (100 - brakeBiasObject.rearBrakeBias))
-                        animationCenterSpeedometer.start()
-                        animationLeft.start()
+                        animator.animationCenterSpeedometer_START()
+                        animator.animationLeft_START()
 
                         statusMessage.text = "Settings Updated"
                         statusImage.source = "assets/images/INFO.png"
                         statusMessage.font.pixelSize = 20
-                        statusUpdateAnimation.start()
+                        animator.statusUpdateAnimation_START()
 
                         counter = 0
                         currentSet = 1
@@ -869,8 +643,8 @@ Window
                         menuShown = false
                     }
                     else {
-                        animationCenterSpeedometer.start()
-                        animationLeft.start()
+                        animator.animationCenterSpeedometer_START()
+                        animator.animationLeft_START()
 
                         counter = 0
                         currentSet = 1
@@ -883,13 +657,13 @@ Window
                     if(tract.tractionSwitch !== jsonManager.tractionSwitch)
                     {
                         updateTraction(driver, tract.tractionSwitch)
-                        animationCenterSpeedometer.start()
-                        animationLeft.start()
+                        animator.animationCenterSpeedometer_START()
+                        animator.animationLeft_START()
 
                         statusMessage.text = "Settings Updated"
                         statusImage.source = "assets/images/INFO.png"
                         statusMessage.font.pixelSize = 20
-                        statusUpdateAnimation.start()
+                        animator.statusUpdateAnimation_START()
 
                         counter = 0
                         currentSet = 1
@@ -898,8 +672,8 @@ Window
                     }
                     else
                     {
-                        animationCenterSpeedometer.start()
-                        animationLeft.start()
+                        animator.animationCenterSpeedometer_START()
+                        animator.animationLeft_START()
 
                         counter = 0
                         currentSet = 1
@@ -915,13 +689,13 @@ Window
                 else if(currentSet === 3)
                 {
                     loadNewProfile(counter - 6)
-                    animationCenterSpeedometer.start()
-                    animationLeft.start()
+                    animator.animationCenterSpeedometer_START()
+                    animator.animationLeft_START()
 
                     statusMessage.text = "Profile Loaded:  " + (driver + 1)
                     statusImage.source = "assets/images/INFO.png"
                     statusMessage.font.pixelSize = 14
-                    statusUpdateAnimation.start()
+                    animator.statusUpdateAnimation_START()
 
                     counter = 0
                     currentSet = 1
@@ -938,14 +712,13 @@ Window
                 else if(counter === 3)
                 {
                     columnBar.visible = false
-                    engineInfoAnimationRight.start()
-                    animationUpSpeedometer.start()
-                    //animationCenterSpeedometer.start()
-                    animationTopLeftSpeedometer.start()
-                    animationDownInfoScreenSpeedometer.start()
+                    animator.engineInfoAnimationRight_START()
+                    animator.animationUpSpeedometer_START()
+                    animator.animationTopLeftSpeedometer_START()
+                    animator.animationDownInfoScreenSpeedometer_START()
 
-                    if(statusUpdateAnimation.running) {
-                        statusUpdateAnimation.stop()
+                    if(animator.statusUpdateAnimation_RUNNING()) {
+                        animator.statusUpdateAnimation_STOP()
                         statusUpdate.visible = false
                         statusUpdate.y = 500
                         statusUpdate.visible = true
@@ -964,13 +737,13 @@ Window
                 {
                     lc_Status = 1
                     canManager.updatePayload(2, lc_Status)
-                    animationCenterSpeedometer.start()
-                    animationLeft.start()
+                    animator.animationCenterSpeedometer_START()
+                    animator.animationLeft_START()
 
                     statusMessage.text = "Launch Control: Active"
-                    statusImage.source = "assets/images/INFO.png"
+                    statusImage.source = "assets/images/LC.png"
                     statusMessage.font.pixelSize = 15
-                    statusUpdateAnimation.start()
+                    animator.statusUpdateAnimation_START()
 
                     counter = 0
                     currentSet = 1
@@ -981,13 +754,13 @@ Window
                 {
                     lc_Status = 0
                     canManager.updatePayload(2, lc_Status)
-                    animationCenterSpeedometer.start()
-                    animationLeft.start()
+                    animator.animationCenterSpeedometer_START()
+                    animator.animationLeft_START()
 
                     statusMessage.text = "Launch Control: Inactive"
-                    statusImage.source = "assets/images/INFO.png"
+                    statusImage.source = "assets/images/LC.png"
                     statusMessage.font.pixelSize = 14
-                    statusUpdateAnimation.start()
+                    animator.statusUpdateAnimation_START()
 
                     counter = 0
                     currentSet = 1
@@ -1003,16 +776,16 @@ Window
                         menuShown = true
                         gameMenuVisible = true
                         gameMenu.x = root.width
-                        animationLeftSpeedometer.start()
-                        gameMenuAnimationLeft.start()
+                        animator.animationLeftSpeedometer_START()
+                        animator.gameMenuAnimationLeft_START()
                     }
                     else if(gameMenuVisible && gameMenu.x === root.width - gameMenu.width - 15)
                     {
-                        if (gameMenuCounter % 2 === 0)
+                        if (gameMenuCounter === 0)
                         {
                             console.log("Launching Pong")
                         }
-                        else if (Math.abs(gameMenuCounter) % 2 === 1)
+                        else if (gameMenuCounter === 1)
                         {
                             console.log("Launching Pacman")
                         }
@@ -1021,8 +794,8 @@ Window
                 else if(counter >= 0 && counter <= 4 && engineInfoScreen.visible === false &&
                         brakeBiasScreen.visible === false && tractionControlScreen.visible === false)
                 {
-                    animationCenterSpeedometer.start()
-                    animationLeft.start()
+                    animator.animationCenterSpeedometer_START()
+                    animator.animationLeft_START()
                     counter = 0
                     currentSet = 1
                     menuShown = false
@@ -1030,28 +803,28 @@ Window
                 else if(counter === 6 || counter === 7 || counter === 8 && currentSet === 3) {
                     currentSet = 1
                     counter = 0
-                    animationRight.start()
+                    animator.animationRight_START()
                 }
                 else if(counter === 1 && brakeBiasScreen.visible === true)
                 {
                     if(brakeBiasObject.rearBrakeBias !== (100 - jsonManager.biasVal)) {
                         updateBias(driver, (100 - brakeBiasObject.rearBrakeBias))
                         brakeBiasScreen.visible = false
-                        animationRight.start()
-                        animationRightSpeedometer.start()
+                        animator.animationRight_START()
+                        animator.animationRightSpeedometer_START()
 
                         statusMessage.text = "Setting Updated"
                         statusImage.source = "assets/images/INFO.png"
                         statusMessage.font.pixelSize = 20
-                        statusUpdateAnimation.start()
+                        animator.statusUpdateAnimation_START()
 
                         counter = 1
                         currentSet = 1
                     }
                     else {
                         brakeBiasScreen.visible = false
-                        animationRight.start()
-                        animationRightSpeedometer.start()
+                        animator.animationRight_START()
+                        animator.animationRightSpeedometer_START()
 
                         counter = 1
                         currentSet = 1
@@ -1062,13 +835,13 @@ Window
                     if(tract.tractionSwitch !== jsonManager.tractionSwitch)
                     {
                         updateTraction(driver, tract.tractionSwitch)
-                        animationRight.start()
-                        animationRightSpeedometer.start()
+                        animator.animationRight_START()
+                        animator.animationRightSpeedometer_START()
 
                         statusMessage.text = "Setting Updated"
                         statusImage.source = "assets/images/INFO.png"
                         statusMessage.font.pixelSize = 20
-                        statusUpdateAnimation.start()
+                        animator.statusUpdateAnimation_START()
 
                         counter = 2
                         currentSet = 1
@@ -1076,8 +849,8 @@ Window
                     }
                     else
                     {
-                        animationRightSpeedometer.start()
-                        animationRight.start()
+                        animator.animationRightSpeedometer_START()
+                        animator.animationRight_START()
 
                         counter = 2
                         currentSet = 1
@@ -1092,12 +865,12 @@ Window
                 else if (counter === 9 && engineInfoScreen.visible === true)
                 {
                     columnBar.visible = true
-                    engineInfoAnimationLeft.start()
+                    animator.engineInfoAnimationLeft_START()
                     engineInfoScreen.visible = false
-                    animationRight.start()
-                    animationRightSpeedometer.start()
-                    animationDownSpeedometer.start()
-                    animationUpInfoScreenSpeedometer.start()
+                    animator.animationRight_START()
+                    animator.animationRightSpeedometer_START()
+                    animator.animationDownSpeedometer_START()
+                    animator.animationUpInfoScreenSpeedometer_START()
                     speedoUnit.visible = true
                     speedoUnitInfoScreen.visible = false
                     counter = 3
@@ -1213,7 +986,7 @@ Window
                     statusImageAdvancedView.source = "assets/images/WARN.png"
                     statusMessageAdvancedView.text = "ECU fault"
                     statusMessageAdvancedView.text.pixelSize = 20
-                    advancedViewStatusUpdateAnimation.start()
+                    animator.advancedViewStatusUpdateAnimation_START()
                 }
                 else
                 {
@@ -1221,7 +994,7 @@ Window
                     statusImage.source = "assets/images/WARN.png"
                     statusMessage.text = "ECU fault"
                     statusMessage.text.pixelSize = 20
-                    statusUpdateAnimation.start()
+                    animator.statusUpdateAnimation_START()
                 }
             }
             else if (event.key === Qt.Key_P) {
@@ -1236,7 +1009,7 @@ Window
         statusMessage.text = "Profile Loaded:  " + (driver + 1)
         statusImage.source = "assets/images/INFO.png"
         statusMessage.font.pixelSize = 14
-        statusUpdateAnimation.start()
+        animator.statusUpdateAnimation_START()
     }
 
     function loadNewProfile(profileNum) {
@@ -1274,14 +1047,14 @@ Window
                 statusImageAdvancedView.source = "assets/images/WARN.png"
                 statusMessageAdvancedView.text = "ECU fault"
                 statusMessageAdvancedView.text.pixelSize = 20
-                advancedViewStatusUpdateAnimation.start()
+                animator.advancedViewStatusUpdateAnimation_START()
             }
             else {
                 ecuFaultImage.visible = true
                 statusImage.source = "assets/images/WARN.png"
                 statusMessage.text = "ECU fault"
                 statusMessage.text.pixelSize = 20
-                statusUpdateAnimation.start()
+                animator.statusUpdateAnimation_START()
             }
         }
         else {
