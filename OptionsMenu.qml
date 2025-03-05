@@ -100,7 +100,7 @@ Item {
 
             Rectangle
             {
-                id: brakeBias
+                id: engineInfo
 
                 height: 130
                 width: 290
@@ -112,7 +112,7 @@ Item {
 
                 Text
                 {
-                    text: qsTr("Brake Bias")
+                    text: qsTr("Advanced View")
                     color:(counter === 1) ? "white" : "black"
                     anchors.centerIn: parent
                     font.pixelSize: 30
@@ -122,7 +122,7 @@ Item {
 
             Rectangle
             {
-                id: tractionControl
+                id: launchControl
 
                 height: 130
                 width: 290
@@ -135,7 +135,7 @@ Item {
 
                 Text
                 {
-                    text: qsTr("Traction Control")
+                    text: qsTr("Launch Control")
                     color: (counter === 2) ? "white" : "black"
                     anchors.centerIn: parent
                     font.pixelSize: 30
@@ -165,7 +165,7 @@ Item {
 
             Rectangle
             {
-                id: engineInfo
+                id: brakeBias
 
                 height: 130
                 width: 290
@@ -178,7 +178,7 @@ Item {
 
                 Text
                 {
-                    text: qsTr("Advanced View")
+                    text: qsTr("Brake Bias")
                     color: (counter === 3) ? "white" : "black"
                     anchors.centerIn: parent
                     font.pixelSize: 30
@@ -188,7 +188,7 @@ Item {
 
             Rectangle
             {
-                id: launchControl
+                id: tractionControl
 
                 height: 130
                 width: 290
@@ -200,7 +200,7 @@ Item {
 
                 Text
                 {
-                    text: qsTr("Launch Control")
+                    text: qsTr("Traction Control")
                     color: (counter === 4) ? "white" : "black"
                     anchors.centerIn: parent
                     font.pixelSize: 30
