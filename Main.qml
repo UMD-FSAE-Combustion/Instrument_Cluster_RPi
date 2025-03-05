@@ -7,13 +7,12 @@ import QtQuick.Controls.Material
 
 Window
 {
-    id: root
+    id: rootWindow
 
     property var info: JSON
     property var canManager: canBus
 
     property bool loadingComplete: false
-    property bool displayProfiles: false
     property int speed: 0
     property int currentSet: 1
     property int counter: 0
@@ -66,12 +65,16 @@ Window
         function onEcuFaultChanged() { showECUfault() }
     }
 
+    InputManager {
+        id: inputManager
+    }
+
     Image
     {
         id: loadingImage
         anchors.centerIn: parent
         source: "assets/images/teamlogo.png"
-        visible: !root.loadingComplete
+        visible: !rootWindow.loadingComplete
 
 
         Rectangle {
@@ -240,7 +243,7 @@ Window
         width: 1040
         height: 0
         color: "transparent"
-        visible: root.loadingComplete
+        visible: rootWindow.loadingComplete
     }
 
     Image
@@ -254,7 +257,7 @@ Window
         width: 70
         height: 70
         source: "assets/images/teamlogo2.png"
-        visible: root.loadingComplete
+        visible: rootWindow.loadingComplete
     }
 
     Rectangle
@@ -288,7 +291,7 @@ Window
                     anchors.centerIn: speedoNumber
                     font.pixelSize: 110
                     font.bold: true
-                    visible: root.loadingComplete
+                    visible: rootWindow.loadingComplete
                 }
             }
 
@@ -313,7 +316,7 @@ Window
                     font.pixelSize: 60
                     font.bold: true
                     color: "#1e272e"
-                    visible: root.loadingComplete
+                    visible: rootWindow.loadingComplete
                 }
             }
         }
@@ -421,7 +424,7 @@ Window
             margins: 15
 
         }
-        x: root.width
+        x: rootWindow.width
         width: 300
         height: 50
         visible: gameMenuVisible
@@ -632,395 +635,25 @@ Window
         focus: true
         Keys.onPressed: (event) =>
         {
-            if (event.key === Qt.Key_Right)
-            {
-                if (pongGame.visible) {
-                    pongGame.visible = false
-                    pongGameRect.x = root.width
-                    gameMenuVisible = true
-                    gameMenuRect.x = root.width - gameMenuRect.width - 15
-                    gameMenuCounter = 0
-                }
-                else if (gameMenuVisible &&  gameMenuRect.x === root.width - gameMenuRect.width - 15) {
-                    animator.animationCenterSpeedometer_START()
-                    animator.gameMenuAnimationRight_START()
-                    gameMenuCounter = 0
-                    menuShown = false
-                    pongGame.enablePaddleMovement(false)
-                    pongGame.visible = false
-                }
-
-                else if(columnBar.x < 0 && menuShown === false)
-                {
-                    menuShown = true
-                    animator.animationRightSpeedometer_START()
-                    animator.animationRight_START()
-                }
-                else if(brakeBiasScreen.visible === true)
-                {
-                    if(brakeBiasObject.rearBrakeBias !== (100 - jsonManager.biasVal)) {
-                        updateBias(driver, (100 - brakeBiasObject.rearBrakeBias))
-                        animator.animationCenterSpeedometer_START()
-                        animator.animationLeft_START()
-
-                        statusMessage.text = "Settings Updated"
-                        statusImage.source = "assets/images/INFO.png"
-                        statusMessage.font.pixelSize = 20
-                        animator.statusUpdateAnimation_START()
-
-                        counter = 0
-                        currentSet = 1
-                        brakeBiasScreen.visible = false
-                        menuShown = false
-                    }
-                    else {
-                        animator.animationCenterSpeedometer_START()
-                        animator.animationLeft_START()
-
-                        counter = 0
-                        currentSet = 1
-                        brakeBiasScreen.visible = false
-                        menuShown = false
-                    }
-                }
-                else if(tractionControlScreen.visible === true)
-                {
-                    if(tract.tractionSwitch !== jsonManager.tractionSwitch)
-                    {
-                        updateTraction(driver, tract.tractionSwitch)
-                        animator.animationCenterSpeedometer_START()
-                        animator.animationLeft_START()
-
-                        statusMessage.text = "Settings Updated"
-                        statusImage.source = "assets/images/INFO.png"
-                        statusMessage.font.pixelSize = 20
-                        animator.statusUpdateAnimation_START()
-
-                        counter = 0
-                        currentSet = 1
-                        tractionControlScreen.visible = false
-                        menuShown = false
-                    }
-                    else
-                    {
-                        animator.animationCenterSpeedometer_START()
-                        animator.animationLeft_START()
-
-                        counter = 0
-                        currentSet = 1
-                        tractionControlScreen.visible = false
-                        menuShown = false
-                    }
-                }
-                else if(columnBar.x > 0 && counter === 0)
-                {
-                    currentSet = 3
-                    counter = 6
-                }
-                else if(currentSet === 3)
-                {
-                    loadNewProfile(counter - 6)
-                    animator.animationCenterSpeedometer_START()
-                    animator.animationLeft_START()
-
-                    statusMessage.text = "Profile Loaded:  " + (driver + 1)
-                    statusImage.source = "assets/images/INFO.png"
-                    statusMessage.font.pixelSize = 14
-                    animator.statusUpdateAnimation_START()
-
-                    counter = 0
-                    currentSet = 1
-                    menuShown = false
-                }
-                else if(counter === 1)
-                {
-                    brakeBiasScreen.visible = true
-                }
-                else if(counter === 2)
-                {
-                    tractionControlScreen.visible = true
-                }
-                else if(counter === 3)
-                {
-                    columnBar.visible = false
-                    animator.engineInfoAnimationRight_START()
-                    animator.animationUpSpeedometer_START()
-                    animator.animationTopLeftSpeedometer_START()
-                    animator.animationDownInfoScreenSpeedometer_START()
-
-                    if(animator.statusUpdateAnimation_RUNNING()) {
-                        animator.statusUpdateAnimation_STOP()
-                        statusUpdate.visible = false
-                        statusUpdate.y = 500
-                        statusUpdate.visible = true
-                    }
-
-                    engineInfoScreen.visible = true
-                    speedoUnitInfoScreen.visible = true
-                    speedoUnit.visible = false
-                    counter = 9
-                }
-                else if(engineInfoScreen.visible === true && counter === 9)
-                {
-                    extraInfoWidgets.visible = true
-                }
-                else if(counter === 4 && lc_Status !== 1)
-                {
-                    lc_Status = 1
-                    canManager.updatePayload(2, lc_Status)
-                    animator.animationCenterSpeedometer_START()
-                    animator.animationLeft_START()
-
-                    statusMessage.text = "Launch Control: Active"
-                    statusImage.source = "assets/images/LC.png"
-                    statusMessage.font.pixelSize = 15
-                    animator.statusUpdateAnimation_START()
-
-                    counter = 0
-                    currentSet = 1
-                    launchControlImage.visible = true
-                    menuShown = false
-                }
-                else if(counter === 4 && lc_Status !== 0)
-                {
-                    lc_Status = 0
-                    canManager.updatePayload(2, lc_Status)
-                    animator.animationCenterSpeedometer_START()
-                    animator.animationLeft_START()
-
-                    statusMessage.text = "Launch Control: Inactive"
-                    statusImage.source = "assets/images/LC.png"
-                    statusMessage.font.pixelSize = 14
-                    animator.statusUpdateAnimation_START()
-
-                    counter = 0
-                    currentSet = 1
-                    launchControlImage.visible = false
-                    menuShown = false
-                }
+            if (event.key === Qt.Key_Right) {
+                inputManager.rightPress()
             }
             else if(event.key === Qt.Key_Left) {
-
-                if(columnBar.x < 0){
-                    if (!gameMenuVisible && menuShown === false)
-                    {
-                        menuShown = true
-                        gameMenuVisible = true
-                        animator.animationLeftSpeedometer_START()
-                        animator.gameMenuAnimationLeft_START()
-                    }
-                    else if(gameMenuVisible && gameMenuRect.x === root.width - gameMenuRect.width - 15)
-                    {
-
-                        if (gameMenuCounter === 0)
-                        {
-                            gameMenuVisible = false
-                            pongGame.visible = true
-                            pongGameRect.visible = true
-                            pongGameRect.x = root.width - pongGameRect.width - 15
-                            pongGame.fullReset()
-                        }
-                        else if (gameMenuCounter === 1)
-                        {
-                            console.log("Launching Pacman")
-                        }
-                    }
-                }
-                else if(counter >= 0 && counter <= 4 && engineInfoScreen.visible === false &&
-                        brakeBiasScreen.visible === false && tractionControlScreen.visible === false)
-                {
-                    animator.animationCenterSpeedometer_START()
-                    animator.animationLeft_START()
-                    counter = 0
-                    currentSet = 1
-                    menuShown = false
-                }
-                else if(counter === 6 || counter === 7 || counter === 8 && currentSet === 3) {
-                    currentSet = 1
-                    counter = 0
-                    animator.animationRight_START()
-                }
-                else if(counter === 1 && brakeBiasScreen.visible === true)
-                {
-                    if(brakeBiasObject.rearBrakeBias !== (100 - jsonManager.biasVal)) {
-                        updateBias(driver, (100 - brakeBiasObject.rearBrakeBias))
-                        brakeBiasScreen.visible = false
-                        animator.animationRight_START()
-                        animator.animationRightSpeedometer_START()
-
-                        statusMessage.text = "Setting Updated"
-                        statusImage.source = "assets/images/INFO.png"
-                        statusMessage.font.pixelSize = 20
-                        animator.statusUpdateAnimation_START()
-
-                        counter = 1
-                        currentSet = 1
-                    }
-                    else {
-                        brakeBiasScreen.visible = false
-                        animator.animationRight_START()
-                        animator.animationRightSpeedometer_START()
-
-                        counter = 1
-                        currentSet = 1
-                    }
-                }
-                else if(counter === 2 && tractionControlScreen.visible === true)
-                {
-                    if(tract.tractionSwitch !== jsonManager.tractionSwitch)
-                    {
-                        updateTraction(driver, tract.tractionSwitch)
-                        animator.animationRight_START()
-                        animator.animationRightSpeedometer_START()
-
-                        statusMessage.text = "Setting Updated"
-                        statusImage.source = "assets/images/INFO.png"
-                        statusMessage.font.pixelSize = 20
-                        animator.statusUpdateAnimation_START()
-
-                        counter = 2
-                        currentSet = 1
-                        tractionControlScreen.visible = false
-                    }
-                    else
-                    {
-                        animator.animationRightSpeedometer_START()
-                        animator.animationRight_START()
-
-                        counter = 2
-                        currentSet = 1
-                        tractionControlScreen.visible = false
-                    }
-                }
-                else if(extraInfoWidgets.visible === true)
-                {
-                    counter = 9
-                    extraInfoWidgets.visible = false
-                }
-                else if (counter === 9 && engineInfoScreen.visible === true)
-                {
-                    columnBar.visible = true
-                    animator.engineInfoAnimationLeft_START()
-                    engineInfoScreen.visible = false
-                    animator.animationRight_START()
-                    animator.animationRightSpeedometer_START()
-                    animator.animationDownSpeedometer_START()
-                    animator.animationUpInfoScreenSpeedometer_START()
-                    speedoUnit.visible = true
-                    speedoUnitInfoScreen.visible = false
-                    counter = 3
-                    currentSet = 2
-                }
-                else if(counter > 9 && engineInfoScreen.visible === true)
-                {
-                    counter = counter - 1
-                }
+                inputManager.leftPress()
             }
-            else if(event.key === Qt.Key_Down)
-            {
-                if (gameMenuVisible && pongGame.visible === false) {
-                    gameMenuCounter = (gameMenuCounter + 1) % 2
-                }
-                else if (pongGame.visible) {
-                    pongGame.movePaddleDown()
-                }
-                else {
-                    counter = counter + 1
-                }
-
-                if(brakeBiasScreen.visible === true && brakeBiasObject.biasVal > 0 && brakeBiasObject.rearBrakeBias < 100)
-                {
-                    counter = 1
-                    brakeBiasObject.biasVal -= 1
-                    brakeBiasObject.rearBrakeBias += 1
-                }
-                else if(brakeBiasObject.biasVal >= 100 || brakeBiasObject.rearBrakeBias >= 100)
-                {
-                    counter = 1
-                }
-                else if(engineInfoScreen.visible === true)
-                {
-                    counter = 11
-                }
-                else if(tractionControlScreen.visible === true && tract.tractionSwitch > 1)
-                {
-                    counter = 2
-                    tract.tractionSwitch = tract.tractionSwitch - 1
-                }
-                else if(counter > 2 && counter < 5)
-                {
-                    currentSet = 2
-                }
-                else if(counter < 2)
-                {
-                    currentSet = 1
-                }
-                else if(counter === 5 && currentSet === 2)
-                {
-                    currentSet = 1
-                    counter = 0
-                }
-                else if(counter > 8)
-                {
-                    counter = 6
-                }
+            else if(event.key === Qt.Key_Down) {
+                inputManager.downPress()
             }
-            else if(event.key === Qt.Key_Up)
-            {
-                if (gameMenuVisible && pongGame.visible === false) {
-                    gameMenuCounter = Math.abs((gameMenuCounter - 1)) % 2
-                }
-                if (pongGame.visible) {
-                    pongGame.movePaddleUp()
-                }
-                else {
-                    counter = counter - 1
-                }
-
-                if(brakeBiasScreen.visible === true && brakeBiasObject.biasVal < 100 && brakeBiasObject.rearBrakeBias > 0)
-                {
-                    counter = 1
-                    brakeBiasObject.biasVal += 1
-                    brakeBiasObject.rearBrakeBias -= 1
-                }
-                else if(brakeBiasObject.biasVal >= 100 || brakeBiasObject.rearBrakeBias >= 100)
-                {
-                    counter = 1
-                }
-                else if(engineInfoScreen.visible === true)
-                {
-                    counter = 9
-                }
-                else if(tractionControlScreen.visible === true && tract.tractionSwitch < 9)
-                {
-                    counter = 2
-                    tract.tractionSwitch = tract.tractionSwitch + 1
-                }
-                else if(counter < 0)
-                {
-                    currentSet = 2
-                    counter = 4
-                }
-                else if(counter === 2)
-                {
-                    currentSet = 1
-                    counter = 2
-                }
-                else if(counter < 6 && currentSet === 3)
-                {
-                    counter = 8
-                }
+            else if(event.key === Qt.Key_Up) {
+                inputManager.upPress()
             }
-            else if(event.key === Qt.Key_Escape)
-            {
+            else if(event.key === Qt.Key_Escape) {
                 close()
             }
-            else if(event.key === Qt.Key_Q)
-            {
+            else if(event.key === Qt.Key_Q) {
                 close()
             }
-            else if (event.key === Qt.Key_W)
-            {
+            else if (event.key === Qt.Key_W) {
                 if(engineInfoScreen.visible === true)
                 {
                     ecuFaultImage.visible = true
@@ -1041,11 +674,14 @@ Window
             else if (event.key === Qt.Key_P) {
                 shutdownHandler.powerOFF()
             }
+            else if (event.key === Qt.Key_M) {
+                console.log(gameMenuCounter)
+            }
         }
     }
 
     function loadingDone() {
-        root.loadingComplete = true
+        rootWindow.loadingComplete = true
 
         statusMessage.text = "Profile Loaded:  " + (driver + 1)
         statusImage.source = "assets/images/INFO.png"
@@ -1081,8 +717,8 @@ Window
     }
 
     function showECUfault() {
-        root.ecuFault = canManager.ecuFault
-        if(root.ecuFault === true) {
+        rootWindow.ecuFault = canManager.ecuFault
+        if(rootWindow.ecuFault === true) {
             if(engineInfoScreen.visible === true) {
                 ecuFaultImage.visible = true
                 statusImageAdvancedView.source = "assets/images/WARN.png"
