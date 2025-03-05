@@ -701,15 +701,15 @@ Window
                     currentSet = 1
                     menuShown = false
                 }
-                else if(counter === 1)
+                else if(counter === 3)
                 {
                     brakeBiasScreen.visible = true
                 }
-                else if(counter === 2)
+                else if(counter === 4)
                 {
                     tractionControlScreen.visible = true
                 }
-                else if(counter === 3)
+                else if(counter === 1)
                 {
                     columnBar.visible = false
                     animator.engineInfoAnimationRight_START()
@@ -733,7 +733,7 @@ Window
                 {
                     extraInfoWidgets.visible = true
                 }
-                else if(counter === 4 && lc_Status !== 1)
+                else if(counter === 2 && lc_Status !== 1)
                 {
                     lc_Status = 1
                     canManager.updatePayload(2, lc_Status)
@@ -750,7 +750,7 @@ Window
                     launchControlImage.visible = true
                     menuShown = false
                 }
-                else if(counter === 4 && lc_Status !== 0)
+                else if(counter === 2 && lc_Status !== 0)
                 {
                     lc_Status = 0
                     canManager.updatePayload(2, lc_Status)
@@ -805,7 +805,7 @@ Window
                     counter = 0
                     animator.animationRight_START()
                 }
-                else if(counter === 1 && brakeBiasScreen.visible === true)
+                else if(counter === 3 && brakeBiasScreen.visible === true)
                 {
                     if(brakeBiasObject.rearBrakeBias !== (100 - jsonManager.biasVal)) {
                         updateBias(driver, (100 - brakeBiasObject.rearBrakeBias))
@@ -818,19 +818,19 @@ Window
                         statusMessage.font.pixelSize = 20
                         animator.statusUpdateAnimation_START()
 
-                        counter = 1
-                        currentSet = 1
+                        counter = 3
+                        currentSet = 2
                     }
                     else {
                         brakeBiasScreen.visible = false
                         animator.animationRight_START()
                         animator.animationRightSpeedometer_START()
 
-                        counter = 1
-                        currentSet = 1
+                        counter = 3
+                        currentSet = 2
                     }
                 }
-                else if(counter === 2 && tractionControlScreen.visible === true)
+                else if(counter === 4 && tractionControlScreen.visible === true)
                 {
                     if(tract.tractionSwitch !== jsonManager.tractionSwitch)
                     {
@@ -843,8 +843,8 @@ Window
                         statusMessage.font.pixelSize = 20
                         animator.statusUpdateAnimation_START()
 
-                        counter = 2
-                        currentSet = 1
+                        counter = 4
+                        currentSet = 2
                         tractionControlScreen.visible = false
                     }
                     else
@@ -852,8 +852,8 @@ Window
                         animator.animationRightSpeedometer_START()
                         animator.animationRight_START()
 
-                        counter = 2
-                        currentSet = 1
+                        counter = 4
+                        currentSet = 2
                         tractionControlScreen.visible = false
                     }
                 }
@@ -873,8 +873,8 @@ Window
                     animator.animationUpInfoScreenSpeedometer_START()
                     speedoUnit.visible = true
                     speedoUnitInfoScreen.visible = false
-                    counter = 3
-                    currentSet = 2
+                    counter = 1
+                    currentSet = 1
                 }
                 else if(counter > 9 && engineInfoScreen.visible === true)
                 {
@@ -897,13 +897,13 @@ Window
 
                 if(brakeBiasScreen.visible === true && brakeBiasObject.biasVal > 0 && brakeBiasObject.rearBrakeBias < 100)
                 {
-                    counter = 1
+                    counter = 3
                     brakeBiasObject.biasVal -= 1
                     brakeBiasObject.rearBrakeBias += 1
                 }
                 else if(brakeBiasObject.biasVal >= 100 || brakeBiasObject.rearBrakeBias >= 100)
                 {
-                    counter = 1
+                    counter = 3
                 }
                 else if(engineInfoScreen.visible === true)
                 {
@@ -911,7 +911,7 @@ Window
                 }
                 else if(tractionControlScreen.visible === true && tract.tractionSwitch > 1)
                 {
-                    counter = 2
+                    counter = 4
                     tract.tractionSwitch = tract.tractionSwitch - 1
                 }
                 else if(counter > 2 && counter < 5)
@@ -948,13 +948,13 @@ Window
 
                 if(brakeBiasScreen.visible === true && brakeBiasObject.biasVal < 100 && brakeBiasObject.rearBrakeBias > 0)
                 {
-                    counter = 1
+                    counter = 3
                     brakeBiasObject.biasVal += 1
                     brakeBiasObject.rearBrakeBias -= 1
                 }
                 else if(brakeBiasObject.biasVal >= 100 || brakeBiasObject.rearBrakeBias >= 100)
                 {
-                    counter = 1
+                    counter = 3
                 }
                 else if(engineInfoScreen.visible === true)
                 {
@@ -962,7 +962,7 @@ Window
                 }
                 else if(tractionControlScreen.visible === true && tract.tractionSwitch < 9)
                 {
-                    counter = 2
+                    counter = 4
                     tract.tractionSwitch = tract.tractionSwitch + 1
                 }
                 else if(counter < 0)
