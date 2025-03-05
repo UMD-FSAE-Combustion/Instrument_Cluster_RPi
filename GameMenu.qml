@@ -2,6 +2,8 @@ import QtQuick
 import QtQuick.Layouts
 
 Item {
+    property int gameList: 2
+
     id: gameMenuRoot
     anchors {
         top: parent.top
@@ -49,6 +51,8 @@ Item {
             anchors.fill: parent
 
             GridLayout {
+                id: layoutContainer
+
                 width: parent.width
                 anchors {
                     top: parent.top
@@ -56,7 +60,7 @@ Item {
                     right: parent.right
                 }
                 columns: 1
-                rows: 2
+                rows: gameList
                 rowSpacing: 5
 
                 Rectangle {
@@ -85,11 +89,11 @@ Item {
                     Layout.rightMargin: 5
                     Layout.leftMargin: 5
                     radius: 20
-                    color: (Math.abs(gameMenuCounter % 2) === 1) ? "#00a8ff" : "white"
+                    color: (gameMenuCounter === 1) ? "#00a8ff" : "white"
 
                     Text {
                         text: qsTr("Pacman")
-                        color: (Math.abs(gameMenuCounter % 2) === 1) ? "white" : "black"
+                        color: (gameMenuCounter === 1) ? "white" : "black"
                         anchors.centerIn: parent
                         font.pixelSize: 30
                         font.bold: true
@@ -97,5 +101,9 @@ Item {
                 }
             }
         }
+    }
+
+    function getGameList() {
+        return gameList
     }
 }
