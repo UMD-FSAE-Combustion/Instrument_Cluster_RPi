@@ -454,6 +454,28 @@ Window
         }
     }
 
+    Rectangle {
+        id: pongGameRect
+        anchors {
+            top: uselessRectangle.bottom
+            bottom: parent.bottom
+            margins: 15
+        }
+        x: root.width
+        width: 300
+        height: 50
+        visible: false
+        color: "#1E1E1E"
+        radius: 20
+
+        Pong {
+            id: pongGame
+            anchors.fill: parent
+            visible: false
+        }
+    }
+
+
     Rectangle
     {
         id: tractionControlScreen
@@ -612,11 +634,20 @@ Window
         {
             if (event.key === Qt.Key_Right)
             {
-                if (gameMenuVisible &&  gameMenuRect.x === root.width - gameMenuRect.width - 15) {
+                if (pongGame.visible) {
+                    pongGame.visible = false
+                    pongGameRect.x = root.width
+                    gameMenuVisible = true
+                    gameMenuRect.x = root.width - gameMenuRect.width - 15
+                    gameMenuCounter = 0
+                }
+                else if (gameMenuVisible &&  gameMenuRect.x === root.width - gameMenuRect.width - 15) {
                     animator.animationCenterSpeedometer_START()
                     animator.gameMenuAnimationRight_START()
                     gameMenuCounter = 0
                     menuShown = false
+                    pongGame.enablePaddleMovement(false)
+                    pongGame.visible = false
                 }
 
                 else if(columnBar.x < 0 && menuShown === false)
@@ -775,15 +806,19 @@ Window
                     {
                         menuShown = true
                         gameMenuVisible = true
-                        gameMenu.x = root.width
                         animator.animationLeftSpeedometer_START()
                         animator.gameMenuAnimationLeft_START()
                     }
-                    else if(gameMenuVisible && gameMenu.x === root.width - gameMenu.width - 15)
+                    else if(gameMenuVisible && gameMenuRect.x === root.width - gameMenuRect.width - 15)
                     {
+
                         if (gameMenuCounter === 0)
                         {
-                            console.log("Launching Pong")
+                            gameMenuVisible = false
+                            pongGame.visible = true
+                            pongGameRect.visible = true
+                            pongGameRect.x = root.width - pongGameRect.width - 15
+                            pongGame.fullReset()
                         }
                         else if (gameMenuCounter === 1)
                         {
@@ -883,8 +918,11 @@ Window
             }
             else if(event.key === Qt.Key_Down)
             {
-                if (gameMenuVisible) {
-                    gameMenuCounter = gameMenuCounter + 1
+                if (gameMenuVisible && pongGame.visible === false) {
+                    gameMenuCounter = (gameMenuCounter + 1) % 2
+                }
+                else if (pongGame.visible) {
+                    pongGame.movePaddleDown()
                 }
                 else {
                     counter = counter + 1
@@ -929,8 +967,11 @@ Window
             }
             else if(event.key === Qt.Key_Up)
             {
-                if (gameMenuVisible) {
-                    gameMenuCounter = gameMenuCounter - 1
+                if (gameMenuVisible && pongGame.visible === false) {
+                    gameMenuCounter = Math.abs((gameMenuCounter - 1)) % 2
+                }
+                if (pongGame.visible) {
+                    pongGame.movePaddleUp()
                 }
                 else {
                     counter = counter - 1
@@ -1058,7 +1099,7 @@ Window
             }
         }
         else {
-            ecuFaultImage.visible = fasle
+            ecuFaultImage.visible = false
         }
     }
 }
