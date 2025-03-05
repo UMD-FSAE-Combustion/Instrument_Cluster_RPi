@@ -43,15 +43,15 @@ Item {
 
         sourceComponent:
         {
-            if(root.currentSet === 1)
+            if(rootWindow.currentSet === 1)
             {
                 set1Component
             }
-            else if (root.currentSet === 2)
+            else if (rootWindow.currentSet === 2)
             {
                 set2Component
             }
-            else if (root.currentSet === 3)
+            else if (rootWindow.currentSet === 3)
             {
                 set3Component
             }
