@@ -77,7 +77,7 @@ Item {
         id: gameMenuAnimationRight
         target: gameMenuRect
         property: "x"
-        to: root.width
+        to: rootWindow.width
         duration: 300
         onFinished: {
             gameMenuVisible = false
@@ -88,7 +88,7 @@ Item {
         id: gameMenuAnimationLeft
         target: gameMenuRect
         property: "x"
-        to: root.width - gameMenuRect.width - 15
+        to: rootWindow.width - gameMenuRect.width - 15
         duration: 300
     }
 
@@ -97,7 +97,7 @@ Item {
        id: animationRight
        target: columnBar
        property: "x"
-       to: root.width - 785
+       to: rootWindow.width - 785
        duration: 300
     }
 
@@ -106,7 +106,7 @@ Item {
        id: animationLeft
        target: columnBar
        property: "x"
-       to: columnBar.width - root.width
+       to: columnBar.width - rootWindow.width
        duration: 300
     }
 
