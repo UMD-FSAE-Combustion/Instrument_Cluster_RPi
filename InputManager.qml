@@ -17,7 +17,7 @@ Item {
         }
         else if(brakeBiasScreen.visible === true)
         {
-            if(brakeBiasObject.rearBrakeBias !== (100 - jsonManager.biasVal)) {
+            if(brakeBiasObject.rearBrakeBias !== (100 - JSON.biasVal)) {
                 updateBias(driver, (100 - brakeBiasObject.rearBrakeBias))
                 animator.animationCenterSpeedometer_START()
                 animator.animationLeft_START()
@@ -44,7 +44,7 @@ Item {
         }
         else if(tractionControlScreen.visible === true)
         {
-            if(tract.tractionSwitch !== jsonManager.tractionSwitch)
+            if(tract.tractionSwitch !== JSON.tractionSwitch)
             {
                 updateTraction(driver, tract.tractionSwitch)
                 animator.animationCenterSpeedometer_START()
@@ -197,7 +197,7 @@ Item {
         }
         else if(counter === 3 && brakeBiasScreen.visible === true)
         {
-            if(brakeBiasObject.rearBrakeBias !== (100 - jsonManager.biasVal)) {
+            if(brakeBiasObject.rearBrakeBias !== (100 - JSON.biasVal)) {
                 updateBias(driver, (100 - brakeBiasObject.rearBrakeBias))
                 brakeBiasScreen.visible = false
                 animator.animationRight_START()
@@ -222,7 +222,7 @@ Item {
         }
         else if(counter === 4 && tractionControlScreen.visible === true)
         {
-            if(tract.tractionSwitch !== jsonManager.tractionSwitch)
+            if(tract.tractionSwitch !== JSON.tractionSwitch)
             {
                 updateTraction(driver, tract.tractionSwitch)
                 animator.animationRight_START()

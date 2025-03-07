@@ -39,10 +39,6 @@ Window
         id: shutdownHandler
     }
 
-    JSONmanager {
-        id: jsonManager
-    }
-
     AnimationManager {
         id: animator
     }
@@ -668,30 +664,30 @@ Window
     }
 
     function loadNewProfile(profileNum) {
-        jsonManager.loadProfile(profileNum)
+        JSON.loadProfile(profileNum)
 
-        driver = jsonManager.driver
-        brakeBiasObject.biasVal = jsonManager.biasVal
-        brakeBiasObject.rearBrakeBias = (100 - jsonManager.biasVal)
-        tract.tractionSwitch = jsonManager.tractionSwitch
+        driver = JSON.driver
+        brakeBiasObject.biasVal = JSON.biasVal
+        brakeBiasObject.rearBrakeBias = (100 - JSON.biasVal)
+        tract.tractionSwitch = JSON.tractionSwitch
 
         canManager.updatePayload(0, brakeBiasObject.biasVal)
         canManager.updatePayload(1, tract.tractionSwitch)
     }
 
     function updateBias(profile, bias) {
-        jsonManager.updateBrakeBias(profile, bias)
-        canManager.updatePayload(0, jsonManager.biasVal)
+        JSON.updateBrakeBias(profile, bias)
+        canManager.updatePayload(0, JSON.biasVal)
 
-        brakeBiasObject.biasVal = jsonManager.biasVal
-        brakeBiasObject.rearBrakeBias = (100 - jsonManager.biasVal)
+        brakeBiasObject.biasVal = JSON.biasVal
+        brakeBiasObject.rearBrakeBias = (100 - JSON.biasVal)
     }
 
     function updateTraction(profile, traction) {
-        jsonManager.updateTractionCtl(profile, traction)
-        canManager.updatePayload(1, jsonManager.tractionSwitch)
+        JSON.updateTractionCtl(profile, traction)
+        canManager.updatePayload(1, JSON.tractionSwitch)
 
-        tract.tractionSwitch = jsonManager.tractionSwitch
+        tract.tractionSwitch = JSON.tractionSwitch
     }
 
     function showECUfault() {
