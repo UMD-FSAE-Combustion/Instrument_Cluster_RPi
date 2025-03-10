@@ -192,52 +192,234 @@ bool JSONmanager::updateTractionCtl(int profile, int traction)
         return false;
 }
 
-bool JSONmanager::loadChannelList(std::vector<mapVals>& channelInfo)
+bool JSONmanager::updateAntiLag(int profile, int antiLag)
 {
-    mapVals channel;
-
-    file.setFileName(qApp->applicationDirPath() + "/data/channelList.json");
     if(file.open(QIODevice::ReadOnly))
     {
         QByteArray Bytes = file.readAll();
         file.close();
 
-        jsonDoc = QJsonDocument::fromJson(Bytes, &jsonParse);
-        if(jsonParse.error != QJsonParseError::NoError)
+        QJsonParseError JsonError;
+        QJsonDocument Doc = QJsonDocument::fromJson(Bytes, &JsonError);
+        if(JsonError.error != QJsonParseError::NoError)
         {
-            qDebug() << "Json Error:" << jsonParse.errorString();
-            return false;
+            qDebug() << "Json Error: " << JsonError.errorString();
         }
 
-        if(jsonDoc.isObject())
+        QJsonObject RootObject = Doc.object();
+        QJsonArray arr = RootObject.value("Drivers").toArray();
+        QJsonObject info = arr[profile].toObject();
+
+        if(info["antiLagSwitch"] != antiLag)
         {
-            jsonObj = jsonDoc.object();
-            QJsonArray channelArray = jsonObj.value("channels").toArray();
+            m_antiLag = antiLag;
+            info["antiLagSwitch"] = m_antiLag;
+            arr[profile] = info;
 
-            for(int i = 0; i < channelArray.size(); i++)
+            RootObject["Drivers"] = arr;
+            Doc.setObject(RootObject);
+
+            if(file.open(QIODevice::WriteOnly | QIODevice::Text | QIODevice::Truncate))
             {
-                QJsonObject newObj = channelArray.at(i).toObject();
-
-                channel.name = newObj["name"].toString();
-                channel.units = newObj["unit"].toString();
-                channel.minUnits = QString::number(newObj["min"].toInt());
-                channel.maxUnits = QString::number(newObj["max"].toInt());
-
-                channelInfo.push_back(channel);
+                file.write(Doc.toJson());
+                file.close();
+                qDebug() << "Anti-Lag Settings updated successfully";
             }
             return true;
         }
         else
         {
-            qDebug() << "Error on jsonDoc.isObject()";
+            //close file without changing values and return false
+            file.close();
             return false;
         }
     }
     else
-    {
-        qDebug() << "File could not be opened";
         return false;
+}
+
+bool JSONmanager::updateFuelAim(int profile, int fuelAim)
+{
+    if(file.open(QIODevice::ReadOnly))
+    {
+        QByteArray Bytes = file.readAll();
+        file.close();
+
+        QJsonParseError JsonError;
+        QJsonDocument Doc = QJsonDocument::fromJson(Bytes, &JsonError);
+        if(JsonError.error != QJsonParseError::NoError)
+        {
+            qDebug() << "Json Error: " << JsonError.errorString();
+        }
+
+        QJsonObject RootObject = Doc.object();
+        QJsonArray arr = RootObject.value("Drivers").toArray();
+        QJsonObject info = arr[profile].toObject();
+
+        if(info["fuelAim"] != fuelAim)
+        {
+            m_fuelAim = fuelAim;
+            info["fuelAim"] = m_fuelAim;
+            arr[profile] = info;
+
+            RootObject["Drivers"] = arr;
+            Doc.setObject(RootObject);
+
+            if(file.open(QIODevice::WriteOnly | QIODevice::Text | QIODevice::Truncate))
+            {
+                file.write(Doc.toJson());
+                file.close();
+                qDebug() << "Fuel Aim Settings updated successfully";
+            }
+            return true;
+        }
+        else
+        {
+            //close file without changing values and return false
+            file.close();
+            return false;
+        }
     }
+    else
+        return false;
+}
+
+bool JSONmanager::updateLaunchAim(int profile, int launchAim)
+{
+    if(file.open(QIODevice::ReadOnly))
+    {
+        QByteArray Bytes = file.readAll();
+        file.close();
+
+        QJsonParseError JsonError;
+        QJsonDocument Doc = QJsonDocument::fromJson(Bytes, &JsonError);
+        if(JsonError.error != QJsonParseError::NoError)
+        {
+            qDebug() << "Json Error: " << JsonError.errorString();
+        }
+
+        QJsonObject RootObject = Doc.object();
+        QJsonArray arr = RootObject.value("Drivers").toArray();
+        QJsonObject info = arr[profile].toObject();
+
+        if(info["launchAim"] != launchAim)
+        {
+            m_launchAim = launchAim;
+            info["launchAim"] = m_launchAim;
+            arr[profile] = info;
+
+            RootObject["Drivers"] = arr;
+            Doc.setObject(RootObject);
+
+            if(file.open(QIODevice::WriteOnly | QIODevice::Text | QIODevice::Truncate))
+            {
+                file.write(Doc.toJson());
+                file.close();
+                qDebug() << "Launc Aim Settings updated successfully";
+            }
+            return true;
+        }
+        else
+        {
+            //close file without changing values and return false
+            file.close();
+            return false;
+        }
+    }
+    else
+        return false;
+}
+
+bool JSONmanager::updateIgnition(int profile, int ignitionStatus)
+{
+    if(file.open(QIODevice::ReadOnly))
+    {
+        QByteArray Bytes = file.readAll();
+        file.close();
+
+        QJsonParseError JsonError;
+        QJsonDocument Doc = QJsonDocument::fromJson(Bytes, &JsonError);
+        if(JsonError.error != QJsonParseError::NoError)
+        {
+            qDebug() << "Json Error: " << JsonError.errorString();
+        }
+
+        QJsonObject RootObject = Doc.object();
+        QJsonArray arr = RootObject.value("Drivers").toArray();
+        QJsonObject info = arr[profile].toObject();
+
+        if(info["ignitionTiming"] != ignitionStatus)
+        {
+            m_ignitionTiming = ignitionStatus;
+            info["ignitionTiming"] = m_ignitionTiming;
+            arr[profile] = info;
+
+            RootObject["Drivers"] = arr;
+            Doc.setObject(RootObject);
+
+            if(file.open(QIODevice::WriteOnly | QIODevice::Text | QIODevice::Truncate))
+            {
+                file.write(Doc.toJson());
+                file.close();
+                qDebug() << "Ignition Timing Settings updated successfully";
+            }
+            return true;
+        }
+        else
+        {
+            //close file without changing values and return false
+            file.close();
+            return false;
+        }
+    }
+    else
+        return false;
+}
+
+bool JSONmanager::updateThrottleMap(int profile, int throttleMap)
+{
+    if(file.open(QIODevice::ReadOnly))
+    {
+        QByteArray Bytes = file.readAll();
+        file.close();
+
+        QJsonParseError JsonError;
+        QJsonDocument Doc = QJsonDocument::fromJson(Bytes, &JsonError);
+        if(JsonError.error != QJsonParseError::NoError)
+        {
+            qDebug() << "Json Error: " << JsonError.errorString();
+        }
+
+        QJsonObject RootObject = Doc.object();
+        QJsonArray arr = RootObject.value("Drivers").toArray();
+        QJsonObject info = arr[profile].toObject();
+
+        if(info["throttleMap"] != throttleMap)
+        {
+            m_throttleMap = throttleMap;
+            info["throttleMap"] = m_throttleMap;
+            arr[profile] = info;
+
+            RootObject["Drivers"] = arr;
+            Doc.setObject(RootObject);
+
+            if(file.open(QIODevice::WriteOnly | QIODevice::Text | QIODevice::Truncate))
+            {
+                file.write(Doc.toJson());
+                file.close();
+                qDebug() << "Throttle Map Settings updated successfully";
+            }
+            return true;
+        }
+        else
+        {
+            //close file without changing values and return false
+            file.close();
+            return false;
+        }
+    }
+    else
+        return false;
 }
 
 bool JSONmanager::jsonLoaded() const
@@ -282,4 +464,69 @@ void JSONmanager::setTractionSwitch(int newTractionSwitch)
         return;
     m_tractionSwitch = newTractionSwitch;
     emit tractionSwitchChanged();
+}
+
+int JSONmanager::antiLag() const
+{
+    return m_antiLag;
+}
+
+void JSONmanager::setAntiLag(int newAntiLag)
+{
+    if (m_antiLag == newAntiLag)
+        return;
+    m_antiLag = newAntiLag;
+    emit antiLagChanged();
+}
+
+int JSONmanager::fuelAim() const
+{
+    return m_fuelAim;
+}
+
+void JSONmanager::setFuelAim(int newFuelAim)
+{
+    if (m_fuelAim == newFuelAim)
+        return;
+    m_fuelAim = newFuelAim;
+    emit fuelAimChanged();
+}
+
+int JSONmanager::launchAim() const
+{
+    return m_launchAim;
+}
+
+void JSONmanager::setLaunchAim(int newLaunchAim)
+{
+    if (m_launchAim == newLaunchAim)
+        return;
+    m_launchAim = newLaunchAim;
+    emit launchAimChanged();
+}
+
+int JSONmanager::ignitionTiming() const
+{
+    return m_ignitionTiming;
+}
+
+void JSONmanager::setIgnitionTiming(int newIgnitionTiming)
+{
+    if (m_ignitionTiming == newIgnitionTiming)
+        return;
+    m_ignitionTiming = newIgnitionTiming;
+    emit ignitionTimingChanged();
+}
+
+int JSONmanager::throttleMap() const
+{
+    return m_throttleMap;
+}
+
+void JSONmanager::setThrottleMap(int newThrottleMap)
+{
+    if (m_throttleMap == newThrottleMap)
+        return;
+    m_throttleMap = newThrottleMap;
+    emit throttleMapChanged();
 }
