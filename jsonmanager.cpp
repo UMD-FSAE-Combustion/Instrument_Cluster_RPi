@@ -28,13 +28,13 @@ void JSONmanager::loadProfileOnBoot()
 
             m_driver = jsonObj.value("LastDriver").toObject().value("LastDriver").toInt() - 1;
             jsonArray = jsonObj.value("Drivers").toArray();
-            //bias = jsonArray[profile].toObject().value("Bias").toInt();
+
             m_biasVal = jsonArray[m_driver].toObject().value("Bias").toInt();
-
-            //add can here for setting servo position (or maybe in startup?)
-
-            //traction = jsonArray[profile].toObject().value("tcSwitch").toInt();
             m_tractionSwitch = jsonArray[m_driver].toObject().value("tcSwitch").toInt();
+            m_antiLag = jsonArray[m_driver].toObject().value("antiLagSwitch").toInt();
+            m_fuelAim = jsonArray[m_driver].toObject().value("fuelAim").toInt();
+            m_ignitionTiming = jsonArray[m_driver].toObject().value("ignitionTiming").toInt();
+            m_throttleMap = jsonArray[m_driver].toObject().value("throttleMap").toInt();
 
             jsonLoadedStatus = true;
         }
@@ -57,25 +57,26 @@ void JSONmanager::loadProfile(int profile)
         QJsonObject RootObject = Doc.object();
 
         //int Driver = ui->stackedWidget->currentIndex() - 5;
-        setDriver(profile); //not working
+        setDriver(profile);
 
         QJsonArray arr = RootObject.value("Drivers").toArray();
-        //bias = arr[profile].toObject().value("Bias").toInt();
         int newBias = arr[profile].toObject().value("Bias").toInt();
         setBiasVal(newBias);
 
-        //traction = arr[profile].toObject().value("tcSwitch").toInt();
         int newTraction = arr[profile].toObject().value("tcSwitch").toInt();
         setTractionSwitch(newTraction);
 
-        //
-        //ADD CAN SIGNALING TO ACTUALLY UPDATE BRAKES!!!
-        //
+        int newAntiLag = jsonArray[m_driver].toObject().value("antiLagSwitch").toInt();
+        setAntiLag(newAntiLag);
 
+        int newIgnitionTiming = jsonArray[m_driver].toObject().value("ignitionTiming").toInt();
+        setIgnitionTiming(newIgnitionTiming);
 
+        int newLaunchAim = jsonArray[m_driver].toObject().value("launchAim").toInt();
+        setLaunchAim(newLaunchAim);
 
-        //
-        //ADD CAN SIGNALIN TO ATUALLY UPDATE!!!!
+        int newThrottleMap = jsonArray[m_driver].toObject().value("throttleMap").toInt();
+        setThrottleMap(newThrottleMap);
 
         QJsonValueRef updDriver = RootObject.find("LastDriver").value();
         QJsonObject newDriver = updDriver.toObject();
