@@ -55,6 +55,14 @@ Item {
             {
                 set3Component
             }
+            else if(rootWindow.currentSet === 4)
+            {
+                set4Component
+            }
+            else if(rootWindow.currentSet === 5)
+            {
+                set5Component
+            }
         }
         property alias columBarRef: optMenuRoot.parent
     }
@@ -210,7 +218,7 @@ Item {
 
             Rectangle
             {
-                id: blankBox
+                id: launchSwitchAimRotary
 
                 height: 130
                 width: 290
@@ -219,16 +227,39 @@ Item {
                 Layout.leftMargin: 5
                 radius: 20
 
-                color: "transparent"
+                color: (counter === 5) ? "#00a8ff" : "white"
 
-                /*Text
+                Text
                 {
-                    text: qsTr("Terrain Mode")
+                    id: lineOne
+                    text: qsTr("Launch Switch")
+
                     color: (counter === 5) ? "white" : "black"
-                    anchors.centerIn: parent
+                    anchors
+                    {
+                        top: launchSwitchAimRotary.top
+                        horizontalCenter: launchSwitchAimRotary.horizontalCenter
+                        topMargin: 30
+                    }
+
                     font.pixelSize: 30
                     font.bold: true
-                }*/
+                }
+
+                Text
+                {
+                    text: qsTr("Aim Rotary")
+
+                    color: (counter === 5) ? "white" : "black"
+                    anchors
+                    {
+                        top: lineOne.bottom
+                        horizontalCenter: launchSwitchAimRotary.horizontalCenter
+                    }
+
+                    font.pixelSize: 30
+                    font.bold: true
+                }
             }
         }
     }
@@ -319,5 +350,204 @@ Item {
             }
         }
     }
+
+    Component
+    {
+        id: set4Component
+
+        GridLayout
+        {
+            columns: 1
+            rows: 3
+
+            rowSpacing: 5
+
+            anchors.fill: menuLoader.columnBarRef
+            anchors.margins: 10
+
+            Rectangle
+            {
+                id: antiLag
+
+                height: 130
+                width: 290
+                Layout.topMargin: 25
+                Layout.rightMargin: 5
+                Layout.leftMargin: 5
+                radius: 20
+
+
+
+                color: (counter === 9) ? "#00a8ff" : "white"
+
+                Text
+                {
+                    text: qsTr("Anti Lag")
+                    color: (counter === 9) ? "white" : "black"
+                    anchors.centerIn: parent
+                    font.pixelSize: 30
+                    font.bold: true
+                }
+
+            }
+
+            Rectangle
+            {
+                id: ignitionTiming
+
+                height: 130
+                width: 290
+                Layout.rightMargin: 5
+                Layout.leftMargin: 5
+                radius: 20
+
+                color: (counter === 10) ? "#00a8ff" : "white"
+
+                Text
+                {
+                    text: qsTr("Ignition Timing")
+                    color:(counter === 10) ? "white" : "black"
+                    anchors.centerIn: parent
+                    font.pixelSize: 30
+                    font.bold: true
+                }
+            }
+
+            Rectangle
+            {
+                id: mixAim
+
+                height: 130
+                width: 290
+                Layout.bottomMargin: 25
+                Layout.rightMargin: 5
+                Layout.leftMargin: 5
+                radius: 20
+
+                color: (counter === 11) ? "#00a8ff" : "white"
+
+                Text
+                {
+                    text: qsTr("Mix Aim")
+                    color: (counter === 11) ? "white" : "black"
+                    anchors.centerIn: parent
+                    font.pixelSize: 30
+                    font.bold: true
+                }
+            }
+        }
+    }
+
+    Component
+    {
+        id: set5Component
+
+        GridLayout
+        {
+            columns: 1
+            rows: 3
+
+            rowSpacing: 5
+
+            anchors.fill: menuLoader.columnBarRef
+            anchors.margins: 10
+
+            Rectangle
+            {
+                id: throttlePedalTranslation
+
+                height: 130
+                width: 290
+                Layout.topMargin: 25
+                Layout.rightMargin: 5
+                Layout.leftMargin: 5
+                radius: 20
+
+
+
+                color: (counter === 12) ? "#00a8ff" : "white"
+
+                Text
+                {
+                    id: lineOne
+                    text: qsTr("Throttle Pedal")
+
+                    color: (counter === 12) ? "white" : "black"
+                    anchors
+                    {
+                        top: throttlePedalTranslation.top
+                        horizontalCenter: throttlePedalTranslation.horizontalCenter
+                        topMargin: 30
+                    }
+
+                    font.pixelSize: 30
+                    font.bold: true
+                }
+
+                Text
+                {
+                    text: qsTr("Translation")
+
+                    color: (counter === 12) ? "white" : "black"
+                    anchors
+                    {
+                        top: lineOne.bottom
+                        horizontalCenter: throttlePedalTranslation.horizontalCenter
+                    }
+
+                    font.pixelSize: 30
+                    font.bold: true
+                }
+
+            }
+
+            Rectangle
+            {
+                id: unusedSlot1
+
+                height: 130
+                width: 290
+                Layout.rightMargin: 5
+                Layout.leftMargin: 5
+                radius: 20
+
+                color: "transparent"
+
+                /*(Text
+                {
+                    text: qsTr("Ignition Timing")
+                    color:(counter === 10) ? "white" : "black"
+                    anchors.centerIn: parent
+                    font.pixelSize: 30
+                    font.bold: true
+                }*/
+            }
+
+            Rectangle
+            {
+                id: unusedSlot2
+
+                height: 130
+                width: 290
+                Layout.bottomMargin: 25
+                Layout.rightMargin: 5
+                Layout.leftMargin: 5
+                radius: 20
+
+                color: "transparent"
+
+                /*Text
+                {
+                    text: qsTr("Mix Aim")
+                    color: (counter === 11) ? "white" : "black"
+                    anchors.centerIn: parent
+                    font.pixelSize: 30
+                    font.bold: true
+                }*/
+            }
+        }
+    }
 }
+
+
 
