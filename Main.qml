@@ -672,7 +672,8 @@ Window
         tract.tractionSwitch = JSON.tractionSwitch
 
         canManager.updatePayload(0, brakeBiasObject.biasVal)
-        canManager.updatePayload(1, tract.tractionSwitch)
+        canManager.updatePayload(1, (tract.tractionSwitch * 3))
+        // add other properties when done
     }
 
     function updateBias(profile, bias) {
@@ -685,7 +686,7 @@ Window
 
     function updateTraction(profile, traction) {
         JSON.updateTractionCtl(profile, traction)
-        canManager.updatePayload(1, JSON.tractionSwitch)
+        canManager.updatePayload(1, (JSON.tractionSwitch *3)) // *3 bc motec rotary bullshit
 
         tract.tractionSwitch = JSON.tractionSwitch
     }

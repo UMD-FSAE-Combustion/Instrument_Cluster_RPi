@@ -191,8 +191,18 @@ void CANmanager::CAN_Loop()
         QByteArray sendMessage2;
         for(int i = 4; i < 8; i++)
         {
-            sendMessage2.append(char(0x00));
-            sendMessage2.append(char(sendBuffer.at(i)));
+            if(sendBuffer.at(i) == 1)
+            {
+                // 2000 mV (ON on MoTeC)
+                sendMessage2.append(char(0x07));
+                sendMessage2.append(char(0xD0));
+            }
+            else
+            {
+                // 0 mV (OFF on MoTeC)
+                sendMessage2.append(char(0x00));
+                sendMessage2.append(char(0x00));
+            }
         }
 
         frame.setPayload(sendMessage2);

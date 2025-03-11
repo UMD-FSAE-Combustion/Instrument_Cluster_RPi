@@ -126,7 +126,7 @@ Item {
         else if(counter === 2 && lc_Status !== 1)
         {
             lc_Status = 1
-            canManager.updatePayload(2, lc_Status)
+            canManager.updatePayload(4, lc_Status)
             animator.animationCenterSpeedometer_START()
             animator.animationLeft_START()
 
@@ -143,7 +143,7 @@ Item {
         else if(counter === 2 && lc_Status !== 0)
         {
             lc_Status = 0
-            canManager.updatePayload(2, lc_Status)
+            canManager.updatePayload(4, lc_Status)
             animator.animationCenterSpeedometer_START()
             animator.animationLeft_START()
 
@@ -299,10 +299,12 @@ Item {
         {
             counter = 11
         }
-        else if(tractionControlScreen.visible === true && tract.tractionSwitch > 1)
+        else if(tractionControlScreen.visible === true && tract.tractionSwitch > 0)
         {
             counter = 4
-            tract.tractionSwitch = tract.tractionSwitch - 1
+            if(tract.tractionSwitch !== 1){
+                tract.tractionSwitch = tract.tractionSwitch - 1
+            }
         }
         else if(counter > 2 && counter < 5)
         {
@@ -357,10 +359,12 @@ Item {
         {
             counter = 3
         }
-        else if(tractionControlScreen.visible === true && tract.tractionSwitch < 9)
+        else if(tractionControlScreen.visible === true && tract.tractionSwitch < 11)
         {
             counter = 4
-            tract.tractionSwitch = tract.tractionSwitch + 1
+            if(tract.tractionSwitch !== 10){
+                tract.tractionSwitch = tract.tractionSwitch + 1
+            }
         }
         else if(counter < 0)
         {
