@@ -32,6 +32,7 @@ void JSONmanager::loadProfileOnBoot()
             m_biasVal = jsonArray[m_driver].toObject().value("Bias").toInt();
             m_tractionSwitch = jsonArray[m_driver].toObject().value("tcSwitch").toInt();
             m_antiLag = jsonArray[m_driver].toObject().value("antiLagSwitch").toInt();
+            m_launchAim = jsonArray[m_driver].toObject().value("launchAim").toInt();
             m_fuelAim = jsonArray[m_driver].toObject().value("fuelAim").toInt();
             m_ignitionTiming = jsonArray[m_driver].toObject().value("ignitionTiming").toInt();
             m_throttleMap = jsonArray[m_driver].toObject().value("throttleMap").toInt();
