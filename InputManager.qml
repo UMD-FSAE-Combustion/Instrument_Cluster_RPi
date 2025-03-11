@@ -314,16 +314,26 @@ Item {
         {
             currentSet = 1
         }
-        else if(counter === 5 && currentSet === 2)
+        else if(counter > 11 && currentSet === 4)
         {
-            currentSet = 1
-            counter = 0
+            currentSet = 5
+            counter = 12
         }
-        else if(counter > 8)
+        else if(counter > 12 && currentSet === 5)
+        {
+            counter = 0
+            currentSet = 1
+        }
+
+        else if(currentSet === 3 && counter > 8)
         {
             counter = 6
         }
-        console.log(counter)
+        else if(counter > 5 && currentSet === 2)
+        {
+            counter = 9
+            currentSet = 4
+        }
     }
 
     function upPress() {
@@ -349,10 +359,6 @@ Item {
         {
             counter = 3
         }
-        else if(engineInfoScreen.visible === true)
-        {
-            counter = 9
-        }
         else if(tractionControlScreen.visible === true && tract.tractionSwitch < 11)
         {
             counter = 4
@@ -362,14 +368,25 @@ Item {
         }
         else if(counter < 0)
         {
-            currentSet = 2
-            counter = 4
+            currentSet = 5
+            counter = 12
         }
-        else if(counter === 2)
+        else if(counter == 2)
         {
             currentSet = 1
             counter = 2
         }
+        else if(counter < 9 && currentSet === 4)
+        {
+            counter = 5
+            currentSet = 2
+        }
+        else if(counter < 12 && currentSet === 5)
+        {
+            counter = 11
+            currentSet = 4
+        }
+
         else if(counter < 6 && currentSet === 3)
         {
             counter = 8
