@@ -36,16 +36,16 @@ Item
             {
                 id: barSlider
                 orientation: Qt.Vertical
-                width: 50
+                width: 30
                 height: 410
-                from: 9
+                from: 10
                 to: 1
                 value: tractionSwitch
                 enabled: false
 
                 background: Rectangle
                 {
-                    width: 100
+                    width: 5
                     color: "#FFCB05"
                     border.color: "black"
                     border.width: 3
