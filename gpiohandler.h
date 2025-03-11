@@ -11,7 +11,19 @@ class GPIOhandler : public QObject
 public:
     explicit GPIOhandler(QObject *parent = nullptr);
 
+
 signals:
+    void ButtonTop();
+    void ButtonBottom();
+    void ButtonLeft();
+    void ButtonRight();
+
+private:
+    static GPIOhandler* InterruptPtr;
+    static void pushButtonRight();
+    static void pushButtonLeft();
+    static void pushButtonTop();
+    static void pushButtonBottom();
 };
 
 #endif // GPIOHANDLER_H
