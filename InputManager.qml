@@ -126,7 +126,7 @@ Item {
         else if(counter === 2 && lc_Status !== 1)
         {
             lc_Status = 1
-            canManager.updatePayload(2, lc_Status)
+            canManager.updatePayload(4, lc_Status)
             animator.animationCenterSpeedometer_START()
             animator.animationLeft_START()
 
@@ -143,7 +143,7 @@ Item {
         else if(counter === 2 && lc_Status !== 0)
         {
             lc_Status = 0
-            canManager.updatePayload(2, lc_Status)
+            canManager.updatePayload(4, lc_Status)
             animator.animationCenterSpeedometer_START()
             animator.animationLeft_START()
 
@@ -299,10 +299,12 @@ Item {
         {
             counter = 11
         }
-        else if(tractionControlScreen.visible === true && tract.tractionSwitch > 1)
+        else if(tractionControlScreen.visible === true && tract.tractionSwitch > 0)
         {
             counter = 4
-            tract.tractionSwitch = tract.tractionSwitch - 1
+            if(tract.tractionSwitch !== 1){
+                tract.tractionSwitch = tract.tractionSwitch - 1
+            }
         }
         else if(counter > 2 && counter < 5)
         {
@@ -312,14 +314,25 @@ Item {
         {
             currentSet = 1
         }
-        else if(counter === 5 && currentSet === 2)
+        else if(counter > 11 && currentSet === 4)
         {
-            currentSet = 1
-            counter = 0
+            currentSet = 5
+            counter = 12
         }
-        else if(counter > 8)
+        else if(counter > 12 && currentSet === 5)
+        {
+            counter = 0
+            currentSet = 1
+        }
+
+        else if(currentSet === 3 && counter > 8)
         {
             counter = 6
+        }
+        else if(counter > 5 && currentSet === 2)
+        {
+            counter = 9
+            currentSet = 4
         }
     }
 
@@ -346,25 +359,34 @@ Item {
         {
             counter = 3
         }
-        else if(engineInfoScreen.visible === true)
-        {
-            counter = 9
-        }
-        else if(tractionControlScreen.visible === true && tract.tractionSwitch < 9)
+        else if(tractionControlScreen.visible === true && tract.tractionSwitch < 11)
         {
             counter = 4
-            tract.tractionSwitch = tract.tractionSwitch + 1
+            if(tract.tractionSwitch !== 10){
+                tract.tractionSwitch = tract.tractionSwitch + 1
+            }
         }
         else if(counter < 0)
         {
-            currentSet = 2
-            counter = 4
+            currentSet = 5
+            counter = 12
         }
-        else if(counter === 2)
+        else if(counter == 2)
         {
             currentSet = 1
             counter = 2
         }
+        else if(counter < 9 && currentSet === 4)
+        {
+            counter = 5
+            currentSet = 2
+        }
+        else if(counter < 12 && currentSet === 5)
+        {
+            counter = 11
+            currentSet = 4
+        }
+
         else if(counter < 6 && currentSet === 3)
         {
             counter = 8
