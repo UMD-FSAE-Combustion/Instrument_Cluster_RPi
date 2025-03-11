@@ -6,6 +6,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(Qt6 6.5 REQUIRED COMPONENTS Quick SerialBus)
 
+include_directories(/lib/x86_64-linux-gnu/)
+
 qt_standard_project_setup(REQUIRES 6.5)
 
 qt_add_executable(appDyno_Info
@@ -59,6 +61,7 @@ set_target_properties(appDyno_Info PROPERTIES
 target_link_libraries(appDyno_Info
     PRIVATE Qt6::Quick
     Qt6::SerialBus
+    /usr/local/lib/libwiringPi.so
 )
 
 include(GNUInstallDirs)
