@@ -11,6 +11,7 @@ Window
 
     property var info: JSON
     property var canManager: canBus
+    property var gpioInput: gpio
 
     property bool loadingComplete: false
     property int speed: 0
@@ -59,6 +60,15 @@ Window
         function onFuelMixAimChanged() { extraInfoDisplayWidgets.fuelMixAim = canManager.fuelMixAim }
         function onExhaustLambdaChanged() { extraInfoDisplayWidgets.exhaustLambda = canManager.exhaustLambda }
         function onEcuFaultChanged() { showECUfault() }
+    }
+
+    Connections {
+        target: gpioInput
+
+        function onButtonRight() {inputManager.rightPress()}
+        function onButtonLeft() {inputManager.leftPress()}
+        function onButtonTop() {inputManager.upPress()}
+        function onButtonBottom() {inputManager.downPress()}
     }
 
     InputManager {

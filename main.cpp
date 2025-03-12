@@ -5,6 +5,8 @@
 
 #include "jsonmanager.h"
 #include "canmanager.h"
+#include "gpiohandler.h"
+
 
 int main(int argc, char *argv[])
 {
@@ -14,6 +16,7 @@ int main(int argc, char *argv[])
 
     JSONmanager json;
     CANmanager canBus;
+    GPIOhandler gpio;
 
     canBus.updatePayload(CANmanager::FRONTBIAS, json.getBiasVal());
     canBus.updatePayload(CANmanager::TCSWITCH, json.getTractionSwitch() * 3);
@@ -26,6 +29,7 @@ int main(int argc, char *argv[])
 
     engine.rootContext()->setContextProperty("JSON", &json);
     engine.rootContext()->setContextProperty("canBus", &canBus);
+    engine.rootContext()->setContextProperty("gpio", &gpio);
 
     qDebug() << qVersion();
 
