@@ -10,7 +10,7 @@ GPIOhandler* GPIOhandler::InterruptPtr;
 GPIOhandler::GPIOhandler(QObject *parent)
     : QObject{parent}
 {
-
+    InterruptPtr = this;
     if(QSysInfo::productType() != "pop")
     {
         if(wiringPiSetupGpio() == -1)
@@ -34,6 +34,10 @@ GPIOhandler::GPIOhandler(QObject *parent)
     }
 }
 
+GPIOhandler::~GPIOhandler() {
+    delete InterruptPtr;
+}
+
 
 void GPIOhandler::pushButtonRight()
 {
@@ -41,7 +45,7 @@ void GPIOhandler::pushButtonRight()
     if(digitalRead(BUTTON_RIGHT) == LOW)
     {
         //qDebug() << "right button pressed";
-        emit InterruptPtr->ButtonRight();
+        emit InterruptPtr->buttonRight();
     }
 }
 
@@ -51,7 +55,7 @@ void GPIOhandler::pushButtonLeft()
     if(digitalRead(BUTTON_LEFT) == LOW)
     {
         //qDebug() << "left button pressed";
-        emit InterruptPtr->ButtonLeft();
+        emit InterruptPtr->buttonLeft();
     }
 }
 
@@ -61,7 +65,7 @@ void GPIOhandler::pushButtonTop()
     if(digitalRead(BUTTON_TOP) == LOW)
     {
         //qDebug() << "top button pressed";
-        emit InterruptPtr->ButtonTop();
+        emit InterruptPtr->buttonTop();
     }
 }
 
@@ -71,6 +75,6 @@ void GPIOhandler::pushButtonBottom()
     if(digitalRead(BUTTON_BOTTOM) == LOW)
     {
         //qDebug() << "bottom button pressed";
-        emit InterruptPtr->ButtonBottom();
+        emit InterruptPtr->buttonBottom();
     }
 }
