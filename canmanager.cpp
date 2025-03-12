@@ -13,7 +13,7 @@
  *
  */
 
-QVector<int> CANmanager::sendBuffer(3);
+QVector<int> CANmanager::sendBuffer(8);
 
 CANmanager::CANmanager()
 {
@@ -74,7 +74,7 @@ CANmanager::CANmanager()
     filter.frameId = 0x651;
     filterList.append(filter);
 
-    sendBuffer.replace(2, 0);
+    sendBuffer.replace(4, 0); // LAUNCH_CTL
     frame.setFrameId(0x680);
 
     can_device->setConfigurationParameter(QCanBusDevice::RawFilterKey, QVariant::fromValue(filterList));
@@ -173,16 +173,41 @@ void CANmanager::CAN_Loop()
 {
     if(can_device->busStatus() != QCanBusDevice::CanBusStatus::BusOff && can_device->busStatus() != QCanBusDevice::CanBusStatus::Error)
     {
-        QByteArray sendBytes;
-        for(int i = 0; i < 3; i++)
+        frame.setFrameId(0x680);
+        QByteArray sendMessage1;
+        for(int i = 0; i < 4; i++)
         {
-            sendBytes.append(char(0x00));
-            sendBytes.append(char(sendBuffer.at(i)));
+            sendMessage1.append(char(0x00));
+            sendMessage1.append(char(sendBuffer.at(i)));
         }
 
-        frame.setPayload(sendBytes);
+        frame.setPayload(sendMessage1);
         if(can_device->writeFrame(frame))
             qDebug() << "Frame 0x680 sent";
+        else
+            qDebug() << can_device->errorString();
+
+        frame.setFrameId(0x681);
+        QByteArray sendMessage2;
+        for(int i = 4; i < 8; i++)
+        {
+            if(sendBuffer.at(i) == 1)
+            {
+                // 2000 mV (ON on MoTeC)
+                sendMessage2.append(char(0x07));
+                sendMessage2.append(char(0xD0));
+            }
+            else
+            {
+                // 0 mV (OFF on MoTeC)
+                sendMessage2.append(char(0x00));
+                sendMessage2.append(char(0x00));
+            }
+        }
+
+        frame.setPayload(sendMessage2);
+        if(can_device->writeFrame(frame))
+            qDebug() << "Frame 0x681 sent";
         else
             qDebug() << can_device->errorString();
     }
@@ -200,13 +225,18 @@ int CANmanager::getByte(int byte)
 
 void CANmanager::updatePayload(int id, int data)
 {
-    /*
-    * ARRAY ID | VALUE
-    * ---------|-------
-    *   0      | BiasValue
-    *   1      | TractionValue
-    *   2      | Launch Flag (on/off)
-    */
+    /*************************************************
+    * ARRAY ID | VALUE                               *
+    * ---------|-------------------------------------*
+    *   0      | BiasValue                           *
+    *   1      | TractionValue                       *
+    *   2      | Anti Lag adjustment                 *
+    *   3      | Launch Switch Aim                   *
+    *   4      | Launch Flag (on/off)                *
+    *   5      | Ignition Time (on/off)              *
+    *   6      | Fuel Mix Aim (on/off)               *
+    *   7      | Throttle Pedal Translation (on/off) *
+    *************************************************/
     sendBuffer.replace(id, data);
 }
 
