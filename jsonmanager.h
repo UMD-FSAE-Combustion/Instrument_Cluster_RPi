@@ -14,8 +14,6 @@
 #include <QJsonParseError>
 
 #include <vector>
-#include <mapVals.h>
-
 
 class JSONmanager : public QObject
 {
