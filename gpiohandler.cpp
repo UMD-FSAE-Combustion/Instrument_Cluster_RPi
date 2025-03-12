@@ -1,5 +1,4 @@
 #include "gpiohandler.h"
-#include <wiringPi.h>
 
 #define BUTTON_TOP 23
 #define BUTTON_BOTTOM 24
@@ -11,26 +10,28 @@ GPIOhandler* GPIOhandler::InterruptPtr;
 GPIOhandler::GPIOhandler(QObject *parent)
     : QObject{parent}
 {
-    if(wiringPiSetupGpio() == -1)
-        qDebug() << "GPIO init failed...";
-    else
+
+    if(QSysInfo::productType() != "pop")
     {
-        pinMode(BUTTON_RIGHT, INPUT);
-        pinMode(BUTTON_LEFT, INPUT);
-        pinMode(BUTTON_TOP, INPUT);
-        pinMode(BUTTON_BOTTOM, INPUT);
-        pullUpDnControl(BUTTON_RIGHT, PUD_UP);
-        pullUpDnControl(BUTTON_LEFT, PUD_UP);
-        pullUpDnControl(BUTTON_TOP, PUD_UP);
-        pullUpDnControl(BUTTON_BOTTOM, PUD_UP);
+        if(wiringPiSetupGpio() == -1)
+            qDebug() << "GPIO init failed...";
+        else
+        {
+            pinMode(BUTTON_RIGHT, INPUT);
+            pinMode(BUTTON_LEFT, INPUT);
+            pinMode(BUTTON_TOP, INPUT);
+            pinMode(BUTTON_BOTTOM, INPUT);
+            pullUpDnControl(BUTTON_RIGHT, PUD_UP);
+            pullUpDnControl(BUTTON_LEFT, PUD_UP);
+            pullUpDnControl(BUTTON_TOP, PUD_UP);
+            pullUpDnControl(BUTTON_BOTTOM, PUD_UP);
 
-        wiringPiISR(BUTTON_RIGHT, INT_EDGE_FALLING, &pushButtonRight);
-        wiringPiISR(BUTTON_LEFT, INT_EDGE_FALLING, &pushButtonLeft);
-        wiringPiISR(BUTTON_TOP, INT_EDGE_FALLING, &pushButtonTop);
-        wiringPiISR(BUTTON_BOTTOM, INT_EDGE_FALLING, &pushButtonBottom);
-
+            wiringPiISR(BUTTON_RIGHT, INT_EDGE_FALLING, &pushButtonRight);
+            wiringPiISR(BUTTON_LEFT, INT_EDGE_FALLING, &pushButtonLeft);
+            wiringPiISR(BUTTON_TOP, INT_EDGE_FALLING, &pushButtonTop);
+            wiringPiISR(BUTTON_BOTTOM, INT_EDGE_FALLING, &pushButtonBottom);
+        }
     }
-
 }
 
 

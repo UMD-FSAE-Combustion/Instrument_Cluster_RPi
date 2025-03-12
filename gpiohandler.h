@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QQmlEngine>
+#include <wiringPi.h>
 
 class GPIOhandler : public QObject
 {
