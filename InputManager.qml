@@ -134,16 +134,12 @@ Item {
         {
             lc_Status = 1
             canManager.updatePayload(4, lc_Status)
-            animator.animationCenterSpeedometer_START()
-            animator.animationLeft_START()
 
             statusMessage.text = "Launch Control: Active"
             statusImage.source = "assets/images/LC.png"
             statusMessage.font.pixelSize = 15
             animator.statusUpdateAnimation_START()
 
-            counter = 0
-            currentSet = 1
             launchControlImage.visible = true
             menuShown = false
         }
@@ -151,16 +147,14 @@ Item {
         {
             lc_Status = 0
             canManager.updatePayload(4, lc_Status)
-            animator.animationCenterSpeedometer_START()
-            animator.animationLeft_START()
 
             statusMessage.text = "Launch Control: Inactive"
             statusImage.source = "assets/images/LC.png"
             statusMessage.font.pixelSize = 14
             animator.statusUpdateAnimation_START()
 
-            counter = 0
-            currentSet = 1
+            //counter = 0
+            //currentSet = 1
             launchControlImage.visible = false
             menuShown = false
         }
