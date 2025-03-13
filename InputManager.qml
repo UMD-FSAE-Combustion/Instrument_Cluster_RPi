@@ -3,7 +3,14 @@ import QtQuick
 Item {
 
     function rightPress() {
-        if (gameMenuVisible &&  gameMenuRect.x === rootWindow.width - gameMenuRect.width - 15) {
+        if (pongGame.visible) {
+            pongGame.visible = false
+            pongGameRect.x = rootWindow.width
+            gameMenuVisible = true
+            gameMenuRect.x = rootWindow.width - gameMenuRect.width - 15
+            gameMenuCounter = 0
+        }
+        else if (gameMenuVisible &&  gameMenuRect.x === rootWindow.width - gameMenuRect.width - 15) {
             animator.animationCenterSpeedometer_START()
             animator.gameMenuAnimationRight_START()
             gameMenuCounter = 0
@@ -169,11 +176,15 @@ Item {
                 animator.animationLeftSpeedometer_START()
                 animator.gameMenuAnimationLeft_START()
             }
-            else if(gameMenuVisible && gameMenu.x === rootWindow.width - gameMenu.width - 15)
+            else if(gameMenuVisible && gameMenuRect.x === rootWindow.width - gameMenuRect.width - 15)
             {
                 if (gameMenuCounter === 0)
                 {
-                    console.log("Launching Pong")
+                    gameMenuVisible = false
+                    pongGame.visible = true
+                    pongGameRect.visible = true
+                    pongGameRect.x = rootWindow.width - pongGameRect.width - 15
+                    pongGame.fullReset()
                 }
                 else if (gameMenuCounter === 1)
                 {
@@ -273,13 +284,16 @@ Item {
     }
 
     function downPress() {
-        if (gameMenuVisible) {
+        if (gameMenuVisible && pongGame.visible === false) {
             if (gameMenuCounter < gameMenu.getGameList() - 1) {
                 gameMenuCounter = gameMenuCounter + 1
             }
             else {
                 gameMenuCounter = 0
             }
+        }
+        else if (pongGame.visible) {
+            pongGame.movePaddleDown()
         }
         else {
             counter = counter + 1
@@ -324,7 +338,6 @@ Item {
             counter = 0
             currentSet = 1
         }
-
         else if(currentSet === 3 && counter > 8)
         {
             counter = 6
@@ -337,13 +350,16 @@ Item {
     }
 
     function upPress() {
-        if (gameMenuVisible) {
+        if (gameMenuVisible && pongGame.visible === false) {
             if (gameMenuCounter === 0) {
                 gameMenuCounter = gameMenu.getGameList() - 1
             }
             else {
                 gameMenuCounter = gameMenuCounter - 1
             }
+        }
+        else if (pongGame.visible) {
+            pongGame.movePaddleUp()
         }
         else {
             counter = counter - 1
@@ -386,7 +402,6 @@ Item {
             counter = 11
             currentSet = 4
         }
-
         else if(counter < 6 && currentSet === 3)
         {
             counter = 8

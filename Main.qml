@@ -463,6 +463,28 @@ Window
         }
     }
 
+    Rectangle {
+        id: pongGameRect
+        anchors {
+            top: uselessRectangle.bottom
+            bottom: parent.bottom
+            margins: 15
+        }
+        x: root.width
+        width: 300
+        height: 50
+        visible: false
+        color: "#1E1E1E"
+        radius: 20
+
+        Pong {
+            id: pongGame
+            anchors.fill: parent
+            visible: false
+        }
+    }
+
+
     Rectangle
     {
         id: tractionControlScreen
@@ -720,7 +742,7 @@ Window
             }
         }
         else {
-            ecuFaultImage.visible = fasle
+            ecuFaultImage.visible = false
         }
     }
 }
