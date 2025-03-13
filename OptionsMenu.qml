@@ -99,9 +99,26 @@ Item {
                 {
                     text: qsTr("Load Profile")
                     color: (counter === 0) ? "white" : "black"
-                    anchors.centerIn: parent
                     font.pixelSize: 30
                     font.bold: true
+                    y: 40
+                    anchors {
+                        horizontalCenter: parent.horizontalCenter
+                    }
+                }
+
+                Text {
+                    text: "current profile: " + (rootWindow.driver + 1)
+                    color: (counter === 0) ? "white" : "grey"
+                    font {
+                        pixelSize: 20
+                    }
+
+                    y: 75
+                    anchors {
+                        horizontalCenter: parent.horizontalCenter
+                    }
+
                 }
 
             }
