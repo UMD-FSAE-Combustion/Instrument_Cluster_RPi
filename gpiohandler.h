@@ -11,13 +11,13 @@ class GPIOhandler : public QObject
     QML_ELEMENT
 public:
     explicit GPIOhandler(QObject *parent = nullptr);
-
+    ~GPIOhandler();
 
 signals:
-    void ButtonTop();
-    void ButtonBottom();
-    void ButtonLeft();
-    void ButtonRight();
+    void buttonTop();
+    void buttonBottom();
+    void buttonLeft();
+    void buttonRight();
 
 private:
     static GPIOhandler* InterruptPtr;

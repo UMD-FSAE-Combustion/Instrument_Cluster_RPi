@@ -24,7 +24,6 @@ qt_add_qml_module(appDyno_Info
         gpiohandler.h gpiohandler.cpp
         jsonmanager.h jsonmanager.cpp
         canmanager.h canmanager.cpp
-        mapVals.h
         shutdownhandler.h
 
         RESOURCES

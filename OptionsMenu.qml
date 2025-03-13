@@ -99,9 +99,19 @@ Item {
                 {
                     text: qsTr("Load Profile")
                     color: (counter === 0) ? "white" : "black"
-                    anchors.centerIn: parent
                     font.pixelSize: 30
                     font.bold: true
+                    y: 40
+                    anchors.horizontalCenter: parent.horizontalCenter
+                }
+
+                Text {
+                    text: "Current Profile: " + (rootWindow.driver + 1)
+                    color: (counter === 0) ? "white" : "grey"
+                    font.pixelSize: 20
+
+                    y: 75
+                    anchors.horizontalCenter: parent.horizontalCenter
                 }
 
             }
@@ -145,9 +155,32 @@ Item {
                 {
                     text: qsTr("Launch Control")
                     color: (counter === 2) ? "white" : "black"
-                    anchors.centerIn: parent
                     font.pixelSize: 30
                     font.bold: true
+
+                    y: 40
+                    anchors.horizontalCenter: parent.horizontalCenter
+                }
+
+                Text {
+                    text: (rootWindow.lc_Status === 1) ? "ON" : "OFF"
+                    font.pixelSize: 20
+                    font.italic: true
+                    font.bold: true
+                    color: {
+                        if(counter === 2) {
+                            "white"
+                        } else if (counter !== 2) {
+                            if (rootWindow.lc_Status === 1) {
+                                "#00a8ff"
+                            } else {
+                                "grey"
+                            }
+                        }
+                    }
+
+                    y: 75
+                    anchors.horizontalCenter: parent.horizontalCenter
                 }
             }
         }
@@ -188,9 +221,20 @@ Item {
                 {
                     text: qsTr("Brake Bias")
                     color: (counter === 3) ? "white" : "black"
-                    anchors.centerIn: parent
                     font.pixelSize: 30
                     font.bold: true
+
+                    y: 40
+                    anchors.horizontalCenter: parent.horizontalCenter
+                }
+
+                Text {
+                    text: "F: " + (brakeBiasObject.biasVal) + " | " + "R: " + (brakeBiasObject.rearBrakeBias)
+                    color: (counter === 3) ? "white" : "grey"
+                    font.pixelSize: 20
+
+                    y: 75
+                    anchors.horizontalCenter: parent.horizontalCenter
                 }
             }
 
@@ -210,9 +254,20 @@ Item {
                 {
                     text: qsTr("Traction Control")
                     color: (counter === 4) ? "white" : "black"
-                    anchors.centerIn: parent
                     font.pixelSize: 30
                     font.bold: true
+
+                    y: 40
+                    anchors.horizontalCenter: parent.horizontalCenter
+                }
+
+                Text {
+                    text: "Current Value: " + tract.tractionSwitch
+                    color: (counter === 4) ? "white" : "grey"
+                    font.pixelSize: 20
+
+                    y: 75
+                    anchors.horizontalCenter: parent.horizontalCenter
                 }
             }
 
@@ -232,33 +287,23 @@ Item {
                 Text
                 {
                     id: lineOne
-                    text: qsTr("Launch Switch")
+                    text: qsTr("Launch Aim")
+                    y: 40
 
                     color: (counter === 5) ? "white" : "black"
-                    anchors
-                    {
-                        top: launchSwitchAimRotary.top
-                        horizontalCenter: launchSwitchAimRotary.horizontalCenter
-                        topMargin: 30
-                    }
+                    anchors.horizontalCenter: parent.horizontalCenter
 
                     font.pixelSize: 30
                     font.bold: true
                 }
 
-                Text
-                {
-                    text: qsTr("Aim Rotary")
+                Text {
+                    text: "Current Value: <NULL>"
+                    color: (counter === 5) ? "white" : "grey"
+                    font.pixelSize: 20
 
-                    color: (counter === 5) ? "white" : "black"
-                    anchors
-                    {
-                        top: lineOne.bottom
-                        horizontalCenter: launchSwitchAimRotary.horizontalCenter
-                    }
-
-                    font.pixelSize: 30
-                    font.bold: true
+                    y: 75
+                    anchors.horizontalCenter: parent.horizontalCenter
                 }
             }
         }
@@ -384,11 +429,21 @@ Item {
                 {
                     text: qsTr("Anti Lag")
                     color: (counter === 9) ? "white" : "black"
-                    anchors.centerIn: parent
                     font.pixelSize: 30
                     font.bold: true
+
+                    y: 40
+                    anchors.horizontalCenter: parent.horizontalCenter
                 }
 
+                Text {
+                    text: "Current Value: <NULL>"
+                    color: (counter === 9) ? "white" : "grey"
+                    font.pixelSize: 20
+
+                    y: 75
+                    anchors.horizontalCenter: parent.horizontalCenter
+                }
             }
 
             Rectangle
@@ -407,9 +462,32 @@ Item {
                 {
                     text: qsTr("Ignition Timing")
                     color:(counter === 10) ? "white" : "black"
-                    anchors.centerIn: parent
                     font.pixelSize: 30
                     font.bold: true
+
+                    y: 40
+                    anchors.horizontalCenter: parent.horizontalCenter
+                }
+
+                Text {
+                    text: (rootWindow.ignitionTiming === 1) ? "ON" : "OFF"
+                    font.pixelSize: 20
+                    font.italic: true
+                    font.bold: true
+                    color: {
+                        if(counter === 10) {
+                            "white"
+                        } else if (counter !== 10) {
+                            if (rootWindow.ignitionTiming === 1) {
+                                "#00a8ff"
+                            } else {
+                                "grey"
+                            }
+                        }
+                    }
+
+                    y: 75
+                    anchors.horizontalCenter: parent.horizontalCenter
                 }
             }
 
@@ -428,11 +506,34 @@ Item {
 
                 Text
                 {
-                    text: qsTr("Mix Aim")
+                    text: qsTr("Fuel Mix Aim")
                     color: (counter === 11) ? "white" : "black"
-                    anchors.centerIn: parent
                     font.pixelSize: 30
                     font.bold: true
+
+                    y: 40
+                    anchors.horizontalCenter: parent.horizontalCenter
+                }
+
+                Text {
+                    text: (rootWindow.throttleMap === 1) ? "ON" : "OFF"
+                    font.pixelSize: 20
+                    font.italic: true
+                    font.bold: true
+                    color: {
+                        if(counter === 11) {
+                            "white"
+                        } else if (counter !== 11) {
+                            if (rootWindow.ignitionTiming === 1) {
+                                "#00a8ff"
+                            } else {
+                                "grey"
+                            }
+                        }
+                    }
+
+                    y: 75
+                    anchors.horizontalCenter: parent.horizontalCenter
                 }
             }
         }
@@ -473,12 +574,10 @@ Item {
                     text: qsTr("Throttle Pedal")
 
                     color: (counter === 12) ? "white" : "black"
-                    anchors
-                    {
-                        top: throttlePedalTranslation.top
-                        horizontalCenter: throttlePedalTranslation.horizontalCenter
-                        topMargin: 30
-                    }
+
+                    y: 20
+                    anchors.horizontalCenter: throttlePedalTranslation.horizontalCenter
+
 
                     font.pixelSize: 30
                     font.bold: true
@@ -499,6 +598,26 @@ Item {
                     font.bold: true
                 }
 
+                Text {
+                    text: (rootWindow.throttleMap === 1) ? "ON" : "OFF"
+                    font.pixelSize: 20
+                    font.italic: true
+                    font.bold: true
+                    color: {
+                        if(counter === 12) {
+                            "white"
+                        } else if (counter !== 12) {
+                            if (rootWindow.ignitionTiming === 1) {
+                                "#00a8ff"
+                            } else {
+                                "grey"
+                            }
+                        }
+                    }
+
+                    y: 90
+                    anchors.horizontalCenter: parent.horizontalCenter
+                }
             }
 
             Rectangle

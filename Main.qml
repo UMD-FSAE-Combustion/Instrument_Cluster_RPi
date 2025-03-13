@@ -17,9 +17,13 @@ Window
     property int speed: 0
     property int currentSet: 1
     property int counter: 0
+
     property int driver: JSON.driver
     property int lc_Status: 0
     property bool ecuFault: false
+    property int ignitionTiming: JSON.ignitionTiming
+    property int throttleMap: JSON.throttleMap
+
     property bool gameMenuVisible: false
     property int gameMenuCounter: 0
 
