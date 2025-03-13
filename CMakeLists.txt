@@ -44,6 +44,7 @@ qt_add_qml_module(appDyno_Info
         QML_FILES GameMenu.qml
         QML_FILES AnimationManager.qml
         QML_FILES InputManager.qml
+        QML_FILES Pong.qml
 )
 
 
