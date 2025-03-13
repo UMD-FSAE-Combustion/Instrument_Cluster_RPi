@@ -102,23 +102,16 @@ Item {
                     font.pixelSize: 30
                     font.bold: true
                     y: 40
-                    anchors {
-                        horizontalCenter: parent.horizontalCenter
-                    }
+                    anchors.horizontalCenter: parent.horizontalCenter
                 }
 
                 Text {
-                    text: "current profile: " + (rootWindow.driver + 1)
+                    text: "Current Profile: " + (rootWindow.driver + 1)
                     color: (counter === 0) ? "white" : "grey"
-                    font {
-                        pixelSize: 20
-                    }
+                    font.pixelSize: 20
 
                     y: 75
-                    anchors {
-                        horizontalCenter: parent.horizontalCenter
-                    }
-
+                    anchors.horizontalCenter: parent.horizontalCenter
                 }
 
             }
@@ -227,9 +220,20 @@ Item {
                 {
                     text: qsTr("Traction Control")
                     color: (counter === 4) ? "white" : "black"
-                    anchors.centerIn: parent
                     font.pixelSize: 30
                     font.bold: true
+
+                    y: 40
+                    anchors.horizontalCenter: parent.horizontalCenter
+                }
+
+                Text {
+                    text: "Current Value: " + tract.tractionSwitch
+                    color: (counter === 4) ? "white" : "grey"
+                    font.pixelSize: 20
+
+                    y: 75
+                    anchors.horizontalCenter: parent.horizontalCenter
                 }
             }
 
@@ -249,33 +253,23 @@ Item {
                 Text
                 {
                     id: lineOne
-                    text: qsTr("Launch Switch")
+                    text: qsTr("Launch Aim")
+                    y: 40
 
                     color: (counter === 5) ? "white" : "black"
-                    anchors
-                    {
-                        top: launchSwitchAimRotary.top
-                        horizontalCenter: launchSwitchAimRotary.horizontalCenter
-                        topMargin: 30
-                    }
+                    anchors.horizontalCenter: parent.horizontalCenter
 
                     font.pixelSize: 30
                     font.bold: true
                 }
 
-                Text
-                {
-                    text: qsTr("Aim Rotary")
+                Text {
+                    text: "Current Value: <NULL>"
+                    color: (counter === 5) ? "white" : "grey"
+                    font.pixelSize: 20
 
-                    color: (counter === 5) ? "white" : "black"
-                    anchors
-                    {
-                        top: lineOne.bottom
-                        horizontalCenter: launchSwitchAimRotary.horizontalCenter
-                    }
-
-                    font.pixelSize: 30
-                    font.bold: true
+                    y: 75
+                    anchors.horizontalCenter: parent.horizontalCenter
                 }
             }
         }
@@ -445,7 +439,7 @@ Item {
 
                 Text
                 {
-                    text: qsTr("Mix Aim")
+                    text: qsTr("Fuel Mix Aim")
                     color: (counter === 11) ? "white" : "black"
                     anchors.centerIn: parent
                     font.pixelSize: 30
