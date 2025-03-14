@@ -511,6 +511,47 @@ Window
 
     Rectangle
     {
+        id: antiLagScreen
+        radius: 25
+        visible: false
+        anchors
+        {
+            top: columnBar.top
+            bottom: columnBar.bottom
+            left: columnBar.left
+            right: columnBar.right
+        }
+
+        AntilagControl
+        {
+            id: antilag
+            anchors.fill: parent
+        }
+    }
+
+    Rectangle
+    {
+        id: launchAimScreen
+        radius: 25
+        visible: false
+        anchors
+        {
+            top: columnBar.top
+            bottom: columnBar.bottom
+            left: columnBar.left
+            right: columnBar.right
+        }
+
+        LaunchAimControl
+        {
+            id: launch
+            anchors.fill: parent
+        }
+    }
+
+
+    Rectangle
+    {
         id: engineInfoScreen
 
         x: -800

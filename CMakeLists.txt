@@ -44,6 +44,8 @@ qt_add_qml_module(appDyno_Info
         QML_FILES AnimationManager.qml
         QML_FILES InputManager.qml
         QML_FILES Pong.qml
+        QML_FILES AntilagControl.qml
+        QML_FILES LaunchAimControl.qml
 )
 
 
