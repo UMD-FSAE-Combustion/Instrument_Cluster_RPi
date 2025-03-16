@@ -85,15 +85,17 @@ Item {
         }
         else if(currentSet === 3)
         {
-            loadNewProfile(counter - 6)
             animator.animationCenterSpeedometer_START()
             animator.animationLeft_START()
 
-            statusMessage.text = "Profile Loaded:  " + (driver + 1)
-            statusImage.source = "assets/images/INFO.png"
-            statusMessage.font.pixelSize = 14
-            animator.statusUpdateAnimation_START()
+            if((counter - 6 ) !== JSON.driver) {
+                loadNewProfile(counter - 6)
 
+                statusMessage.text = "Profile Loaded:  " + (driver + 1)
+                statusImage.source = "assets/images/INFO.png"
+                statusMessage.font.pixelSize = 14
+                animator.statusUpdateAnimation_START()
+            }
             counter = 0
             currentSet = 1
             menuShown = false
@@ -196,9 +198,17 @@ Item {
             menuShown = false
         }
         else if(counter === 6 || counter === 7 || counter === 8 && currentSet === 3) {
+
+            if((counter - 6 ) !== JSON.driver) {
+                loadNewProfile(counter - 6)
+
+                statusMessage.text = "Profile Loaded:  " + (driver + 1)
+                statusImage.source = "assets/images/INFO.png"
+                statusMessage.font.pixelSize = 14
+                animator.statusUpdateAnimation_START()
+            }
             currentSet = 1
             counter = 0
-            animator.animationRight_START()
         }
         else if(counter === 3 && brakeBiasScreen.visible === true)
         {
