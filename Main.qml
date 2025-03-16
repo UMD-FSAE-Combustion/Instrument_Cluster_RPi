@@ -23,6 +23,7 @@ Window
     property bool ecuFault: false
     property int ignitionTiming: JSON.ignitionTiming
     property int throttleMap: JSON.throttleMap
+    property int fuelAim: JSON.fuelAim
 
     property bool gameMenuVisible: false
     property int gameMenuCounter: 0

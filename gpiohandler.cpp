@@ -5,6 +5,11 @@
 #define BUTTON_LEFT 27
 #define BUTTON_RIGHT 22
 
+#define PRESS_DELAY 100
+#define HOLD_DELAY 250
+
+#define SHUTDOWN_PIN NULL //add later
+
 GPIOhandler* GPIOhandler::InterruptPtr;
 
 GPIOhandler::GPIOhandler(QObject *parent)
@@ -41,40 +46,64 @@ GPIOhandler::~GPIOhandler() {
 
 void GPIOhandler::pushButtonRight()
 {
-    delay(100);  //Debounce
+    delay(PRESS_DELAY);  //Debounce
     if(digitalRead(BUTTON_RIGHT) == LOW)
     {
-        //qDebug() << "right button pressed";
         emit InterruptPtr->buttonRight();
+
+        delay(HOLD_DELAY); // Might need to adjust, waiting for test
+        while(digitalRead(BUTTON_RIGHT) == LOW)
+        {
+            emit InterruptPtr->buttonRight();
+            delay(PRESS_DELAY); //Might need to adjust
+        }
     }
 }
 
 void GPIOhandler::pushButtonLeft()
 {
-    delay(100);  //Debounce
+    delay(PRESS_DELAY);  //Debounce
     if(digitalRead(BUTTON_LEFT) == LOW)
     {
-        //qDebug() << "left button pressed";
         emit InterruptPtr->buttonLeft();
+
+        delay(HOLD_DELAY); // Might need to adjust, waiting for test
+        while(digitalRead(BUTTON_LEFT) == LOW)
+        {
+            emit InterruptPtr->buttonLeft();
+            delay(PRESS_DELAY); //Might need to adjust
+        }
     }
 }
 
 void GPIOhandler::pushButtonTop()
 {
-    delay(120);  //Debounce
+    delay(PRESS_DELAY);  //Debounce
     if(digitalRead(BUTTON_TOP) == LOW)
     {
-        //qDebug() << "top button pressed";
         emit InterruptPtr->buttonTop();
+
+        delay(HOLD_DELAY); // Might need to adjust, waiting for test
+        while(digitalRead(BUTTON_TOP) == LOW)
+        {
+            emit InterruptPtr->buttonTop();
+            delay(PRESS_DELAY); //Might need to adjust
+        }
     }
 }
 
 void GPIOhandler::pushButtonBottom()
 {
-    delay(100);  //Debounce
+    delay(PRESS_DELAY);  //Debounce
     if(digitalRead(BUTTON_BOTTOM) == LOW)
     {
-        //qDebug() << "bottom button pressed";
         emit InterruptPtr->buttonBottom();
+
+        delay(HOLD_DELAY); // Might need to adjust, waiting for test
+        while(digitalRead(BUTTON_BOTTOM) == LOW)
+        {
+            emit InterruptPtr->buttonTop();
+            delay(PRESS_DELAY); //Might need to adjust
+        }
     }
 }
