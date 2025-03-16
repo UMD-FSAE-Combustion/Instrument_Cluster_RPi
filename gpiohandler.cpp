@@ -51,11 +51,11 @@ void GPIOhandler::pushButtonRight()
     {
         emit InterruptPtr->buttonRight();
 
-        delay(HOLD_DELAY); // Might need to adjust, waiting for test
+        delay(HOLD_DELAY);
         while(digitalRead(BUTTON_RIGHT) == LOW)
         {
             emit InterruptPtr->buttonRight();
-            delay(PRESS_DELAY); //Might need to adjust
+            delay(PRESS_DELAY);
         }
     }
 }
@@ -67,11 +67,11 @@ void GPIOhandler::pushButtonLeft()
     {
         emit InterruptPtr->buttonLeft();
 
-        delay(HOLD_DELAY); // Might need to adjust, waiting for test
+        delay(HOLD_DELAY);
         while(digitalRead(BUTTON_LEFT) == LOW)
         {
             emit InterruptPtr->buttonLeft();
-            delay(PRESS_DELAY); //Might need to adjust
+            delay(PRESS_DELAY);
         }
     }
 }
@@ -83,11 +83,11 @@ void GPIOhandler::pushButtonTop()
     {
         emit InterruptPtr->buttonTop();
 
-        delay(HOLD_DELAY); // Might need to adjust, waiting for test
+        delay(HOLD_DELAY);
         while(digitalRead(BUTTON_TOP) == LOW)
         {
             emit InterruptPtr->buttonTop();
-            delay(PRESS_DELAY); //Might need to adjust
+            delay(PRESS_DELAY);
         }
     }
 }
@@ -99,11 +99,11 @@ void GPIOhandler::pushButtonBottom()
     {
         emit InterruptPtr->buttonBottom();
 
-        delay(HOLD_DELAY); // Might need to adjust, waiting for test
+        delay(HOLD_DELAY);
         while(digitalRead(BUTTON_BOTTOM) == LOW)
         {
-            emit InterruptPtr->buttonTop();
-            delay(PRESS_DELAY); //Might need to adjust
+            emit InterruptPtr->buttonBottom();
+            delay(PRESS_DELAY);
         }
     }
 }
