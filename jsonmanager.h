@@ -25,10 +25,10 @@ class JSONmanager : public QObject
     Q_PROPERTY(int tractionSwitch READ getTractionSwitch WRITE setTractionSwitch NOTIFY tractionSwitchChanged FINAL)
     Q_PROPERTY(int ignitionTiming READ ignitionTiming WRITE setIgnitionTiming NOTIFY ignitionTimingChanged FINAL)
     Q_PROPERTY(int throttleMap READ throttleMap WRITE setThrottleMap NOTIFY throttleMapChanged FINAL)
+    Q_PROPERTY(int fuelAim READ fuelAim WRITE setFuelAim NOTIFY fuelAimChanged FINAL)
 
     // NEED TO MAKE PROPERTIES IN RESPECTIVE QML FILES //
     Q_PROPERTY(int antiLag READ antiLag WRITE setAntiLag NOTIFY antiLagChanged FINAL)
-    Q_PROPERTY(int fuelAim READ fuelAim WRITE setFuelAim NOTIFY fuelAimChanged FINAL)
     Q_PROPERTY(int launchAim READ launchAim WRITE setLaunchAim NOTIFY launchAimChanged FINAL)
 
 public:
