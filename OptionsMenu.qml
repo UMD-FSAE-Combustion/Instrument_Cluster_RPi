@@ -516,7 +516,7 @@ Item {
                 }
 
                 Text {
-                    text: (rootWindow.throttleMap === 1) ? "ON" : "OFF"
+                    text: (rootWindow.fuelAim === 1) ? "ON" : "OFF"
                     font.pixelSize: 20
                     font.italic: true
                     font.bold: true
