@@ -23,16 +23,15 @@ class JSONmanager : public QObject
     Q_PROPERTY(int driver READ getDriver WRITE setDriver NOTIFY DriverChanged FINAL)
     Q_PROPERTY(int biasVal READ getBiasVal WRITE setBiasVal NOTIFY BiasValChanged FINAL)
     Q_PROPERTY(int tractionSwitch READ getTractionSwitch WRITE setTractionSwitch NOTIFY tractionSwitchChanged FINAL)
-    Q_PROPERTY(int ignitionTiming READ ignitionTiming WRITE setIgnitionTiming NOTIFY ignitionTimingChanged FINAL)
-    Q_PROPERTY(int throttleMap READ throttleMap WRITE setThrottleMap NOTIFY throttleMapChanged FINAL)
-    Q_PROPERTY(int fuelAim READ fuelAim WRITE setFuelAim NOTIFY fuelAimChanged FINAL)
-
-    // NEED TO MAKE PROPERTIES IN RESPECTIVE QML FILES //
-    Q_PROPERTY(int antiLag READ antiLag WRITE setAntiLag NOTIFY antiLagChanged FINAL)
     Q_PROPERTY(int launchAim READ launchAim WRITE setLaunchAim NOTIFY launchAimChanged FINAL)
+    Q_PROPERTY(int antiLag READ antiLag WRITE setAntiLag NOTIFY antiLagChanged FINAL)
+    Q_PROPERTY(bool ignitionTiming READ ignitionTiming WRITE setIgnitionTiming NOTIFY ignitionTimingChanged FINAL)
+    Q_PROPERTY(bool throttleMap READ throttleMap WRITE setThrottleMap NOTIFY throttleMapChanged FINAL)
+    Q_PROPERTY(bool fuelAim READ fuelAim WRITE setFuelAim NOTIFY fuelAimChanged FINAL)
 
 public:
     JSONmanager();
+    ~JSONmanager();
 
     void loadProfileOnBoot();
     Q_INVOKABLE void loadProfile(int);
@@ -59,17 +58,17 @@ public:
     int antiLag() const;
     void setAntiLag(int newAntiLag);
 
-    int fuelAim() const;
-    void setFuelAim(int newFuelAim);
-
     int launchAim() const;
     void setLaunchAim(int newLaunchAim);
 
-    int ignitionTiming() const;
-    void setIgnitionTiming(int newIgnitionTiming);
+    bool fuelAim() const;
+    void setFuelAim(bool newFuelAim);
 
-    int throttleMap() const;
-    void setThrottleMap(int newThrottleMap);
+    bool ignitionTiming() const;
+    void setIgnitionTiming(bool newIgnitionTiming);
+
+    bool throttleMap() const;
+    void setThrottleMap(bool newThrottleMap);
 
 signals:
     void BiasValChanged();
@@ -101,11 +100,11 @@ private:
     int m_driver;
     int m_biasVal;
     int m_tractionSwitch;
-    int m_antiLag;
-    int m_fuelAim;
     int m_launchAim;
-    int m_ignitionTiming;
-    int m_throttleMap;
+    int m_antiLag;
+    bool m_fuelAim;
+    bool m_ignitionTiming;
+    bool m_throttleMap;
 };
 
 #endif // JSONMANAGER_H

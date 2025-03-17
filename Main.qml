@@ -21,9 +21,9 @@ Window
     property int driver: JSON.driver
     property int lc_Status: 0
     property bool ecuFault: false
-    property int ignitionTiming: JSON.ignitionTiming
-    property int throttleMap: JSON.throttleMap
-    property int fuelAim: JSON.fuelAim
+    property bool ignitionTiming: JSON.ignitionTiming
+    property bool throttleMap: JSON.throttleMap
+    property bool fuelAim: JSON.fuelAim
 
     property bool gameMenuVisible: false
     property int gameMenuCounter: 0
@@ -475,7 +475,7 @@ Window
             bottom: parent.bottom
             margins: 15
         }
-        x: root.width
+        x: rootWindow.width
         width: 300
         height: 50
         visible: false
@@ -525,7 +525,7 @@ Window
 
         AntilagControl
         {
-            id: antilag
+            id: antiLagObj
             anchors.fill: parent
         }
     }
@@ -545,7 +545,7 @@ Window
 
         LaunchAimControl
         {
-            id: launch
+            id: launchAimObj
             anchors.fill: parent
         }
     }
@@ -700,10 +700,11 @@ Window
                 inputManager.upPress()
             }
             else if(event.key === Qt.Key_Escape) {
-                close()
+
+                Qt.quit()
             }
             else if(event.key === Qt.Key_Q) {
-                close()
+                Qt.quit()
             }
             else if (event.key === Qt.Key_W) {
                 if(engineInfoScreen.visible === true)
@@ -748,25 +749,17 @@ Window
         brakeBiasObject.biasVal = JSON.biasVal
         brakeBiasObject.rearBrakeBias = (100 - JSON.biasVal)
         tract.tractionSwitch = JSON.tractionSwitch
+        launchAimObj.launchAim = JSON.launchAim
+        antiLagObj.antiLag = JSON.antiLag
 
         canManager.updatePayload(0, brakeBiasObject.biasVal)
         canManager.updatePayload(1, (tract.tractionSwitch * 3))
+        canManager.updatePayload(2, (launchAimObj.launchAim * 3))
+        canManager.updatePayload(3, (antiLagObj.antiLag * 3))
+        canManager.updatePayload(5, ignitionTiming)
+        canManager.updatePayload(6, fuelAim)
+        canManager.updatePayload(7, throttleMap)
         // add other properties when done
-    }
-
-    function updateBias(profile, bias) {
-        JSON.updateBrakeBias(profile, bias)
-        canManager.updatePayload(0, JSON.biasVal)
-
-        brakeBiasObject.biasVal = JSON.biasVal
-        brakeBiasObject.rearBrakeBias = (100 - JSON.biasVal)
-    }
-
-    function updateTraction(profile, traction) {
-        JSON.updateTractionCtl(profile, traction)
-        canManager.updatePayload(1, (JSON.tractionSwitch *3)) // *3 bc motec rotary bullshit
-
-        tract.tractionSwitch = JSON.tractionSwitch
     }
 
     function showECUfault() {
