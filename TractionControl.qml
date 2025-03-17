@@ -122,6 +122,13 @@ Item
                 }
             }
         }
-
     }
+
+    function updateTraction(profile, traction) {
+        JSON.updateTractionCtl(profile, traction)
+        canManager.updatePayload(1, (JSON.tractionSwitch *3)) // *3 bc motec rotary bullshit
+
+        tractionSwitch = JSON.tractionSwitch
+    }
+
 }
