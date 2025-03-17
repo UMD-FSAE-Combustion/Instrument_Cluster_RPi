@@ -54,8 +54,8 @@ public:
     {
         FRONTBIAS = 0,
         TCSWITCH = 1,
-        ANTI_LAG = 2,
-        LAUNCH_AIM = 3,
+        LAUNCH_AIM = 2,
+        ANTI_LAG = 3,
         LAUNCH_CTL = 4,
         IGNITION = 5,
         FUEL_AIM = 6,
