@@ -25,7 +25,7 @@ Item {
         else if(brakeBiasScreen.visible === true)
         {
             if(brakeBiasObject.rearBrakeBias !== (100 - JSON.biasVal)) {
-                updateBias(driver, (100 - brakeBiasObject.rearBrakeBias))
+                brakeBiasObject.updateBias(driver, (100 - brakeBiasObject.rearBrakeBias))
                 animator.animationCenterSpeedometer_START()
                 animator.animationLeft_START()
 
@@ -53,7 +53,7 @@ Item {
         {
             if(tract.tractionSwitch !== JSON.tractionSwitch)
             {
-                updateTraction(driver, tract.tractionSwitch)
+                tract.updateTraction(driver, tract.tractionSwitch)
                 animator.animationCenterSpeedometer_START()
                 animator.animationLeft_START()
 
@@ -75,6 +75,64 @@ Item {
                 counter = 0
                 currentSet = 1
                 tractionControlScreen.visible = false
+                menuShown = false
+            }
+        }
+        else if(launchAimScreen.visible === true)
+        {
+            if(launchAimObj.launchAim !== JSON.launchAim)
+            {
+                launchAimObj.updateLaunchAimSetting(driver, launchAimObj.launchAim)
+                animator.animationCenterSpeedometer_START()
+                animator.animationLeft_START()
+
+                statusMessage.text = "Setting Updated"
+                statusImage.source = "assets/images/INFO.png"
+                statusMessage.font.pixelSize = 20
+                animator.statusUpdateAnimation_START()
+
+                counter = 0
+                currentSet = 1
+                launchAimScreen.visible = false
+                menuShown = false
+            }
+            else
+            {
+                animator.animationCenterSpeedometer_START()
+                animator.animationLeft_START()
+
+                counter = 0
+                currentSet = 1
+                launchAimScreen.visible = false
+                menuShown = false
+            }
+        }
+        else if(antiLagScreen.visible === true)
+        {
+            if(antiLagObj.antiLag !== JSON.antiLag)
+            {
+                antiLagObj.updateAntiLagSetting(driver, antiLagObj.antiLag)
+                animator.animationCenterSpeedometer_START()
+                animator.animationLeft_START()
+
+                statusMessage.text = "Setting Updated"
+                statusImage.source = "assets/images/INFO.png"
+                statusMessage.font.pixelSize = 20
+                animator.statusUpdateAnimation_START()
+
+                counter = 0
+                currentSet = 1
+                antiLagScreen.visible = false
+                menuShown = false
+            }
+            else
+            {
+                animator.animationCenterSpeedometer_START()
+                animator.animationLeft_START()
+
+                counter = 0
+                currentSet = 1
+                antiLagScreen.visible = false
                 menuShown = false
             }
         }
@@ -131,31 +189,50 @@ Item {
         {
             extraInfoWidgets.visible = true
         }
-        else if(counter === 2 && lc_Status !== 1)
+        else if(counter === 2)
         {
-            lc_Status = 1
-            canManager.updatePayload(4, lc_Status)
+            if(lc_Status === 0) {
+                lc_Status = 1
+                canManager.updatePayload(4, lc_Status)
 
-            statusMessage.text = "Launch Control: Active"
-            statusImage.source = "assets/images/LC.png"
-            statusMessage.font.pixelSize = 15
-            animator.statusUpdateAnimation_START()
+                statusMessage.text = "Launch Control: Active"
+                statusImage.source = "assets/images/LC.png"
+                statusMessage.font.pixelSize = 15
+                animator.statusUpdateAnimation_START()
 
-            launchControlImage.visible = true
-            menuShown = false
+                launchControlImage.visible = true
+            }
+            else {
+                lc_Status = 0
+                canManager.updatePayload(4, lc_Status)
+
+                statusMessage.text = "Launch Control: Inactive"
+                statusImage.source = "assets/images/LC.png"
+                statusMessage.font.pixelSize = 14
+                animator.statusUpdateAnimation_START()
+
+                launchControlImage.visible = false
+            }
         }
-        else if(counter === 2 && lc_Status !== 0)
+        else if(counter === 5)
         {
-            lc_Status = 0
-            canManager.updatePayload(4, lc_Status)
-
-            statusMessage.text = "Launch Control: Inactive"
-            statusImage.source = "assets/images/LC.png"
-            statusMessage.font.pixelSize = 14
-            animator.statusUpdateAnimation_START()
-
-            launchControlImage.visible = false
-            menuShown = false
+            launchAimScreen.visible = true
+        }
+        else if(counter === 9)
+        {
+            antiLagScreen.visible = true
+        }
+        else if(counter === 10)
+        {
+            optMenu.updateIgnitionState(driver)
+        }
+        else if(counter === 11)
+        {
+            optMenu.updateFuelAimState(driver)
+        }
+        else if(counter === 12)
+        {
+            optMenu.updateThrottleState(driver)
         }
     }
 
@@ -185,7 +262,7 @@ Item {
                 }
             }
         }
-        else if(counter >= 0 && counter <= 4 && engineInfoScreen.visible === false &&
+        else if(((counter >= 0 && counter <= 4) || (counter >= 9 && counter <= 12)) && engineInfoScreen.visible === false &&
                 brakeBiasScreen.visible === false && tractionControlScreen.visible === false)
         {
             animator.animationCenterSpeedometer_START()
@@ -194,7 +271,7 @@ Item {
             currentSet = 1
             menuShown = false
         }
-        else if(counter === 6 || counter === 7 || counter === 8 && currentSet === 3) {
+        else if((counter === 6 || counter === 7 || counter === 8) && currentSet === 3) {
 
             if((counter - 6 ) !== JSON.driver) {
                 loadNewProfile(counter - 6)
@@ -210,10 +287,8 @@ Item {
         else if(counter === 3 && brakeBiasScreen.visible === true)
         {
             if(brakeBiasObject.rearBrakeBias !== (100 - JSON.biasVal)) {
-                updateBias(driver, (100 - brakeBiasObject.rearBrakeBias))
+                brakeBiasObject.updateBias(driver, (100 - brakeBiasObject.rearBrakeBias))
                 brakeBiasScreen.visible = false
-                animator.animationRight_START()
-                animator.animationRightSpeedometer_START()
 
                 statusMessage.text = "Setting Updated"
                 statusImage.source = "assets/images/INFO.png"
@@ -224,21 +299,16 @@ Item {
                 currentSet = 2
             }
             else {
-                brakeBiasScreen.visible = false
-                animator.animationRight_START()
-                animator.animationRightSpeedometer_START()
-
                 counter = 3
                 currentSet = 2
+                brakeBiasScreen.visible = false
             }
         }
         else if(counter === 4 && tractionControlScreen.visible === true)
         {
             if(tract.tractionSwitch !== JSON.tractionSwitch)
             {
-                updateTraction(driver, tract.tractionSwitch)
-                animator.animationRight_START()
-                animator.animationRightSpeedometer_START()
+                tract.updateTraction(driver, tract.tractionSwitch)
 
                 statusMessage.text = "Setting Updated"
                 statusImage.source = "assets/images/INFO.png"
@@ -251,12 +321,53 @@ Item {
             }
             else
             {
-                animator.animationRightSpeedometer_START()
-                animator.animationRight_START()
-
                 counter = 4
                 currentSet = 2
                 tractionControlScreen.visible = false
+            }
+        }
+        else if(counter === 5 && launchAimScreen.visible === true)
+        {
+            if(launchAimObj.launchAim !== JSON.launchAim)
+            {
+                launchAimObj.updateLaunchAimSetting(driver, launchAimObj.launchAim)
+
+                statusMessage.text = "Setting Updated"
+                statusImage.source = "assets/images/INFO.png"
+                statusMessage.font.pixelSize = 20
+                animator.statusUpdateAnimation_START()
+
+                counter = 5
+                currentSet = 2
+                launchAimScreen.visible = false
+            }
+            else
+            {
+                counter = 5
+                currentSet = 2
+                launchAimScreen.visible = false
+            }
+        }
+        else if(counter === 9 && antiLagScreen.visible === true)
+        {
+            if(antiLagObj.antiLag !== JSON.antiLag)
+            {
+                antiLagObj.updateAntiLagSetting(driver, antiLagObj.antiLag)
+
+                statusMessage.text = "Setting Updated"
+                statusImage.source = "assets/images/INFO.png"
+                statusMessage.font.pixelSize = 20
+                animator.statusUpdateAnimation_START()
+
+                counter = 9
+                currentSet = 4
+                antiLagScreen.visible = false
+            }
+            else
+            {
+                counter = 9
+                currentSet = 4
+                antiLagScreen.visible = false
             }
         }
         else if(extraInfoWidgets.visible === true)
@@ -277,6 +388,7 @@ Item {
             counter = 1
             currentSet = 1
         }
+
     }
 
     function downPress() {
@@ -314,6 +426,20 @@ Item {
             counter = 4
             if(tract.tractionSwitch !== 1){
                 tract.tractionSwitch = tract.tractionSwitch - 1
+            }
+        }
+        else if(launchAimScreen.visible === true && launchAimObj.launchAim > 0)
+        {
+            counter = 5
+            if(launchAimObj.launchAim !== 1){
+                launchAimObj.launchAim = launchAimObj.launchAim - 1
+            }
+        }
+        else if(antiLagScreen.visible === true && antiLagObj.antiLag > 0)
+        {
+            counter = 9
+            if(antiLagObj.antiLag !== 1){
+                antiLagObj.antiLag = antiLagObj.antiLag - 1
             }
         }
         else if(counter > 2 && counter < 5)
@@ -376,6 +502,20 @@ Item {
             counter = 4
             if(tract.tractionSwitch !== 10){
                 tract.tractionSwitch = tract.tractionSwitch + 1
+            }
+        }
+        else if(launchAimScreen.visible === true && launchAimObj.launchAim < 11)
+        {
+            counter = 5
+            if(launchAimObj.launchAim !== 10){
+                launchAimObj.launchAim = launchAimObj.launchAim + 1
+            }
+        }
+        else if(antiLagScreen.visible === true && antiLagObj.antiLag < 11)
+        {
+            counter = 9
+            if(antiLagObj.antiLag !== 10){
+                antiLagObj.antiLag = antiLagObj.antiLag + 1
             }
         }
         else if(counter < 0)

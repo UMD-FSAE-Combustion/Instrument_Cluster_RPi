@@ -6,7 +6,6 @@ import QtQuick.Window
 
 Item
 {
-    //property int antilagValue
     property int launchAim: JSON.launchAim
 
     Rectangle
@@ -83,7 +82,7 @@ Item
                     Text
                     {
                         id: launchAimDisplayValue
-                        text: launchAimSwitch
+                        text: launchAim
                         color: "white"
                         font.pixelSize: 40
                         font.bold: true
@@ -122,6 +121,13 @@ Item
                 }
             }
         }
-
     }
+
+    function updateLaunchAimSetting(profile, launchAimVal) {
+        JSON.updateLaunchAim(profile, launchAimVal)
+        canManager.updatePayload(2, (JSON.launchAim *3)) // *3 bc motec rotary bullshit
+
+        launchAim = JSON.launchAim
+    }
+
 }

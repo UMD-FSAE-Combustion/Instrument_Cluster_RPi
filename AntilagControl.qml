@@ -6,7 +6,6 @@ import QtQuick.Window
 
 Item
 {
-    //property int antilagValue
     property int antiLag: JSON.antiLag
 
     Rectangle
@@ -122,6 +121,12 @@ Item
                 }
             }
         }
+    }
 
+    function updateAntiLagSetting(profile, antiLagVal) {
+        JSON.updateAntiLag(profile, antiLagVal)
+        canManager.updatePayload(3, (JSON.antiLag *3)) // *3 bc motec rotary bullshit
+
+        antiLag = JSON.antiLag
     }
 }
