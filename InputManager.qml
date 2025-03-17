@@ -108,7 +108,7 @@ Item {
         {
             tractionControlScreen.visible = true
         }
-        else if(counter === 1)
+        else if(counter === 1 && engineInfoScreen.visible !== true)
         {
             columnBar.visible = false
             animator.engineInfoAnimationRight_START()
@@ -126,9 +126,8 @@ Item {
             engineInfoScreen.visible = true
             speedoUnitInfoScreen.visible = true
             speedoUnit.visible = false
-            counter = 9
         }
-        else if(engineInfoScreen.visible === true && counter === 9)
+        else if(engineInfoScreen.visible === true)
         {
             extraInfoWidgets.visible = true
         }
@@ -155,8 +154,6 @@ Item {
             statusMessage.font.pixelSize = 14
             animator.statusUpdateAnimation_START()
 
-            //counter = 0
-            //currentSet = 1
             launchControlImage.visible = false
             menuShown = false
         }
@@ -264,10 +261,9 @@ Item {
         }
         else if(extraInfoWidgets.visible === true)
         {
-            counter = 9
             extraInfoWidgets.visible = false
         }
-        else if (counter === 9 && engineInfoScreen.visible === true)
+        else if (counter === 1 && engineInfoScreen.visible === true)
         {
             columnBar.visible = true
             animator.engineInfoAnimationLeft_START()
@@ -280,10 +276,6 @@ Item {
             speedoUnitInfoScreen.visible = false
             counter = 1
             currentSet = 1
-        }
-        else if(counter > 9 && engineInfoScreen.visible === true)
-        {
-            counter = counter - 1
         }
     }
 
