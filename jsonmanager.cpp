@@ -7,6 +7,9 @@ JSONmanager::JSONmanager()
     loadProfileOnBoot();
 }
 
+JSONmanager::~JSONmanager()
+{}
+
 void JSONmanager::loadProfileOnBoot()
 {
     file.setFileName(qApp->applicationDirPath() + "/data/Data.json");
@@ -33,9 +36,9 @@ void JSONmanager::loadProfileOnBoot()
             m_tractionSwitch = jsonArray[m_driver].toObject().value("tcSwitch").toInt();
             m_antiLag = jsonArray[m_driver].toObject().value("antiLagSwitch").toInt();
             m_launchAim = jsonArray[m_driver].toObject().value("launchAim").toInt();
-            m_fuelAim = jsonArray[m_driver].toObject().value("fuelAim").toInt();
-            m_ignitionTiming = jsonArray[m_driver].toObject().value("ignitionTiming").toInt();
-            m_throttleMap = jsonArray[m_driver].toObject().value("throttleMap").toInt();
+            m_fuelAim = jsonArray[m_driver].toObject().value("fuelAim").toBool();
+            m_ignitionTiming = jsonArray[m_driver].toObject().value("ignitionTiming").toBool();
+            m_throttleMap = jsonArray[m_driver].toObject().value("throttleMap").toBool();
 
             jsonLoadedStatus = true;
         }
@@ -70,13 +73,16 @@ void JSONmanager::loadProfile(int profile)
         int newAntiLag = jsonArray[m_driver].toObject().value("antiLagSwitch").toInt();
         setAntiLag(newAntiLag);
 
-        int newIgnitionTiming = jsonArray[m_driver].toObject().value("ignitionTiming").toInt();
-        setIgnitionTiming(newIgnitionTiming);
-
         int newLaunchAim = jsonArray[m_driver].toObject().value("launchAim").toInt();
         setLaunchAim(newLaunchAim);
 
-        int newThrottleMap = jsonArray[m_driver].toObject().value("throttleMap").toInt();
+        bool newIgnitionTiming = jsonArray[m_driver].toObject().value("ignitionTiming").toBool();
+        setIgnitionTiming(newIgnitionTiming);
+
+        bool newFuelAim = jsonArray[m_driver].toObject().value("fuelAim").toBool();
+        setFuelAim(newFuelAim);
+
+        bool newThrottleMap = jsonArray[m_driver].toObject().value("throttleMap").toBool();
         setThrottleMap(newThrottleMap);
 
         QJsonValueRef updDriver = RootObject.find("LastDriver").value();
@@ -481,12 +487,12 @@ void JSONmanager::setAntiLag(int newAntiLag)
     emit antiLagChanged();
 }
 
-int JSONmanager::fuelAim() const
+bool JSONmanager::fuelAim() const
 {
     return m_fuelAim;
 }
 
-void JSONmanager::setFuelAim(int newFuelAim)
+void JSONmanager::setFuelAim(bool newFuelAim)
 {
     if (m_fuelAim == newFuelAim)
         return;
@@ -507,12 +513,12 @@ void JSONmanager::setLaunchAim(int newLaunchAim)
     emit launchAimChanged();
 }
 
-int JSONmanager::ignitionTiming() const
+bool JSONmanager::ignitionTiming() const
 {
     return m_ignitionTiming;
 }
 
-void JSONmanager::setIgnitionTiming(int newIgnitionTiming)
+void JSONmanager::setIgnitionTiming(bool newIgnitionTiming)
 {
     if (m_ignitionTiming == newIgnitionTiming)
         return;
@@ -520,12 +526,12 @@ void JSONmanager::setIgnitionTiming(int newIgnitionTiming)
     emit ignitionTimingChanged();
 }
 
-int JSONmanager::throttleMap() const
+bool JSONmanager::throttleMap() const
 {
     return m_throttleMap;
 }
 
-void JSONmanager::setThrottleMap(int newThrottleMap)
+void JSONmanager::setThrottleMap(bool newThrottleMap)
 {
     if (m_throttleMap == newThrottleMap)
         return;

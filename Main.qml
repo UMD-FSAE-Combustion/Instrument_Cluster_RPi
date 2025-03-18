@@ -14,16 +14,16 @@ Window
     property var gpioInput: gpio
 
     property bool loadingComplete: false
-    property int speed: 0
+    //property int speed: 0
     property int currentSet: 1
     property int counter: 0
 
     property int driver: JSON.driver
     property int lc_Status: 0
     property bool ecuFault: false
-    property int ignitionTiming: JSON.ignitionTiming
-    property int throttleMap: JSON.throttleMap
-    property int fuelAim: JSON.fuelAim
+    property bool ignitionTiming: JSON.ignitionTiming
+    property bool throttleMap: JSON.throttleMap
+    property bool fuelAim: JSON.fuelAim
 
     property bool gameMenuVisible: false
     property int gameMenuCounter: 0
@@ -344,13 +344,26 @@ Window
 
         Image
         {
-            id: launchControlImage
-            source: "assets/images/LC.png"
+            id: ecuFaultImage
+            source: "assets/images/WARN.png"
 
             anchors
             {
                 right: parent.right
                 rightMargin: 80
+            }
+            visible: false
+        }
+
+        Image
+        {
+            id: launchControlImage
+            source: "assets/images/LC.png"
+
+            anchors
+            {
+                right: ecuFaultImage.left
+                //rightMargin: 80
             }
 
             visible: false
@@ -361,30 +374,28 @@ Window
 
     Rectangle
     {
-        id: warningIcons
+        id: lockIcon
         width: 70
         height: 400
         color: "transparent"
 
-        anchors
-        {
-            right: parent.right
-            top: teamLogo.bottom
-        }
+        y: 60
+        anchors.right: parent.right
 
         Image
         {
-            id: ecuFaultImage
-            source: "assets/images/WARN.png"
+            id: speedLock
+            source: "assets/images/lock_icon.png"
+            height: 40
+            width: 30
 
             anchors
             {
                 top: parent.top
                 horizontalCenter: parent.horizontalCenter
             }
-            visible: false
+            visible: (vehicleInfo.vehicleSpeed > 0) ? true : false
         }
-
         visible: true
     }
 
@@ -475,7 +486,7 @@ Window
             bottom: parent.bottom
             margins: 15
         }
-        x: root.width
+        x: rootWindow.width
         width: 300
         height: 50
         visible: false
@@ -509,6 +520,47 @@ Window
             anchors.fill: parent
         }
     }
+
+    Rectangle
+    {
+        id: antiLagScreen
+        radius: 25
+        visible: false
+        anchors
+        {
+            top: columnBar.top
+            bottom: columnBar.bottom
+            left: columnBar.left
+            right: columnBar.right
+        }
+
+        AntilagControl
+        {
+            id: antiLagObj
+            anchors.fill: parent
+        }
+    }
+
+    Rectangle
+    {
+        id: launchAimScreen
+        radius: 25
+        visible: false
+        anchors
+        {
+            top: columnBar.top
+            bottom: columnBar.bottom
+            left: columnBar.left
+            right: columnBar.right
+        }
+
+        LaunchAimControl
+        {
+            id: launchAimObj
+            anchors.fill: parent
+        }
+    }
+
 
     Rectangle
     {
@@ -659,10 +711,11 @@ Window
                 inputManager.upPress()
             }
             else if(event.key === Qt.Key_Escape) {
-                close()
+
+                Qt.quit()
             }
             else if(event.key === Qt.Key_Q) {
-                close()
+                Qt.quit()
             }
             else if (event.key === Qt.Key_W) {
                 if(engineInfoScreen.visible === true)
@@ -685,8 +738,12 @@ Window
             else if (event.key === Qt.Key_P) {
                 shutdownHandler.powerOFF()
             }
-            else if (event.key === Qt.Key_M) {
-                console.log(gameMenuCounter)
+            else if (event.key === Qt.Key_S) {
+                if(vehicleInfo.vehicleSpeed === 0) {
+                    vehicleInfo.vehicleSpeed = 17
+                } else {
+                    vehicleInfo.vehicleSpeed = 0
+                }
             }
         }
     }
@@ -707,25 +764,16 @@ Window
         brakeBiasObject.biasVal = JSON.biasVal
         brakeBiasObject.rearBrakeBias = (100 - JSON.biasVal)
         tract.tractionSwitch = JSON.tractionSwitch
+        launchAimObj.launchAim = JSON.launchAim
+        antiLagObj.antiLag = JSON.antiLag
 
         canManager.updatePayload(0, brakeBiasObject.biasVal)
         canManager.updatePayload(1, (tract.tractionSwitch * 3))
-        // add other properties when done
-    }
-
-    function updateBias(profile, bias) {
-        JSON.updateBrakeBias(profile, bias)
-        canManager.updatePayload(0, JSON.biasVal)
-
-        brakeBiasObject.biasVal = JSON.biasVal
-        brakeBiasObject.rearBrakeBias = (100 - JSON.biasVal)
-    }
-
-    function updateTraction(profile, traction) {
-        JSON.updateTractionCtl(profile, traction)
-        canManager.updatePayload(1, (JSON.tractionSwitch *3)) // *3 bc motec rotary bullshit
-
-        tract.tractionSwitch = JSON.tractionSwitch
+        canManager.updatePayload(2, (launchAimObj.launchAim * 3))
+        canManager.updatePayload(3, (antiLagObj.antiLag * 3))
+        canManager.updatePayload(5, ignitionTiming)
+        canManager.updatePayload(6, fuelAim)
+        canManager.updatePayload(7, throttleMap)
     }
 
     function showECUfault() {

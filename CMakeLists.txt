@@ -35,6 +35,7 @@ qt_add_qml_module(appDyno_Info
         assets/images/INFO.png
         assets/images/WARN.png
         assets/images/LC.png
+        assets/images/lock_icon.png
         QML_FILES TractionControl.qml
         QML_FILES BrakeBias.qml
         QML_FILES VehicleInfoDisplay.qml
@@ -44,6 +45,8 @@ qt_add_qml_module(appDyno_Info
         QML_FILES AnimationManager.qml
         QML_FILES InputManager.qml
         QML_FILES Pong.qml
+        QML_FILES AntilagControl.qml
+        QML_FILES LaunchAimControl.qml
 )
 
 
