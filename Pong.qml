@@ -20,7 +20,7 @@ Rectangle {
     property real ballSpeedY: 1
     property real maxBallSpeedX: 7
     property real maxBallSpeedY: 3
-    property int paddleSpeed: 25
+    property int paddleSpeed: 10
     property int aiPaddleSpeed: 6
     property int minimumPaddleMovement: 3
 
