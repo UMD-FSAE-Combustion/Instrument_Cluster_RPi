@@ -298,7 +298,7 @@ Item {
                 }
 
                 Text {
-                    text: "Current Value: <NULL>"
+                    text: "Current Value: " + launchAimObj.launchAim
                     color: (counter === 5) ? "white" : "grey"
                     font.pixelSize: 20
 
@@ -437,7 +437,7 @@ Item {
                 }
 
                 Text {
-                    text: "Current Value: <NULL>"
+                    text: "Current Value: " + antiLagObj.antiLag
                     color: (counter === 9) ? "white" : "grey"
                     font.pixelSize: 20
 
@@ -470,7 +470,7 @@ Item {
                 }
 
                 Text {
-                    text: (rootWindow.ignitionTiming === 1) ? "ON" : "OFF"
+                    text: (rootWindow.ignitionTiming === true) ? "ON" : "OFF"
                     font.pixelSize: 20
                     font.italic: true
                     font.bold: true
@@ -478,7 +478,7 @@ Item {
                         if(counter === 10) {
                             "white"
                         } else if (counter !== 10) {
-                            if (rootWindow.ignitionTiming === 1) {
+                            if (rootWindow.ignitionTiming === true) {
                                 "#00a8ff"
                             } else {
                                 "grey"
@@ -516,7 +516,7 @@ Item {
                 }
 
                 Text {
-                    text: (rootWindow.fuelAim === 1) ? "ON" : "OFF"
+                    text: (rootWindow.fuelAim === true) ? "ON" : "OFF"
                     font.pixelSize: 20
                     font.italic: true
                     font.bold: true
@@ -524,7 +524,7 @@ Item {
                         if(counter === 11) {
                             "white"
                         } else if (counter !== 11) {
-                            if (rootWindow.ignitionTiming === 1) {
+                            if (rootWindow.fuelAim === true) {
                                 "#00a8ff"
                             } else {
                                 "grey"
@@ -599,7 +599,7 @@ Item {
                 }
 
                 Text {
-                    text: (rootWindow.throttleMap === 1) ? "ON" : "OFF"
+                    text: (rootWindow.throttleMap === true) ? "ON" : "OFF"
                     font.pixelSize: 20
                     font.italic: true
                     font.bold: true
@@ -607,7 +607,7 @@ Item {
                         if(counter === 12) {
                             "white"
                         } else if (counter !== 12) {
-                            if (rootWindow.ignitionTiming === 1) {
+                            if (rootWindow.throttleMap === true) {
                                 "#00a8ff"
                             } else {
                                 "grey"
@@ -665,6 +665,27 @@ Item {
                 }*/
             }
         }
+    }
+
+    function updateIgnitionState(profile) {
+        JSON.updateIgnition(profile, !rootWindow.ignitionTiming)
+        canManager.updatePayload(5, JSON.ignitionTiming)
+
+        rootWindow.ignitionTiming = JSON.ignitionTiming
+    }
+
+    function updateFuelAimState(profile) {
+        JSON.updateFuelAim(profile, !rootWindow.fuelAim)
+        canManager.updatePayload(6, JSON.fuelAim)
+
+        rootWindow.fuelAim = JSON.fuelAim
+    }
+
+    function updateThrottleState(profile) {
+        JSON.updateThrottleMap(profile, !rootWindow.throttleMap)
+        canManager.updatePayload(7, JSON.throttleMap)
+
+        rootWindow.throttleMap = JSON.throttleMap
     }
 }
 
