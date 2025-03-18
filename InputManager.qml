@@ -140,15 +140,15 @@ Item {
             else if(columnBar.x > 0 && counter === 0)
             {
                 currentSet = 3
-                counter = 6
+                counter = 100
             }
-            else if(currentSet === 3)
+            else if(currentSet === 3 || currentSet === 6)
             {
                 animator.animationCenterSpeedometer_START()
                 animator.animationLeft_START()
 
-                if((counter - 6 ) !== JSON.driver) {
-                    loadNewProfile(counter - 6)
+                if((counter - 100) !== JSON.driver) {
+                    loadNewProfile(counter - 100)
 
                     statusMessage.text = "Profile Loaded:  " + (driver + 1)
                     statusImage.source = "assets/images/INFO.png"
@@ -219,19 +219,19 @@ Item {
             {
                 launchAimScreen.visible = true
             }
-            else if(counter === 9)
+            else if(counter === 6)
             {
                 antiLagScreen.visible = true
             }
-            else if(counter === 10)
+            else if(counter === 7)
             {
                 optMenu.updateIgnitionState(driver)
             }
-            else if(counter === 11)
+            else if(counter === 8)
             {
                 optMenu.updateFuelAimState(driver)
             }
-            else if(counter === 12)
+            else if(counter === 9)
             {
                 optMenu.updateThrottleState(driver)
             }
@@ -265,7 +265,7 @@ Item {
                     }
                 }
             }
-            else if(((counter >= 0 && counter <= 4) || (counter >= 9 && counter <= 12)) && engineInfoScreen.visible === false &&
+            else if(counter < 100 && engineInfoScreen.visible === false &&
                     brakeBiasScreen.visible === false && tractionControlScreen.visible === false)
             {
                 animator.animationCenterSpeedometer_START()
@@ -274,10 +274,9 @@ Item {
                 currentSet = 1
                 menuShown = false
             }
-            else if((counter === 6 || counter === 7 || counter === 8) && currentSet === 3) {
-
-                if((counter - 6 ) !== JSON.driver) {
-                    loadNewProfile(counter - 6)
+            else if(counter > 99) {
+                if((counter - 100 ) !== JSON.driver) {
+                    loadNewProfile(counter - 100)
 
                     statusMessage.text = "Profile Loaded:  " + (driver + 1)
                     statusImage.source = "assets/images/INFO.png"
@@ -351,7 +350,7 @@ Item {
                     launchAimScreen.visible = false
                 }
             }
-            else if(counter === 9 && antiLagScreen.visible === true)
+            else if(counter === 6 && antiLagScreen.visible === true)
             {
                 if(antiLagObj.antiLag !== JSON.antiLag)
                 {
@@ -362,13 +361,13 @@ Item {
                     statusMessage.font.pixelSize = 20
                     animator.statusUpdateAnimation_START()
 
-                    counter = 9
+                    counter = 6
                     currentSet = 4
                     antiLagScreen.visible = false
                 }
                 else
                 {
-                    counter = 9
+                    counter = 6
                     currentSet = 4
                     antiLagScreen.visible = false
                 }
@@ -421,10 +420,6 @@ Item {
             {
                 counter = 3
             }
-            else if(engineInfoScreen.visible === true)
-            {
-                counter = 11
-            }
             else if(tractionControlScreen.visible === true && tract.tractionSwitch > 0)
             {
                 counter = 4
@@ -441,7 +436,7 @@ Item {
             }
             else if(antiLagScreen.visible === true && antiLagObj.antiLag > 0)
             {
-                counter = 9
+                counter = 6
                 if(antiLagObj.antiLag !== 1){
                     antiLagObj.antiLag = antiLagObj.antiLag - 1
                 }
@@ -454,23 +449,28 @@ Item {
             {
                 currentSet = 1
             }
-            else if(counter > 11 && currentSet === 4)
+            else if(counter > 8 && currentSet === 4)
             {
                 currentSet = 5
-                counter = 12
+                counter = 9
             }
-            else if(counter > 12 && currentSet === 5)
+            else if(counter > 9 && currentSet === 5)
             {
                 counter = 0
                 currentSet = 1
             }
-            else if(currentSet === 3 && counter > 8)
+            else if(currentSet === 3 && counter === 103)
             {
-                counter = 6
+                currentSet = 6
+            }
+            else if(currentSet === 6 && counter === 106)
+            {
+                counter = 100
+                currentSet = 3
             }
             else if(counter > 5 && currentSet === 2)
             {
-                counter = 9
+                counter = 6
                 currentSet = 4
             }
         }
@@ -519,7 +519,7 @@ Item {
             }
             else if(antiLagScreen.visible === true && antiLagObj.antiLag < 11)
             {
-                counter = 9
+                counter = 6
                 if(antiLagObj.antiLag !== 10){
                     antiLagObj.antiLag = antiLagObj.antiLag + 1
                 }
@@ -527,26 +527,32 @@ Item {
             else if(counter < 0)
             {
                 currentSet = 5
-                counter = 12
+                counter = 9
             }
             else if(counter == 2)
             {
                 currentSet = 1
                 counter = 2
             }
-            else if(counter < 9 && currentSet === 4)
+            else if(counter < 6 && currentSet === 4)
             {
                 counter = 5
                 currentSet = 2
             }
-            else if(counter < 12 && currentSet === 5)
-            {
-                counter = 11
-                currentSet = 4
-            }
-            else if(counter < 6 && currentSet === 3)
+            else if(counter < 9 && currentSet === 5)
             {
                 counter = 8
+                currentSet = 4
+            }
+            else if(counter < 100 && currentSet === 3)
+            {
+                counter = 105
+                currentSet = 6
+            }
+            else if(counter < 103 && currentSet === 6)
+            {
+                counter = 102
+                currentSet = 3
             }
         }
     }
