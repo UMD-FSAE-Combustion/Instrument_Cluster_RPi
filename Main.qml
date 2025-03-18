@@ -386,7 +386,8 @@ Window
         {
             id: speedLock
             source: "assets/images/lock_icon.png"
-            height: 50
+            height: 40
+            width: 30
 
             anchors
             {
