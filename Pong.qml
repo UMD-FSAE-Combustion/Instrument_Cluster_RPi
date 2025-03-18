@@ -18,7 +18,11 @@ Rectangle {
     property int aiScore: 0
     property real ballSpeedX: -2
     property real ballSpeedY: 1
+    property real maxBallSpeedX: 7
+    property real maxBallSpeedY: 3
     property int paddleSpeed: 10
+    property int aiPaddleSpeed: 6
+    property int minimumPaddleMovement: 3
 
     Text {
         text: aiScore + " : " + playerScore
@@ -58,10 +62,15 @@ Rectangle {
                 running: false
                 repeat: true
                 onTriggered: {
-                    if (ball.y > leftPaddle.y + leftPaddle.height/2) {
-                        leftPaddle.y = Math.min(gameArea.height - leftPaddle.height, leftPaddle.y + 5)
-                    } else if (ball.y < leftPaddle.y + leftPaddle.height/2) {
-                        leftPaddle.y = Math.max(0, leftPaddle.y - 5)
+                    var paddleCenter = leftPaddle.y + leftPaddle.height/2
+                    var distance = ball.y - paddleCenter
+
+                    if (Math.abs(distance) > minimumPaddleMovement) {
+                        if (distance > 0) {
+                            leftPaddle.y = Math.min(gameArea.height - leftPaddle.height, leftPaddle.y + aiPaddleSpeed)
+                        } else {
+                            leftPaddle.y = Math.max(0, leftPaddle.y - aiPaddleSpeed)
+                        }
                     }
                 }
             }
@@ -95,20 +104,19 @@ Rectangle {
 
                     if (ball.y <= 0 || ball.y + ball.height >= gameArea.height) {
                         ballSpeedY = -ballSpeedY * 1.02
+                        ballSpeedY = Math.max(Math.min(ballSpeedY, maxBallSpeedY), -maxBallSpeedY)
                     }
 
-                    if (ball.x <= leftPaddle.x + leftPaddle.width &&
-                        ball.y + ball.height >= leftPaddle.y &&
-                        ball.y <= leftPaddle.y + leftPaddle.height) {
-                        ballSpeedX = Math.abs(ballSpeedX) * 1.1
+                    if (ball.x <= leftPaddle.x + leftPaddle.width && ball.y + ball.height >= leftPaddle.y && ball.y <= leftPaddle.y + leftPaddle.height) {
+                        ballSpeedX = Math.min(Math.abs(ballSpeedX) * 1.1, maxBallSpeedX)
                         ballSpeedY += (ball.y - (leftPaddle.y + leftPaddle.height/2)) * 0.3
+                        ballSpeedY = Math.max(Math.min(ballSpeedY, maxBallSpeedY), -maxBallSpeedY)
                     }
 
-                    if (ball.x + ball.width >= rightPaddle.x &&
-                        ball.y + ball.height >= rightPaddle.y &&
-                        ball.y <= rightPaddle.y + rightPaddle.height) {
-                        ballSpeedX = -Math.abs(ballSpeedX) * 1.1
+                    if (ball.x + ball.width >= rightPaddle.x && ball.y + ball.height >= rightPaddle.y && ball.y <= rightPaddle.y + rightPaddle.height) {
+                        ballSpeedX = -Math.min(Math.abs(ballSpeedX) * 1.1, maxBallSpeedX)
                         ballSpeedY += (ball.y - (rightPaddle.y + rightPaddle.height/2)) * 0.3
+                        ballSpeedY = Math.max(Math.min(ballSpeedY, maxBallSpeedY), -maxBallSpeedY)
                     }
 
                     if (ball.x <= 0) {
