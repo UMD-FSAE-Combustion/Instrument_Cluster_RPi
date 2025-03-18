@@ -6,6 +6,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(Qt6 6.5 REQUIRED COMPONENTS Quick SerialBus)
 
+include_directories(/lib/x86_64-linux-gnu/)
+
 qt_standard_project_setup(REQUIRES 6.5)
 
 qt_add_executable(appDyno_Info
@@ -22,7 +24,6 @@ qt_add_qml_module(appDyno_Info
         gpiohandler.h gpiohandler.cpp
         jsonmanager.h jsonmanager.cpp
         canmanager.h canmanager.cpp
-        mapVals.h
         shutdownhandler.h
 
         RESOURCES
@@ -34,10 +35,18 @@ qt_add_qml_module(appDyno_Info
         assets/images/INFO.png
         assets/images/WARN.png
         assets/images/LC.png
+        assets/images/lock_icon.png
         QML_FILES TractionControl.qml
         QML_FILES BrakeBias.qml
         QML_FILES VehicleInfoDisplay.qml
         QML_FILES VehicleInfoDisplayExtraWidgets.qml
+        QML_FILES OptionsMenu.qml
+        QML_FILES GameMenu.qml
+        QML_FILES AnimationManager.qml
+        QML_FILES InputManager.qml
+        QML_FILES Pong.qml
+        QML_FILES AntilagControl.qml
+        QML_FILES LaunchAimControl.qml
 )
 
 
@@ -55,6 +64,7 @@ set_target_properties(appDyno_Info PROPERTIES
 target_link_libraries(appDyno_Info
     PRIVATE Qt6::Quick
     Qt6::SerialBus
+    /usr/local/lib/libwiringPi.so
 )
 
 include(GNUInstallDirs)

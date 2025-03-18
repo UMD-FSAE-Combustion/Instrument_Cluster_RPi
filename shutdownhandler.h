@@ -21,7 +21,7 @@ public:
             QProcess proc;
             proc.startDetached("/usr/bin/sudo", QStringList() << "shutdown" << "-h" << "now");
         }
-    };
+    }
 };
 
 #endif // SHUTDOWNHANDLER_H

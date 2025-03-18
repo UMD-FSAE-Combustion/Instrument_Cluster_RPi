@@ -6,12 +6,11 @@ import QtQuick.Window
 
 Item
 {
-    //property int tractionValue
-    property int tractionSwitch: JSON.tractionSwitch
+    property int antiLag: JSON.antiLag
 
     Rectangle
     {
-        //id: tractionControlScreen
+        //id: antilagControlScreen
 
         anchors.fill: parent
 
@@ -40,7 +39,7 @@ Item
                 height: 410
                 from: 10
                 to: 1
-                value: tractionSwitch
+                value: antiLag
                 enabled: false
 
                 background: Rectangle
@@ -82,8 +81,8 @@ Item
 
                     Text
                     {
-                        id: tractionDisplayValue
-                        text: tractionSwitch
+                        id: antiLagDisplayValue
+                        text: antiLag
                         color: "white"
                         font.pixelSize: 40
                         font.bold: true
@@ -102,7 +101,7 @@ Item
                         {
                             margins: 10
                             top: anchorBox.top
-                            horizontalCenter: tractionDisplayValue.horizontalCenter
+                            horizontalCenter: antiLagDisplayValue.horizontalCenter
                         }
                     }
 
@@ -116,7 +115,7 @@ Item
                         anchors
                         {
                             bottom: anchorBox.bottom
-                            horizontalCenter: tractionDisplayValue.horizontalCenter
+                            horizontalCenter:antiLagDisplayValue.horizontalCenter
                         }
                     }
                 }
@@ -124,11 +123,10 @@ Item
         }
     }
 
-    function updateTraction(profile, traction) {
-        JSON.updateTractionCtl(profile, traction)
-        canManager.updatePayload(1, (JSON.tractionSwitch *3)) // *3 bc motec rotary bullshit
+    function updateAntiLagSetting(profile, antiLagVal) {
+        JSON.updateAntiLag(profile, antiLagVal)
+        canManager.updatePayload(3, (JSON.antiLag *3)) // *3 bc motec rotary bullshit
 
-        tractionSwitch = JSON.tractionSwitch
+        antiLag = JSON.antiLag
     }
-
 }

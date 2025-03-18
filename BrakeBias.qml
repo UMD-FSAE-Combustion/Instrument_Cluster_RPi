@@ -155,4 +155,12 @@ Item
             color: "white"
         }
     }
+
+    function updateBias(profile, bias) {
+        JSON.updateBrakeBias(profile, bias)
+        canManager.updatePayload(0, JSON.biasVal)
+
+        brakeBiasObject.biasVal = JSON.biasVal
+        brakeBiasObject.rearBrakeBias = (100 - JSON.biasVal)
+    }
 }

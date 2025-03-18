@@ -9,9 +9,9 @@ Item
     property int vehicleSpeed: 0
     property int rearBrakePres: 0
     property int frontBrakePres: 0
-    property string coolantTemp: "0°C"
-    property string oilTemp: "0°C"
-    property string fuelTemp: "0°C"
+    property string coolantTemp: "-"
+    property string oilTemp: "-"
+    property string fuelTemp: "-"
 
     Rectangle
     {

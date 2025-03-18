@@ -6,8 +6,8 @@ import QtQuick.Window
 
 Item
 {
-    property string exhaustTemp: "0°C"
-    property string inletAirTemp: "0°C"
+    property string exhaustTemp: "-"
+    property string inletAirTemp: "-"
     property int inletManifoldPres: 0
     property int fuelPres: 0
     property int fuelMixAim: 0
@@ -123,7 +123,7 @@ Item
                 id: widget8Info
 
                 text: exhaustLambda
-                color: "white"
+                color: (exhaustLambda > 2.54) ? "red" : "white"
                 font.pixelSize: 70
                 font.bold: true
 
