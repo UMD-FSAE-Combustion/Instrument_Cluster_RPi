@@ -14,7 +14,7 @@ Window
     property var gpioInput: gpio
 
     property bool loadingComplete: false
-    property int speed: 0
+    //property int speed: 0
     property int currentSet: 1
     property int counter: 0
 
@@ -344,13 +344,26 @@ Window
 
         Image
         {
-            id: launchControlImage
-            source: "assets/images/LC.png"
+            id: ecuFaultImage
+            source: "assets/images/WARN.png"
 
             anchors
             {
                 right: parent.right
                 rightMargin: 80
+            }
+            visible: false
+        }
+
+        Image
+        {
+            id: launchControlImage
+            source: "assets/images/LC.png"
+
+            anchors
+            {
+                right: ecuFaultImage.left
+                //rightMargin: 80
             }
 
             visible: false
@@ -361,30 +374,27 @@ Window
 
     Rectangle
     {
-        id: warningIcons
+        id: lockIcon
         width: 70
         height: 400
         color: "transparent"
 
-        anchors
-        {
-            right: parent.right
-            top: teamLogo.bottom
-        }
+        y: 60
+        anchors.right: parent.right
 
         Image
         {
-            id: ecuFaultImage
-            source: "assets/images/WARN.png"
+            id: speedLock
+            source: "assets/images/lock_icon.png"
+            height: 50
 
             anchors
             {
                 top: parent.top
                 horizontalCenter: parent.horizontalCenter
             }
-            visible: false
+            visible: (vehicleInfo.vehicleSpeed > 0) ? true : false
         }
-
         visible: true
     }
 
@@ -727,8 +737,12 @@ Window
             else if (event.key === Qt.Key_P) {
                 shutdownHandler.powerOFF()
             }
-            else if (event.key === Qt.Key_M) {
-                console.log(gameMenuCounter)
+            else if (event.key === Qt.Key_S) {
+                if(vehicleInfo.vehicleSpeed === 0) {
+                    vehicleInfo.vehicleSpeed = 17
+                } else {
+                    vehicleInfo.vehicleSpeed = 0
+                }
             }
         }
     }
@@ -759,7 +773,6 @@ Window
         canManager.updatePayload(5, ignitionTiming)
         canManager.updatePayload(6, fuelAim)
         canManager.updatePayload(7, throttleMap)
-        // add other properties when done
     }
 
     function showECUfault() {
