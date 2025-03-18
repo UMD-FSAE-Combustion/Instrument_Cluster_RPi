@@ -479,6 +479,9 @@ Window
         }
     }
 
+
+
+
     Rectangle {
         id: pongGameRect
         anchors {
@@ -499,6 +502,9 @@ Window
             visible: false
         }
     }
+
+
+
 
 
     Rectangle
