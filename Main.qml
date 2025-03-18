@@ -14,7 +14,6 @@ Window
     property var gpioInput: gpio
 
     property bool loadingComplete: false
-    //property int speed: 0
     property int currentSet: 1
     property int counter: 0
 
@@ -127,7 +126,6 @@ Window
                 }
             }
 
-
             Rectangle
             {
                 id: dot_2
@@ -195,7 +193,6 @@ Window
                     }
                 }
             }
-
 
             Rectangle
             {
@@ -772,6 +769,9 @@ Window
         tract.tractionSwitch = JSON.tractionSwitch
         launchAimObj.launchAim = JSON.launchAim
         antiLagObj.antiLag = JSON.antiLag
+        ignitionTiming = JSON.ignitionTiming
+        fuelAim = JSON.fuelAim
+        throttleMap = JSON.throttleMap
 
         canManager.updatePayload(0, brakeBiasObject.biasVal)
         canManager.updatePayload(1, (tract.tractionSwitch * 3))
