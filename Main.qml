@@ -711,20 +711,36 @@ Window
             else if (event.key === Qt.Key_W) {
                 if(engineInfoScreen.visible === true)
                 {
-                    ecuFaultImage.visible = true
-                    statusImageAdvancedView.source = "assets/images/WARN.png"
-                    statusMessageAdvancedView.text = "ECU fault"
-                    statusMessageAdvancedView.text.pixelSize = 20
-                    animator.advancedViewStatusUpdateAnimation_START()
+                    if(rootWindow.ecuFault === false) {
+                        rootWindow.ecuFault = true
+                        ecuFaultImage.visible = true
+                        statusImageAdvancedView.source = "assets/images/WARN.png"
+                        rootWindow.faultMessage = "ECU fault"
+                        statusMessageAdvancedView.text = rootWindow.faultMessage
+                        statusMessageAdvancedView.text.pixelSize = 20
+                        animator.advancedViewStatusUpdateAnimation_START()
+                    }
+                    else {
+                        rootWindow.ecuFault = false
+                        ecuFaultImage.visible = false
+                    }
                 }
                 else
                 {
-                    ecuFaultImage.visible = true
-                    statusImage.source = "assets/images/WARN.png"
-                    //statusMessage.text = "ECU fault"
-                    statusMessage.text = "Engine oil pressure fault detected"
-                    statusMessage.text.pixelSize = 20
-                    animator.statusUpdateAnimation_START()
+                    if(rootWindow.ecuFault === false)
+                    {
+                        rootWindow.ecuFault = true
+                        ecuFaultImage.visible = true
+                        statusImage.source = "assets/images/WARN.png"
+                        rootWindow.faultMessage = "ECU fault"
+                        statusMessage.text = rootWindow.faultMessage
+                        statusMessage.text.pixelSize = 20
+                        animator.statusUpdateAnimation_START()
+                    }
+                    else {
+                        rootWindow.ecuFault = false
+                        ecuFaultImage.visible = false
+                    }
                 }
             }
             else if (event.key === Qt.Key_P) {
