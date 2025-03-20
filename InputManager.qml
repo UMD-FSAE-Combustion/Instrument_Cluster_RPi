@@ -265,15 +265,6 @@ Item {
                     }
                 }
             }
-            else if(counter < 100 && engineInfoScreen.visible === false &&
-                    brakeBiasScreen.visible === false && tractionControlScreen.visible === false)
-            {
-                animator.animationCenterSpeedometer_START()
-                animator.animationLeft_START()
-                counter = 0
-                currentSet = 1
-                menuShown = false
-            }
             else if(counter > 99) {
                 if((counter - 100 ) !== JSON.driver) {
                     loadNewProfile(counter - 100)
@@ -389,6 +380,14 @@ Item {
                 speedoUnitInfoScreen.visible = false
                 counter = 1
                 currentSet = 1
+            }
+            else if(counter < 100)
+            {
+                animator.animationCenterSpeedometer_START()
+                animator.animationLeft_START()
+                counter = 0
+                currentSet = 1
+                menuShown = false
             }
         }
     }
