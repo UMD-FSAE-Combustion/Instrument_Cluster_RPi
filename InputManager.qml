@@ -488,9 +488,34 @@ Item {
             else if (pongGame.visible) {
                 pongGame.movePaddleUp()
             }
-            else {
+            else if (columnBar.x > 0 && menuShown === true && engineInfoScreen.visible === false) {
                 counter = counter - 1
             }
+            if(menuShown === false && engineInfoScreen.visible === false) {
+                if(rootWindow.ecuFault === true) {
+                    statusImage.source = "assets/images/WARN.png"
+                    statusMessage.text = faultMessage
+                }
+                else {
+                    statusImage.source = "assets/images/kachow.png"
+                    statusMessage.text = "KACHOW!"
+                }
+                statusMessage.text.pixelSize = 20
+                animator.statusUpdateAnimation_START()
+            }
+            else if(engineInfoScreen.visible === true || extraInfoWidgets.visible === true) {
+                if(rootWindow.ecuFault === true) {
+                    statusImageAdvancedView.source = "assets/images/WARN.png"
+                    statusMessageAdvancedView.text = faultMessage
+                }
+                else {
+                    statusImageAdvancedView.source = "assets/images/kachow.png"
+                    statusMessageAdvancedView.text = "KACHOW!"
+                }
+                statusMessageAdvancedView.text.pixelSize = 20
+                animator.advancedViewStatusUpdateAnimation_START()
+            }
+
 
             if(brakeBiasScreen.visible === true && brakeBiasObject.biasVal < 100 && brakeBiasObject.rearBrakeBias > 0)
             {
