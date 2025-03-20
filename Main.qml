@@ -20,6 +20,8 @@ Window
     property int driver: JSON.driver
     property int lc_Status: 0
     property bool ecuFault: false
+    property string faultMessage: ""
+
     property bool ignitionTiming: JSON.ignitionTiming
     property bool throttleMap: JSON.throttleMap
     property bool fuelAim: JSON.fuelAim
@@ -238,7 +240,6 @@ Window
         repeat: false
         onTriggered: loadingDone()
     }
-
 
     Rectangle
     {
@@ -476,9 +477,6 @@ Window
         }
     }
 
-
-
-
     Rectangle {
         id: pongGameRect
         anchors {
@@ -499,10 +497,6 @@ Window
             visible: false
         }
     }
-
-
-
-
 
     Rectangle
     {
@@ -564,7 +558,6 @@ Window
         }
     }
 
-
     Rectangle
     {
         id: engineInfoScreen
@@ -588,15 +581,12 @@ Window
     {
         id: statusUpdate
 
-        width: 230
+        width: 280 //230
         height: 45
         radius: 10
         y: 500
 
-        anchors
-        {
-            horizontalCenter: visualRoot.horizontalCenter
-        }
+        anchors.horizontalCenter: visualRoot.horizontalCenter
 
         color: "#1E1E1E"
 
@@ -613,8 +603,7 @@ Window
                 left: statusImage.right
                 right: statusUpdate.right
                 verticalCenter: statusUpdate.verticalCenter
-                margins: 15
-
+                margins: 10
             }
         }
 
@@ -638,7 +627,7 @@ Window
     {
         id: statusUpdateAdvancedView
 
-        width: 230
+        width: 280 //230
         height: 45
         radius: 10
         x: 290
@@ -659,8 +648,7 @@ Window
                 left: statusImageAdvancedView.right
                 right: statusUpdateAdvancedView.right
                 verticalCenter: statusUpdateAdvancedView.verticalCenter
-                margins: 15
-
+                margins: 10
             }
         }
 
@@ -733,7 +721,8 @@ Window
                 {
                     ecuFaultImage.visible = true
                     statusImage.source = "assets/images/WARN.png"
-                    statusMessage.text = "ECU fault"
+                    //statusMessage.text = "ECU fault"
+                    statusMessage.text = "Engine oil pressure fault detected"
                     statusMessage.text.pixelSize = 20
                     animator.statusUpdateAnimation_START()
                 }
@@ -785,17 +774,18 @@ Window
     function showECUfault() {
         rootWindow.ecuFault = canManager.ecuFault
         if(rootWindow.ecuFault === true) {
+            rootWindow.faultMessage = canManager.faultMessage
             if(engineInfoScreen.visible === true) {
                 ecuFaultImage.visible = true
                 statusImageAdvancedView.source = "assets/images/WARN.png"
-                statusMessageAdvancedView.text = "ECU fault"
+                statusMessageAdvancedView.text = faultMessage
                 statusMessageAdvancedView.text.pixelSize = 20
                 animator.advancedViewStatusUpdateAnimation_START()
             }
             else {
                 ecuFaultImage.visible = true
                 statusImage.source = "assets/images/WARN.png"
-                statusMessage.text = "ECU fault"
+                statusMessage.text = faultMessage
                 statusMessage.text.pixelSize = 20
                 animator.statusUpdateAnimation_START()
             }
