@@ -14,13 +14,14 @@ Window
     property var gpioInput: gpio
 
     property bool loadingComplete: false
-    //property int speed: 0
     property int currentSet: 1
     property int counter: 0
 
     property int driver: JSON.driver
     property int lc_Status: 0
     property bool ecuFault: false
+    property string faultMessage: ""
+
     property bool ignitionTiming: JSON.ignitionTiming
     property bool throttleMap: JSON.throttleMap
     property bool fuelAim: JSON.fuelAim
@@ -127,7 +128,6 @@ Window
                 }
             }
 
-
             Rectangle
             {
                 id: dot_2
@@ -196,7 +196,6 @@ Window
                 }
             }
 
-
             Rectangle
             {
                 id: dot_4
@@ -241,7 +240,6 @@ Window
         repeat: false
         onTriggered: loadingDone()
     }
-
 
     Rectangle
     {
@@ -386,7 +384,8 @@ Window
         {
             id: speedLock
             source: "assets/images/lock_icon.png"
-            height: 50
+            height: 40
+            width: 30
 
             anchors
             {
@@ -499,6 +498,50 @@ Window
         }
     }
 
+    /*Loader
+    {
+        id: pacManLoader
+        anchors.fill: parent
+        source: "PacMan.qml"
+        active: false
+        visible: false
+
+        onLoaded: {
+            item.gameExited.connect(function()
+            {
+                pacManLoader.active = false
+            })
+        }
+
+        PacMan
+        {
+            id:pacManGame
+        }
+    }*/
+
+    Rectangle
+    {
+        id: pacManWindow
+        anchors.fill:parent
+        visible: false
+
+        PacMan
+        {
+            id: pacManGame
+        }
+    }
+
+    Rectangle
+    {
+        id: pacManStartScreen
+        visible:false
+
+        Image
+        {
+            id: mainMenu
+            source: "assets/images/pacManMenuScreen.png"
+        }
+    }
 
     Rectangle
     {
@@ -560,7 +603,6 @@ Window
         }
     }
 
-
     Rectangle
     {
         id: engineInfoScreen
@@ -584,15 +626,12 @@ Window
     {
         id: statusUpdate
 
-        width: 230
+        width: 280 //230
         height: 45
         radius: 10
         y: 500
 
-        anchors
-        {
-            horizontalCenter: visualRoot.horizontalCenter
-        }
+        anchors.horizontalCenter: visualRoot.horizontalCenter
 
         color: "#1E1E1E"
 
@@ -609,8 +648,7 @@ Window
                 left: statusImage.right
                 right: statusUpdate.right
                 verticalCenter: statusUpdate.verticalCenter
-                margins: 15
-
+                margins: 10
             }
         }
 
@@ -634,7 +672,7 @@ Window
     {
         id: statusUpdateAdvancedView
 
-        width: 230
+        width: 280 //230
         height: 45
         radius: 10
         x: 290
@@ -655,8 +693,7 @@ Window
                 left: statusImageAdvancedView.right
                 right: statusUpdateAdvancedView.right
                 verticalCenter: statusUpdateAdvancedView.verticalCenter
-                margins: 15
-
+                margins: 10
             }
         }
 
@@ -719,19 +756,36 @@ Window
             else if (event.key === Qt.Key_W) {
                 if(engineInfoScreen.visible === true)
                 {
-                    ecuFaultImage.visible = true
-                    statusImageAdvancedView.source = "assets/images/WARN.png"
-                    statusMessageAdvancedView.text = "ECU fault"
-                    statusMessageAdvancedView.text.pixelSize = 20
-                    animator.advancedViewStatusUpdateAnimation_START()
+                    if(rootWindow.ecuFault === false) {
+                        rootWindow.ecuFault = true
+                        ecuFaultImage.visible = true
+                        statusImageAdvancedView.source = "assets/images/WARN.png"
+                        rootWindow.faultMessage = "ECU fault"
+                        statusMessageAdvancedView.text = rootWindow.faultMessage
+                        statusMessageAdvancedView.text.pixelSize = 20
+                        animator.advancedViewStatusUpdateAnimation_START()
+                    }
+                    else {
+                        rootWindow.ecuFault = false
+                        ecuFaultImage.visible = false
+                    }
                 }
                 else
                 {
-                    ecuFaultImage.visible = true
-                    statusImage.source = "assets/images/WARN.png"
-                    statusMessage.text = "ECU fault"
-                    statusMessage.text.pixelSize = 20
-                    animator.statusUpdateAnimation_START()
+                    if(rootWindow.ecuFault === false)
+                    {
+                        rootWindow.ecuFault = true
+                        ecuFaultImage.visible = true
+                        statusImage.source = "assets/images/WARN.png"
+                        rootWindow.faultMessage = "ECU fault"
+                        statusMessage.text = rootWindow.faultMessage
+                        statusMessage.text.pixelSize = 20
+                        animator.statusUpdateAnimation_START()
+                    }
+                    else {
+                        rootWindow.ecuFault = false
+                        ecuFaultImage.visible = false
+                    }
                 }
             }
             else if (event.key === Qt.Key_P) {
@@ -765,6 +819,9 @@ Window
         tract.tractionSwitch = JSON.tractionSwitch
         launchAimObj.launchAim = JSON.launchAim
         antiLagObj.antiLag = JSON.antiLag
+        ignitionTiming = JSON.ignitionTiming
+        fuelAim = JSON.fuelAim
+        throttleMap = JSON.throttleMap
 
         canManager.updatePayload(0, brakeBiasObject.biasVal)
         canManager.updatePayload(1, (tract.tractionSwitch * 3))
@@ -778,17 +835,18 @@ Window
     function showECUfault() {
         rootWindow.ecuFault = canManager.ecuFault
         if(rootWindow.ecuFault === true) {
+            rootWindow.faultMessage = canManager.faultMessage
             if(engineInfoScreen.visible === true) {
                 ecuFaultImage.visible = true
                 statusImageAdvancedView.source = "assets/images/WARN.png"
-                statusMessageAdvancedView.text = "ECU fault"
+                statusMessageAdvancedView.text = faultMessage
                 statusMessageAdvancedView.text.pixelSize = 20
                 animator.advancedViewStatusUpdateAnimation_START()
             }
             else {
                 ecuFaultImage.visible = true
                 statusImage.source = "assets/images/WARN.png"
-                statusMessage.text = "ECU fault"
+                statusMessage.text = faultMessage
                 statusMessage.text.pixelSize = 20
                 animator.statusUpdateAnimation_START()
             }

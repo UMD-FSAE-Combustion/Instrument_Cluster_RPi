@@ -63,6 +63,10 @@ Item {
             {
                 set5Component
             }
+            else if(rootWindow.currentSet === 6)
+            {
+                set6Component
+            }
         }
         property alias columBarRef: optMenuRoot.parent
     }
@@ -311,93 +315,6 @@ Item {
 
     Component
     {
-        id: set3Component
-
-        GridLayout
-        {
-            columns: 1
-            rows: 3
-
-            rowSpacing: 5
-
-            anchors.fill: menuLoader.columnBarRef
-            anchors.margins: 10
-
-            Rectangle
-            {
-                id: profile1
-
-                height: 130
-                width: 290
-                Layout.topMargin: 25
-                Layout.rightMargin: 5
-                Layout.leftMargin: 5
-                radius: 20
-
-
-
-                color: (counter === 6) ? "#00a8ff" : "white"
-
-                Text
-                {
-                    text: qsTr(" Profile 1")
-                    color: (counter === 6) ? "white" : "black"
-                    anchors.centerIn: parent
-                    font.pixelSize: 30
-                    font.bold: true
-                }
-
-            }
-
-            Rectangle
-            {
-                id: profile2
-
-                height: 130
-                width: 290
-                Layout.rightMargin: 5
-                Layout.leftMargin: 5
-                radius: 20
-
-                color: (counter === 7) ? "#00a8ff" : "white"
-
-                Text
-                {
-                    text: qsTr(" Profile 2")
-                    color:(counter === 7) ? "white" : "black"
-                    anchors.centerIn: parent
-                    font.pixelSize: 30
-                    font.bold: true
-                }
-            }
-
-            Rectangle
-            {
-                id: profile3
-
-                height: 130
-                width: 290
-                Layout.bottomMargin: 25
-                Layout.rightMargin: 5
-                Layout.leftMargin: 5
-                radius: 20
-
-                color: (counter === 8) ? "#00a8ff" : "white"
-
-                Text
-                {
-                    text: qsTr(" Profile 3")
-                    color: (counter === 8) ? "white" : "black"
-                    anchors.centerIn: parent
-                    font.pixelSize: 30
-                    font.bold: true
-                }
-            }
-        }
-    }
-
-    Component
-    {
         id: set4Component
 
         GridLayout
@@ -423,12 +340,12 @@ Item {
 
 
 
-                color: (counter === 9) ? "#00a8ff" : "white"
+                color: (counter === 6) ? "#00a8ff" : "white"
 
                 Text
                 {
                     text: qsTr("Anti Lag")
-                    color: (counter === 9) ? "white" : "black"
+                    color: (counter === 6) ? "white" : "black"
                     font.pixelSize: 30
                     font.bold: true
 
@@ -438,7 +355,7 @@ Item {
 
                 Text {
                     text: "Current Value: " + antiLagObj.antiLag
-                    color: (counter === 9) ? "white" : "grey"
+                    color: (counter === 6) ? "white" : "grey"
                     font.pixelSize: 20
 
                     y: 75
@@ -456,12 +373,12 @@ Item {
                 Layout.leftMargin: 5
                 radius: 20
 
-                color: (counter === 10) ? "#00a8ff" : "white"
+                color: (counter === 7) ? "#00a8ff" : "white"
 
                 Text
                 {
                     text: qsTr("Ignition Timing")
-                    color:(counter === 10) ? "white" : "black"
+                    color:(counter === 7) ? "white" : "black"
                     font.pixelSize: 30
                     font.bold: true
 
@@ -475,9 +392,9 @@ Item {
                     font.italic: true
                     font.bold: true
                     color: {
-                        if(counter === 10) {
+                        if(counter === 7) {
                             "white"
-                        } else if (counter !== 10) {
+                        } else if (counter !== 7) {
                             if (rootWindow.ignitionTiming === true) {
                                 "#00a8ff"
                             } else {
@@ -502,12 +419,12 @@ Item {
                 Layout.leftMargin: 5
                 radius: 20
 
-                color: (counter === 11) ? "#00a8ff" : "white"
+                color: (counter === 8) ? "#00a8ff" : "white"
 
                 Text
                 {
                     text: qsTr("Fuel Mix Aim")
-                    color: (counter === 11) ? "white" : "black"
+                    color: (counter === 8) ? "white" : "black"
                     font.pixelSize: 30
                     font.bold: true
 
@@ -521,7 +438,7 @@ Item {
                     font.italic: true
                     font.bold: true
                     color: {
-                        if(counter === 11) {
+                        if(counter === 8) {
                             "white"
                         } else if (counter !== 11) {
                             if (rootWindow.fuelAim === true) {
@@ -566,14 +483,14 @@ Item {
 
 
 
-                color: (counter === 12) ? "#00a8ff" : "white"
+                color: (counter === 9) ? "#00a8ff" : "white"
 
                 Text
                 {
                     id: lineOne
                     text: qsTr("Throttle Pedal")
 
-                    color: (counter === 12) ? "white" : "black"
+                    color: (counter === 9) ? "white" : "black"
 
                     y: 20
                     anchors.horizontalCenter: throttlePedalTranslation.horizontalCenter
@@ -587,7 +504,7 @@ Item {
                 {
                     text: qsTr("Translation")
 
-                    color: (counter === 12) ? "white" : "black"
+                    color: (counter === 9) ? "white" : "black"
                     anchors
                     {
                         top: lineOne.bottom
@@ -604,9 +521,9 @@ Item {
                     font.italic: true
                     font.bold: true
                     color: {
-                        if(counter === 12) {
+                        if(counter === 9) {
                             "white"
-                        } else if (counter !== 12) {
+                        } else if (counter !== 9) {
                             if (rootWindow.throttleMap === true) {
                                 "#00a8ff"
                             } else {
@@ -666,6 +583,181 @@ Item {
             }
         }
     }
+
+    Component
+    {
+        id: set3Component
+
+        GridLayout
+        {
+            columns: 1
+            rows: 3
+
+            rowSpacing: 5
+
+            anchors.fill: menuLoader.columnBarRef
+            anchors.margins: 10
+
+            Rectangle
+            {
+                id: profile1
+
+                height: 130
+                width: 290
+                Layout.topMargin: 25
+                Layout.rightMargin: 5
+                Layout.leftMargin: 5
+                radius: 20
+
+
+
+                color: (counter === 100) ? "#00a8ff" : "white"
+
+                Text
+                {
+                    text: qsTr(" Profile 1")
+                    color: (counter === 100) ? "white" : "black"
+                    anchors.centerIn: parent
+                    font.pixelSize: 30
+                    font.bold: true
+                }
+
+            }
+
+            Rectangle
+            {
+                id: profile2
+
+                height: 130
+                width: 290
+                Layout.rightMargin: 5
+                Layout.leftMargin: 5
+                radius: 20
+
+                color: (counter === 101) ? "#00a8ff" : "white"
+
+                Text
+                {
+                    text: qsTr(" Profile 2")
+                    color:(counter === 101) ? "white" : "black"
+                    anchors.centerIn: parent
+                    font.pixelSize: 30
+                    font.bold: true
+                }
+            }
+
+            Rectangle
+            {
+                id: profile3
+
+                height: 130
+                width: 290
+                Layout.bottomMargin: 25
+                Layout.rightMargin: 5
+                Layout.leftMargin: 5
+                radius: 20
+
+                color: (counter === 102) ? "#00a8ff" : "white"
+
+                Text
+                {
+                    text: qsTr(" Profile 3")
+                    color: (counter === 102) ? "white" : "black"
+                    anchors.centerIn: parent
+                    font.pixelSize: 30
+                    font.bold: true
+                }
+            }
+        }
+    }
+
+    Component
+    {
+        id: set6Component
+
+        GridLayout
+        {
+            columns: 1
+            rows: 3
+
+            rowSpacing: 5
+
+            anchors.fill: menuLoader.columnBarRef
+            anchors.margins: 10
+
+            Rectangle
+            {
+                id: profile4
+
+                height: 130
+                width: 290
+                Layout.topMargin: 25
+                Layout.rightMargin: 5
+                Layout.leftMargin: 5
+                radius: 20
+
+
+
+                color: (counter === 103) ? "#00a8ff" : "white"
+
+                Text
+                {
+                    text: qsTr(" Profile 4")
+                    color: (counter === 103) ? "white" : "black"
+                    anchors.centerIn: parent
+                    font.pixelSize: 30
+                    font.bold: true
+                }
+
+            }
+
+            Rectangle
+            {
+                id: profile5
+
+                height: 130
+                width: 290
+                Layout.rightMargin: 5
+                Layout.leftMargin: 5
+                radius: 20
+
+                color: (counter === 104) ? "#00a8ff" : "white"
+
+                Text
+                {
+                    text: qsTr(" Profile 5")
+                    color:(counter === 104) ? "white" : "black"
+                    anchors.centerIn: parent
+                    font.pixelSize: 30
+                    font.bold: true
+                }
+            }
+
+            Rectangle
+            {
+                id: profile6
+
+                height: 130
+                width: 290
+                Layout.bottomMargin: 25
+                Layout.rightMargin: 5
+                Layout.leftMargin: 5
+                radius: 20
+
+                color: (counter === 105) ? "#00a8ff" : "white"
+
+                Text
+                {
+                    text: qsTr(" Profile 6")
+                    color: (counter === 105) ? "white" : "black"
+                    anchors.centerIn: parent
+                    font.pixelSize: 30
+                    font.bold: true
+                }
+            }
+        }
+    }
+
 
     function updateIgnitionState(profile) {
         JSON.updateIgnition(profile, !rootWindow.ignitionTiming)

@@ -132,11 +132,14 @@ void CANmanager::processFrames()
     case 0x64C:
     {
         uint8_t faultStatus = bytes.at(5);
+        faultFlagCheck(faultStatus);
+
+        /*
         if(faultStatus > 0)
             setEcuFault(true);
         else
             setEcuFault(false);
-
+        */
         break;
     }
     case 0x651:
@@ -167,6 +170,76 @@ void CANmanager::processFrames()
 
     //clear input buffer to attempt to recover from buffer overflow
     can_device->clear(QCanBusDevice::Input);
+}
+
+void CANmanager::faultFlagCheck(uint f){ // Need to test, also ask harman about 9 bits instead of 8
+    if(f == 0)
+        setEcuFault(false);
+    else
+    {
+        switch(f)
+        {
+        case 1:
+        {
+            setFaultMessage("Coolant temp fault detected");
+            setEcuFault(true);
+            break;
+        }
+        case 2:
+        {
+            setFaultMessage("Coolant pressure fault detected");
+            setEcuFault(true);
+            break;
+        }
+        case 4:
+        {
+            setFaultMessage("Engine speed fault detected");
+            setEcuFault(true);
+            break;
+        }
+        case 8:
+        {
+            setFaultMessage("Engine oil temp fault detected");
+            setEcuFault(true);
+            break;
+        }
+        case 16:
+        {
+            setFaultMessage("Engine oil pressure fault detected");
+            setEcuFault(true);
+            break;
+        }
+        case 32:
+        {
+            // not used on build
+            break;
+        }
+        case 64:
+        {
+            setFaultMessage("Crank case fault detected");
+            setEcuFault(true);
+            break;
+        }
+        case 128:
+        {
+            setFaultMessage("Fuel pressure fault detected");
+            setEcuFault(true);
+            break;
+        }
+        case 256: //9th bit in question
+        {
+            setFaultMessage("Engine knock detected");
+            setEcuFault(true);
+            break;
+        }
+        default:
+        {
+            setFaultMessage("Multiple ECU faults detected"); //might want to add check engine light?
+            setEcuFault(true);
+            break;
+        }
+        }
+    }
 }
 
 void CANmanager::CAN_Loop()
@@ -211,6 +284,19 @@ void CANmanager::CAN_Loop()
         else
             qDebug() << can_device->errorString();
     }
+}
+
+QString CANmanager::faultMessage() const
+{
+    return m_faultMessage;
+}
+
+void CANmanager::setFaultMessage(const QString &newFaultMessage)
+{
+    if (m_faultMessage == newFaultMessage)
+        return;
+    m_faultMessage = newFaultMessage;
+    emit faultMessageChanged();
 }
 
 int* CANmanager::getFrame()
