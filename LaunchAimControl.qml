@@ -10,12 +10,48 @@ Item
 
     Rectangle
     {
-        //id: antilagControlScreen
+        id: launchAimScreen
 
         anchors.fill: parent
-
         radius: 20
         color: "#1E1E1E"
+
+        Rectangle {
+            id: backgroundColor
+            x: 45
+            y: 95
+            width: 235
+            height: 250
+
+            color {
+                r:  if(launchAim > 5) { ((255 - (51 * launchAim)) / 255) }
+                    else { 1 }
+
+                g:  if(launchAim < 5) { ((51* launchAim) / 255) }
+                    else { 1 }
+
+                b: 0
+                a: 1
+            }
+        }
+
+        Image
+        {
+            id: carRear
+            anchors
+            {
+                top: parent.top
+                //bottom: parent.bottom
+                right: parent.right
+                topMargin: 70
+                //bottomMargin: 40
+                leftMargin: 35
+            }
+
+            width: 272
+            height: 300
+            source: "assets/images/rearCAD.png"
+        }
 
         Column
         {
@@ -64,62 +100,69 @@ Item
                     anchors.horizontalCenter: parent.horizontalCenter
                     y: barSlider.position * (barSlider.height - height)
                 }
+            }
+        }
 
-                Rectangle
+        Rectangle
+        {
+            id: displayBox
+            width: 80
+            height: 130
+            color: "transparent"
+
+            anchors
+            {
+                left: barSliderHolder.right
+                verticalCenter: parent.verticalCenter
+                leftMargin: 80
+            }
+
+            Text
+            {
+                id: launchAimDisplayValue
+                text: launchAim
+                color: "white"
+                font.pixelSize: 40
+                font.bold: true
+
+                anchors{
+                    horizontalCenter: parent.horizontalCenter
+                    top: parent.top
+                    topMargin: -125
+                }
+
+            }
+
+            /**
+            Text
+            {
+                text: "⯅"
+                width: 25
+                font.pixelSize: 25
+                font.bold: true
+                color: "white"
+                anchors
                 {
-                    id: anchorBox
-                    width: 80
-                    height: 130
-                    color: "transparent"
-
-                    anchors
-                    {
-                        left: parent.left
-                        verticalCenter: parent.verticalCenter
-                        leftMargin: 110.5
-                    }
-
-                    Text
-                    {
-                        id: launchAimDisplayValue
-                        text: launchAim
-                        color: "white"
-                        font.pixelSize: 40
-                        font.bold: true
-
-                        anchors.centerIn: parent
-                    }
-
-                    Text
-                    {
-                        text: "⯅"
-                        width: 25
-                        font.pixelSize: 25
-                        font.bold: true
-                        color: "white"
-                        anchors
-                        {
-                            margins: 10
-                            top: anchorBox.top
-                            horizontalCenter: launchAimDisplayValue.horizontalCenter
-                        }
-                    }
-
-                    Text
-                    {
-                        text: "⯆"
-                        width: 25
-                        font.pixelSize: 25
-                        font.bold: true
-                        color: "white"
-                        anchors
-                        {
-                            bottom: anchorBox.bottom
-                            horizontalCenter:launchAimDisplayValue.horizontalCenter
-                        }
-                    }
+                    margins: 10
+                    top: displayBox.top
+                    horizontalCenter: launchAimDisplayValue.horizontalCenter
                 }
             }
+
+            Text
+            {
+                text: "⯆"
+                width: 25
+                font.pixelSize: 25
+                font.bold: true
+                color: "white"
+                anchors
+                {
+                    bottom: displayBox.bottom
+                    horizontalCenter: launchAimDisplayValue.horizontalCenter
+                }
+            }
+            **/
         }
     }
 
@@ -129,5 +172,4 @@ Item
 
         launchAim = JSON.launchAim
     }
-
 }
