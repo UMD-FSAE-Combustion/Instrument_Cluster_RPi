@@ -26,7 +26,7 @@ int main(int argc, char *argv[])
     canBus.updatePayload(CANmanager::IGNITION, json.ignitionTiming());
     canBus.updatePayload(CANmanager::LAUNCH_AIM, json.launchAim() * 3);
     canBus.updatePayload(CANmanager::THROTTLE_MAP, json.throttleMap());
-    canBus.sendLoop();
+    //canBus.sendLoop();
 
     engine.rootContext()->setContextProperty("JSON", &json);
     engine.rootContext()->setContextProperty("canBus", &canBus);
