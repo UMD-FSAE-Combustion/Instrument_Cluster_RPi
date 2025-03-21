@@ -37,6 +37,12 @@ qt_add_qml_module(appDyno_Info
         assets/images/LC.png
         assets/images/lock_icon.png
         assets/images/kachow.png
+        assets/images/pacMan.png
+        assets/images/pacManClosed.png
+        assets/images/pacManMenuScreen.png
+        assets/images/ghost.png
+        assets/images/ghostScared.png
+        assets/images/endScreen.png
         QML_FILES TractionControl.qml
         QML_FILES BrakeBias.qml
         QML_FILES VehicleInfoDisplay.qml
@@ -48,6 +54,7 @@ qt_add_qml_module(appDyno_Info
         QML_FILES Pong.qml
         QML_FILES AntilagControl.qml
         QML_FILES LaunchAimControl.qml
+        QML_FILES PacMan.qml
 )
 
 
