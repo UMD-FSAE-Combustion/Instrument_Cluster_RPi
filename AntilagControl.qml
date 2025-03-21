@@ -10,12 +10,51 @@ Item
 
     Rectangle
     {
-        //id: antilagControlScreen
+        id: antiLagRoot
 
         anchors.fill: parent
 
         radius: 20
         color: "#1E1E1E"
+
+        Rectangle {
+            id: backgroundColor
+            x: 45
+            y: 120
+            width: 235
+            height: 185
+
+            color {
+                r:  if(antiLag > 5) { ((255 - (51 * antiLag)) / 255) }
+                    else { 1 }
+
+                g:  if(antiLag < 5) { ((51* antiLag) / 255) }
+                    else { 1 }
+
+                b: 0
+                a: 1
+            }
+        }
+
+        Image
+        {
+            id: carTurbo
+            anchors
+            {
+                top: parent.top
+                // bottom: parent.bottom
+                right: parent.right
+                topMargin: 115
+                // bottomMargin: 40
+                rightMargin: 12
+            }
+
+            width: 255
+            height: 195
+            source: "assets/images/car-turbocharger.png"
+        }
+
+
 
         Column
         {
@@ -87,9 +126,14 @@ Item
                         font.pixelSize: 40
                         font.bold: true
 
-                        anchors.centerIn: parent
+                        anchors{
+                            horizontalCenter: parent.horizontalCenter
+                            top: parent.top
+                            topMargin: -125
+                        }
                     }
 
+                    /**
                     Text
                     {
                         text: "⯅"
@@ -118,6 +162,7 @@ Item
                             horizontalCenter:antiLagDisplayValue.horizontalCenter
                         }
                     }
+                    **/
                 }
             }
         }
