@@ -19,10 +19,17 @@ Item
 
         Rectangle {
             id: backgroundColor
-            x: 45
-            y: 120
-            width: 235
-            height: 185
+            //x: 45
+           //y: 120
+            width:  250 //235
+            height:  178 //185
+
+            anchors {
+                bottom: carTurbo.bottom
+                top: carTurbo.top
+                left: carTurbo.left
+                right: carTurbo.right
+            }
 
             color {
                 r:  if(antiLag > 5) { ((255 - (51 * antiLag)) / 255) }
@@ -49,8 +56,8 @@ Item
                 rightMargin: 12
             }
 
-            width: 255
-            height: 195
+            width: 250 //255
+            height: 178 //195
             source: "assets/images/car-turbocharger.png"
         }
 
