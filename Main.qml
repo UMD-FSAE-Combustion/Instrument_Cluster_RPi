@@ -498,6 +498,51 @@ Window
         }
     }
 
+    /*Loader
+    {
+        id: pacManLoader
+        anchors.fill: parent
+        source: "PacMan.qml"
+        active: false
+        visible: false
+
+        onLoaded: {
+            item.gameExited.connect(function()
+            {
+                pacManLoader.active = false
+            })
+        }
+
+        PacMan
+        {
+            id:pacManGame
+        }
+    }*/
+
+    Rectangle
+    {
+        id: pacManWindow
+        anchors.fill:parent
+        visible: false
+
+        PacMan
+        {
+            id: pacManGame
+        }
+    }
+
+    Rectangle
+    {
+        id: pacManStartScreen
+        visible:false
+
+        Image
+        {
+            id: mainMenu
+            source: "assets/images/pacManMenuScreen.png"
+        }
+    }
+
     Rectangle
     {
         id: tractionControlScreen

@@ -11,6 +11,16 @@ Item {
                 gameMenuRect.x = rootWindow.width - gameMenuRect.width - 15
                 gameMenuCounter = 0
             }
+            else if (pacManWindow.visible === true && pacManGame.gameOver === true)
+            {
+                pacManGame.resetGame()
+            }
+
+            else if (pacManWindow.visible === true)
+            {
+                pacManStartScreen.visible = false
+                pacManGame.handleKeyPress("RIGHT")
+            }
             else if (gameMenuVisible &&  gameMenuRect.x === rootWindow.width - gameMenuRect.width - 15) {
                 animator.animationCenterSpeedometer_START()
                 animator.gameMenuAnimationRight_START()
@@ -251,7 +261,22 @@ Item {
                 }
                 else if(gameMenuVisible && gameMenuRect.x === rootWindow.width - gameMenuRect.width - 15)
                 {
-                    if (gameMenuCounter === 0)
+                    if (pacManWindow.visible === true && pacManGame.gameOver === true)
+                    {
+                        pacManWindow.visible = false
+                        pacManGame.resetGame()
+                    }
+                    else if (pacManStartScreen.visible === true)
+                    {
+                        pacManWindow.visible = false
+                        pacManStartScreen.visible = false
+                        pacManGame.resetGame()
+                    }
+                    else if (pacManWindow.visible === true)
+                    {
+                        pacManGame.handleKeyPress("LEFT")
+                    }
+                    else if (gameMenuCounter === 0)
                     {
                         gameMenuVisible = false
                         pongGame.visible = true
@@ -259,8 +284,11 @@ Item {
                         pongGameRect.x = rootWindow.width - pongGameRect.width - 15
                         pongGame.fullReset()
                     }
+
                     else if (gameMenuCounter === 1)
                     {
+                        pacManWindow.visible = true
+                        pacManStartScreen.visible = true
                         console.log("Launching Pacman")
                     }
                 }
@@ -394,7 +422,11 @@ Item {
 
     function downPress() {
         if(vehicleInfo.vehicleSpeed === 0) {
-            if (gameMenuVisible && pongGame.visible === false) {
+            if (pacManWindow.visible === true)
+            {
+                pacManGame.handleKeyPress("DOWN")
+            }
+            else if (gameMenuVisible && pongGame.visible === false) {
                 if (gameMenuCounter < gameMenu.getGameList() - 1) {
                     gameMenuCounter = gameMenuCounter + 1
                 }
@@ -477,7 +509,11 @@ Item {
 
     function upPress() {
         if(vehicleInfo.vehicleSpeed === 0) {
-            if (gameMenuVisible && pongGame.visible === false) {
+            if (pacManWindow.visible === true)
+            {
+                pacManGame.handleKeyPress("UP")
+            }
+            else if (gameMenuVisible && pongGame.visible === false) {
                 if (gameMenuCounter === 0) {
                     gameMenuCounter = gameMenu.getGameList() - 1
                 }
