@@ -126,7 +126,7 @@ private slots:
     void CAN_Loop();
 
 private:
-    void faultFlagCheck(uint);
+    void faultFlagCheck(uint8_t);
 
     QTimer *timer;
     QCanBusDevice *can_device;

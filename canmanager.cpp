@@ -172,7 +172,7 @@ void CANmanager::processFrames()
     can_device->clear(QCanBusDevice::Input);
 }
 
-void CANmanager::faultFlagCheck(uint f){ // Need to test, also ask harman about 9 bits instead of 8
+void CANmanager::faultFlagCheck(uint8_t f) {
     if(f == 0)
         setEcuFault(false);
     else
@@ -211,22 +211,17 @@ void CANmanager::faultFlagCheck(uint f){ // Need to test, also ask harman about 
         }
         case 32:
         {
-            // not used on build
-            break;
-        }
-        case 64:
-        {
             setFaultMessage("Crank case fault detected");
             setEcuFault(true);
             break;
         }
-        case 128:
+        case 64:
         {
             setFaultMessage("Fuel pressure fault detected");
             setEcuFault(true);
             break;
         }
-        case 256: //9th bit in question
+        case 128:
         {
             setFaultMessage("Engine knock detected");
             setEcuFault(true);
