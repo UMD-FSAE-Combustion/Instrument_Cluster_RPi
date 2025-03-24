@@ -30,6 +30,7 @@ qt_add_qml_module(appDyno_Info
         assets/images/blockM.png
         assets/images/teamlogo.png
         assets/images/icon.ico
+        assets/images/bird.png
         assets/images/teamlogo2.png
         assets/images/raceCar.png
         assets/images/INFO.png
