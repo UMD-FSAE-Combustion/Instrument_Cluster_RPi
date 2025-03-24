@@ -498,6 +498,37 @@ Window
         }
     }
 
+    Rectangle {
+        id: flappyBirdRect
+        anchors {
+            top: uselessRectangle.bottom
+            bottom: parent.bottom
+            margins: 15
+        }
+        x: rootWindow.width
+        width: 300
+        height: 50
+        visible: false
+        color: "#1E1E1E"
+        radius: 20
+
+        FlappyBird {
+            id: flappyBirdGame
+            anchors.fill: parent
+            visible: false
+
+            onGameExited: {
+                // Hide flappy bird game
+                flappyBirdRect.visible = false
+                flappyBirdGame.visible = false
+
+                // Show game menu again
+                gameMenuVisible = true
+                gameMenuRect.visible = true
+            }
+        }
+    }
+
     /*Loader
     {
         id: pacManLoader
@@ -747,7 +778,6 @@ Window
                 inputManager.upPress()
             }
             else if(event.key === Qt.Key_Escape) {
-
                 Qt.quit()
             }
             else if(event.key === Qt.Key_Q) {
@@ -797,6 +827,13 @@ Window
                 } else {
                     vehicleInfo.vehicleSpeed = 0
                 }
+            }
+
+            // Handle key press for Flappy Bird if visible
+            if (flappyBirdGame.visible) {
+                flappyBirdGame.handleKeyPress(event.key === Qt.Key_Up ? "UP" :
+                                             event.key === Qt.Key_Space ? "SPACE" :
+                                             event.key === Qt.Key_Escape ? "ESCAPE" : "")
             }
         }
     }

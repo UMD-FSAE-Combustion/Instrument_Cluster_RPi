@@ -58,6 +58,8 @@ qt_add_qml_module(appDyno_Info
         QML_FILES AntilagControl.qml
         QML_FILES LaunchAimControl.qml
         QML_FILES PacMan.qml
+        QML_FILES FlappyBird.qml
+        RESOURCES ../../Downloads/bird.png
 )
 
 
