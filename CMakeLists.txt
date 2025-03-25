@@ -43,9 +43,9 @@ qt_add_qml_module(appDyno_Info
         assets/images/ghost.png
         assets/images/ghostScared.png
         assets/images/endScreen.png
-        assets/images/rearCAD.png
+        assets/images/LaunchAim.png
         assets/images/car-turbocharger.png
-        assets/images/tractionlogo.png
+        assets/images/TractionControl.png
         QML_FILES TractionControl.qml
         QML_FILES BrakeBias.qml
         QML_FILES VehicleInfoDisplay.qml
