@@ -20,10 +20,10 @@ Item
 
         Rectangle {
             id: backgroundColor
-            x: 45
-            y: 95
-            width: 235
-            height: 250
+            x: 75
+            y: 145
+            width: 220
+            height: 150
 
             color {
                 r:  if(tractionSwitch > 5) { ((255 - (51 * tractionSwitch)) / 255) }
@@ -45,14 +45,14 @@ Item
                 top: parent.top
                 //bottom: parent.bottom
                 right: parent.right
-                topMargin: 70
+                topMargin: 140
                 //bottomMargin: 40
-                leftMargin: 35
+                leftMargin: 40
             }
 
-            width: 272
-            height: 300
-            source: "assets/images/tractionlogo.png"
+            width: 239
+            height: 174
+            source: "assets/images/TractionControl.png"
         }
 
 

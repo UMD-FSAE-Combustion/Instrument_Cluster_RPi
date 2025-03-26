@@ -18,10 +18,10 @@ Item
 
         Rectangle {
             id: backgroundColor
-            x: 45
-            y: 95
-            width: 235
-            height: 250
+            x: 55
+            y: 145
+            width: 200
+            height: 160
 
             color {
                 r:  if(launchAim > 5) { ((255 - (51 * launchAim)) / 255) }
@@ -42,15 +42,15 @@ Item
             {
                 top: parent.top
                 //bottom: parent.bottom
-                right: parent.right
-                topMargin: 70
+                left: parent.left
+                topMargin: 145
                 //bottomMargin: 40
-                leftMargin: 35
+                leftMargin: 45
             }
 
-            width: 272
-            height: 300
-            source: "assets/images/rearCAD.png"
+            width: 231
+            height: 180
+            source: "assets/images/LaunchAim.png"
         }
 
         Column
