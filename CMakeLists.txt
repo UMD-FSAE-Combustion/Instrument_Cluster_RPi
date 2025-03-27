@@ -30,6 +30,7 @@ qt_add_qml_module(appDyno_Info
         assets/images/blockM.png
         assets/images/teamlogo.png
         assets/images/icon.ico
+        assets/images/bird.png
         assets/images/teamlogo2.png
         assets/images/TopDown.png
         assets/images/INFO.png
@@ -58,6 +59,8 @@ qt_add_qml_module(appDyno_Info
         QML_FILES AntilagControl.qml
         QML_FILES LaunchAimControl.qml
         QML_FILES PacMan.qml
+        QML_FILES FlappyBird.qml
+        RESOURCES ../../Downloads/bird.png
 )
 
 
