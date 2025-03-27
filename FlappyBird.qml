@@ -7,7 +7,7 @@ Rectangle {
     radius: 20
 
     // Signal to communicate back to main menu
-    signal gameExited()
+    signal gameExited
 
     // Game properties
     property int score: 0
@@ -122,6 +122,7 @@ Rectangle {
             radius: 10
             anchors.centerIn: parent
             visible: gameState === "gameOver"
+            z: 15
 
             Column {
                 anchors.centerIn: parent
@@ -181,6 +182,13 @@ Rectangle {
         }
     }
 
+    Timer {
+        id: gameOverTimer
+        repeat: false
+        interval: 300
+        onTriggered: gameState = "gameOver"
+    }
+
     // Mouse/touch area for game input
     MouseArea {
         anchors.fill: parent
@@ -226,7 +234,7 @@ Rectangle {
     // Reset game state
     function resetGame() {
         // Clear existing pipes
-        for (let i = 0; i < pipes.length; i++) {
+        for (var i = 0; i < pipes.length; i++) {
             if (pipes[i].topPipe) {
                 pipes[i].topPipe.destroy()
             }
@@ -249,35 +257,37 @@ Rectangle {
 
     // Create a new pipe pair
     function createPipe() {
-        let pipeY = Math.random() * (gameArea.height - pipeGap - groundHeight - 60) + 30
+        let pipeY = Math.random(
+                ) * (gameArea.height - pipeGap - groundHeight - 60) + 30
 
         // Top pipe
         let topPipe = Qt.createQmlObject(`
-            import QtQuick
-            Rectangle {
-                width: ${pipeWidth}
-                color: "#006400" // Dark green
-                x: ${gameArea.width}
-                y: 0
-                height: ${pipeY}
-            }`, gameArea, "topPipe")
+                                         import QtQuick
+                                         Rectangle {
+                                         width: ${pipeWidth}
+                                         color: "#006400" // Dark green
+                                         x: ${gameArea.width}
+                                         y: 0
+                                         height: ${pipeY}
+                                         }`, gameArea, "topPipe")
 
         // Bottom pipe
         let bottomPipe = Qt.createQmlObject(`
-            import QtQuick
-            Rectangle {
-                width: ${pipeWidth}
-                color: "#006400" // Dark green
-                x: ${gameArea.width}
-                y: ${pipeY + pipeGap}
-                height: ${gameArea.height - pipeY - pipeGap - groundHeight}
-            }`, gameArea, "bottomPipe")
+                                            import QtQuick
+                                            Rectangle {
+                                            width: ${pipeWidth}
+                                            color: "#006400" // Dark green
+                                            x: ${gameArea.width}
+                                            y: ${pipeY + pipeGap}
+                                            height: ${gameArea.height - pipeY
+                                            - pipeGap - groundHeight}
+                                            }`, gameArea, "bottomPipe")
 
         pipes.push({
-            topPipe: topPipe,
-            bottomPipe: bottomPipe,
-            passed: false
-        })
+                       "topPipe": topPipe,
+                       "bottomPipe": bottomPipe,
+                       "passed": false
+                   })
     }
 
     // Main update function
@@ -290,7 +300,8 @@ Rectangle {
         if (bird.y + bird.height > gameArea.height - groundHeight) {
             bird.y = gameArea.height - bird.height - groundHeight
             gameOver = true
-            gameState = "gameOver"
+            gameState = "gameOverDelay"
+            gameOverTimer.start()
             if (score > highScore) {
                 highScore = score
             }
@@ -304,7 +315,7 @@ Rectangle {
         }
 
         // Update pipes and check collisions
-        for (let i = pipes.length - 1; i >= 0; i--) {
+        for (var i = pipes.length - 1; i >= 0; i--) {
             // Move pipes
             pipes[i].topPipe.x -= pipeSpeed
             pipes[i].bottomPipe.x -= pipeSpeed
@@ -316,10 +327,11 @@ Rectangle {
             }
 
             // Check collisions
-            if (checkCollision(bird, pipes[i].topPipe) ||
-                checkCollision(bird, pipes[i].bottomPipe)) {
+            if (checkCollision(bird, pipes[i].topPipe) || checkCollision(
+                        bird, pipes[i].bottomPipe)) {
                 gameOver = true
-                gameState = "gameOver"
+                gameState = "gameOverDelay"
+                gameOverTimer.start()
                 if (score > highScore) {
                     highScore = score
                 }
@@ -337,9 +349,9 @@ Rectangle {
 
     // Check collision between bird and pipe
     function checkCollision(birdItem, pipeItem) {
-        return birdItem.x < pipeItem.x + pipeWidth &&
-               birdItem.x + birdItem.width > pipeItem.x &&
-               birdItem.y < pipeItem.y + pipeItem.height &&
-               birdItem.y + birdItem.height > pipeItem.y
+        return birdItem.x < pipeItem.x + pipeWidth
+                && birdItem.x + birdItem.width > pipeItem.x
+                && birdItem.y < pipeItem.y + pipeItem.height
+                && birdItem.y + birdItem.height > pipeItem.y
     }
 }
