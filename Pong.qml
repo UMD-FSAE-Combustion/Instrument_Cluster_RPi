@@ -58,7 +58,7 @@ Rectangle {
         }
         color: "black"
 
-        // Left paddle component
+        // Computer paddle component
         Rectangle {
             id: computerPaddle
             width: 15
@@ -87,7 +87,7 @@ Rectangle {
             }
         }
 
-        // Right paddle component
+        // Player paddle component
         Rectangle {
             id: playerPaddle
             width: 15
@@ -155,12 +155,12 @@ Rectangle {
         ballTimer.restart()
     }
 
-    // Moves the right paddle up 
+    // Moves the player controlled paddle up 
     function movePaddleUp() {
         playerPaddle.y = Math.max(0, playerPaddle.y - paddleSpeed)
     }
 
-    // Moves the right paddle down
+    // Moves the player controlled paddle down
     function movePaddleDown() {
         playerPaddle.y = Math.min(gameArea.height - playerPaddle.height, playerPaddle.y + paddleSpeed)
     }
