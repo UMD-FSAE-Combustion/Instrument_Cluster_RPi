@@ -14,7 +14,7 @@ Rectangle {
     // Ball variables
     property real ballSpeedHorizontal: -2
     property real ballSpeedVertical: 1
-    property real maxBallSpeedHorizontal: 7
+    property real maxballSpeedHorizontal: 7
     property real maxBallSpeedVertical: 5
 
 
@@ -112,7 +112,7 @@ Rectangle {
                 running: false
                 repeat: true
                 onTriggered: {
-                    ball.x += ballspeedHorizontal
+                    ball.x += ballSpeedHorizontal
                     ball.y += ballSpeedVertical
 
                     if (ball.y <= 0 || ball.y + ball.height >= gameArea.height) {
@@ -121,13 +121,13 @@ Rectangle {
                     }
 
                     if (ball.x <= computerPaddle.x + computerPaddle.width && ball.y + ball.height >= computerPaddle.y && ball.y <= computerPaddle.y + computerPaddle.height) {
-                        ballspeedHorizontal = Math.min(Math.abs(ballspeedHorizontal) * 1.1, maxBallSpeedHorizontal)
+                        ballSpeedHorizontal = Math.min(Math.abs(ballSpeedHorizontal) * 1.1, maxballSpeedHorizontal)
                         ballSpeedVertical += (ball.y - (computerPaddle.y + computerPaddle.height/2)) * 0.3
                         ballSpeedVertical = Math.max(Math.min(ballSpeedVertical, maxBallSpeedVertical), -maxBallSpeedVertical)
                     }
 
                     if (ball.x + ball.width >= playerPaddle.x && ball.y + ball.height >= playerPaddle.y && ball.y <= playerPaddle.y + playerPaddle.height) {
-                        ballspeedHorizontal = -Math.min(Math.abs(ballspeedHorizontal) * 1.1, maxBallSpeedHorizontal)
+                        ballSpeedHorizontal = -Math.min(Math.abs(ballSpeedHorizontal) * 1.1, maxballSpeedHorizontal)
                         ballSpeedVertical += (ball.y - (playerPaddle.y + playerPaddle.height/2)) * 0.3
                         ballSpeedVertical = Math.max(Math.min(ballSpeedVertical, maxBallSpeedVertical), -maxBallSpeedVertical)
                     }
@@ -149,7 +149,7 @@ Rectangle {
         ball.x = (gameArea.width - ball.width) / 2
         ball.y = (gameArea.height - ball.height) / 2
 
-        ballspeedHorizontal = Math.random() > 0.5 ? -2 : 2
+        ballSpeedHorizontal = Math.random() > 0.5 ? -2 : 2
         ballSpeedVertical = Math.random() * 2 - 1
 
         ballTimer.restart()
