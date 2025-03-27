@@ -19,10 +19,8 @@ Item
 
         Rectangle {
             id: backgroundColor
-            //x: 45
-           //y: 120
-            width:  250 //235
-            height:  178 //185
+            width:  250
+            height:  178
 
             anchors {
                 bottom: carTurbo.bottom
@@ -49,15 +47,13 @@ Item
             anchors
             {
                 top: parent.top
-                // bottom: parent.bottom
                 right: parent.right
                 topMargin: 115
-                // bottomMargin: 40
                 rightMargin: 12
             }
 
-            width: 250 //255
-            height: 178 //195
+            width: 250
+            height: 178
             source: "assets/images/car-turbocharger.png"
         }
 
@@ -125,6 +121,17 @@ Item
                         leftMargin: 110.5
                     }
 
+                    Rectangle {
+                        id: displayValBkgrnd2
+                        color: "#4b4b4b"
+                        border.color: "#3d3d3d"
+                        border.width: 3
+                        anchors.centerIn: antiLagDisplayValue
+                        width: 163
+                        height: 53
+                        radius: 20
+                    }
+
                     Text
                     {
                         id: antiLagDisplayValue
@@ -139,37 +146,6 @@ Item
                             topMargin: -125
                         }
                     }
-
-                    /**
-                    Text
-                    {
-                        text: "⯅"
-                        width: 25
-                        font.pixelSize: 25
-                        font.bold: true
-                        color: "white"
-                        anchors
-                        {
-                            margins: 10
-                            top: anchorBox.top
-                            horizontalCenter: antiLagDisplayValue.horizontalCenter
-                        }
-                    }
-
-                    Text
-                    {
-                        text: "⯆"
-                        width: 25
-                        font.pixelSize: 25
-                        font.bold: true
-                        color: "white"
-                        anchors
-                        {
-                            bottom: anchorBox.bottom
-                            horizontalCenter:antiLagDisplayValue.horizontalCenter
-                        }
-                    }
-                    **/
                 }
             }
         }
