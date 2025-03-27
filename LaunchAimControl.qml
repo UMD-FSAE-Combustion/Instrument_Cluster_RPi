@@ -41,10 +41,8 @@ Item
             anchors
             {
                 top: parent.top
-                //bottom: parent.bottom
                 left: parent.left
                 topMargin: 145
-                //bottomMargin: 40
                 leftMargin: 45
             }
 
@@ -117,6 +115,17 @@ Item
                 leftMargin: 80
             }
 
+            Rectangle {
+                id: displayValBkgrnd2
+                color: "#4b4b4b"
+                border.color: "#3d3d3d"
+                border.width: 3
+                anchors.centerIn: launchAimDisplayValue
+                width: 163
+                height: 53
+                radius: 20
+            }
+
             Text
             {
                 id: launchAimDisplayValue
@@ -132,37 +141,6 @@ Item
                 }
 
             }
-
-            /**
-            Text
-            {
-                text: "⯅"
-                width: 25
-                font.pixelSize: 25
-                font.bold: true
-                color: "white"
-                anchors
-                {
-                    margins: 10
-                    top: displayBox.top
-                    horizontalCenter: launchAimDisplayValue.horizontalCenter
-                }
-            }
-
-            Text
-            {
-                text: "⯆"
-                width: 25
-                font.pixelSize: 25
-                font.bold: true
-                color: "white"
-                anchors
-                {
-                    bottom: displayBox.bottom
-                    horizontalCenter: launchAimDisplayValue.horizontalCenter
-                }
-            }
-            **/
         }
     }
 
