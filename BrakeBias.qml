@@ -26,23 +26,63 @@ Item
         radius: 20
         color: "#1E1E1E"
 
+        Rectangle {
+            id: backgroundColor
+            x: 88
+            y: 40
+            width: 160
+            height: 180
+
+            color {
+                r:  if(biasVal > 50) { ((255 - (5.1 * biasVal)) / 255) }
+                    else { 1 }
+
+                g:  if(biasVal < 50) { ((5.1* biasVal) / 255) }
+                    else { 1 }
+
+                b: 0
+                a: 1
+            }
+        }
+
+        Rectangle {
+            id: rearBackgroundColor
+            x: 88
+            y: 220
+            width: 160
+            height: 180
+
+            color {
+                r:  if((100 - biasVal) > 50) { ((255 - (5.1 * (100 - biasVal))) / 255) }
+                    else { 1 }
+
+                g:  if((100 - biasVal) < 50) { ((5.1* (100 - biasVal)) / 255) }
+                    else { 1 }
+
+                b: 0
+                a: 1
+            }
+        }
+
+
+
         Image
         {
             id: carImage
             anchors
             {
                 top: parent.top
-                bottom: parent.bottom
+                //bottom: parent.bottom
                 right: parent.right
                 topMargin: 40
-                bottomMargin: 40
-                rightMargin: 0
+                //bottomMargin: 40
+                rightMargin: 48
             }
 
-            width: 300
-            height: 50
+            width: 166
+            height: 365
 
-            source: "assets/images/raceCar.png"
+            source: "assets/images/TopDown.png"
         }
 
         Column
