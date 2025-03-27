@@ -165,12 +165,12 @@ Rectangle {
             } else if (gameState === "gameOver") {
                 // Handle game over screen key presses
                 switch (key) {
-                    case Qt.Key_Left:
+                    case "LEFT":
                         gameExited() // Return to main menu
                         break
-                    case Qt.Key_Right:
-                    case Qt.Key_Space:
-                    case Qt.Key_Return:
+                    case "RIGHT":
+                    case "UP":
+                    case "DOWN":
                         resetGame() // Restart game
                         break
                 }
@@ -185,13 +185,6 @@ Rectangle {
         height: parent.height
         color: "black"
        // focus: true
-
-
-        /*onVisibleChanged: {
-            if (visible) {
-                forceActiveFocus()
-            }
-        }*/
 
         // Render the walls with a blue outline on a black background
         Repeater {
@@ -392,7 +385,7 @@ Rectangle {
     // --- Game Over Screen --- //
     Rectangle {
         id: gameOverScreen
-        visible: gameState === "gameOver" || score === 476
+        visible: gameState === "gameOver" || score >= 476
         width: parent.width
         height: parent.height
         color: "black"
