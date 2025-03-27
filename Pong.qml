@@ -6,26 +6,36 @@ Rectangle {
     color: "#1E1E1E"
     radius: 20
 
+
+    // Score variables
+    property int playerScore: 0
+    property int computerScore: 0
+
+    // Ball variables
+    property real ballSpeedHorizontal: -2
+    property real ballSpeedVertical: 1
+    property real maxballSpeedHorizontal: 7
+    property real maxBallSpeedVertical: 5
+
+
+    // Paddle variables
+    property int paddleSpeed: 10
+    property int aiPaddleSpeed: 8
+    property int minimumPaddleMovement: 3
+
+    // Initialize game when it loads
     Component.onCompleted: {
         playerScore = 0
-        aiScore = 0
+        computerScore = 0
 
         gameTimer.start()
         ballTimer.start()
     }
 
-    property int playerScore: 0
-    property int aiScore: 0
-    property real ballSpeedX: -2
-    property real ballSpeedY: 1
-    property real maxBallSpeedX: 7
-    property real maxBallSpeedY: 5
-    property int paddleSpeed: 10
-    property int aiPaddleSpeed: 8
-    property int minimumPaddleMovement: 3
 
+    // Score text
     Text {
-        text: aiScore + " : " + playerScore
+        text: computerScore + " : " + playerScore
         color: "white"
         font.pixelSize: 30
         font.bold: true
@@ -48,8 +58,9 @@ Rectangle {
         }
         color: "black"
 
+        // Computer paddle component
         Rectangle {
-            id: leftPaddle
+            id: computerPaddle
             width: 15
             height: 100
             color: "white"
@@ -62,22 +73,23 @@ Rectangle {
                 running: false
                 repeat: true
                 onTriggered: {
-                    var paddleCenter = leftPaddle.y + leftPaddle.height/2
+                    var paddleCenter = computerPaddle.y + computerPaddle.height/2
                     var distance = ball.y - paddleCenter
 
                     if (Math.abs(distance) > minimumPaddleMovement) {
                         if (distance > 0) {
-                            leftPaddle.y = Math.min(gameArea.height - leftPaddle.height, leftPaddle.y + aiPaddleSpeed)
+                            computerPaddle.y = Math.min(gameArea.height - computerPaddle.height, computerPaddle.y + aiPaddleSpeed)
                         } else {
-                            leftPaddle.y = Math.max(0, leftPaddle.y - aiPaddleSpeed)
+                            computerPaddle.y = Math.max(0, computerPaddle.y - aiPaddleSpeed)
                         }
                     }
                 }
             }
         }
 
+        // Player paddle component
         Rectangle {
-            id: rightPaddle
+            id: playerPaddle
             width: 15
             height: 100
             color: "white"
@@ -85,6 +97,7 @@ Rectangle {
             y: (parent.height - height) / 2
         }
 
+        // Ball component
         Rectangle {
             id: ball
             width: 15
@@ -99,31 +112,31 @@ Rectangle {
                 running: false
                 repeat: true
                 onTriggered: {
-                    ball.x += ballSpeedX
-                    ball.y += ballSpeedY
+                    ball.x += ballSpeedHorizontal
+                    ball.y += ballSpeedVertical
 
                     if (ball.y <= 0 || ball.y + ball.height >= gameArea.height) {
-                        ballSpeedY = -ballSpeedY * 1.02
-                        ballSpeedY = Math.max(Math.min(ballSpeedY, maxBallSpeedY), -maxBallSpeedY)
+                        ballSpeedVertical = -ballSpeedVertical * 1.02
+                        ballSpeedVertical = Math.max(Math.min(ballSpeedVertical, maxBallSpeedVertical), -maxBallSpeedVertical)
                     }
 
-                    if (ball.x <= leftPaddle.x + leftPaddle.width && ball.y + ball.height >= leftPaddle.y && ball.y <= leftPaddle.y + leftPaddle.height) {
-                        ballSpeedX = Math.min(Math.abs(ballSpeedX) * 1.1, maxBallSpeedX)
-                        ballSpeedY += (ball.y - (leftPaddle.y + leftPaddle.height/2)) * 0.3
-                        ballSpeedY = Math.max(Math.min(ballSpeedY, maxBallSpeedY), -maxBallSpeedY)
+                    if (ball.x <= computerPaddle.x + computerPaddle.width && ball.y + ball.height >= computerPaddle.y && ball.y <= computerPaddle.y + computerPaddle.height) {
+                        ballSpeedHorizontal = Math.min(Math.abs(ballSpeedHorizontal) * 1.1, maxballSpeedHorizontal)
+                        ballSpeedVertical += (ball.y - (computerPaddle.y + computerPaddle.height/2)) * 0.3
+                        ballSpeedVertical = Math.max(Math.min(ballSpeedVertical, maxBallSpeedVertical), -maxBallSpeedVertical)
                     }
 
-                    if (ball.x + ball.width >= rightPaddle.x && ball.y + ball.height >= rightPaddle.y && ball.y <= rightPaddle.y + rightPaddle.height) {
-                        ballSpeedX = -Math.min(Math.abs(ballSpeedX) * 1.1, maxBallSpeedX)
-                        ballSpeedY += (ball.y - (rightPaddle.y + rightPaddle.height/2)) * 0.3
-                        ballSpeedY = Math.max(Math.min(ballSpeedY, maxBallSpeedY), -maxBallSpeedY)
+                    if (ball.x + ball.width >= playerPaddle.x && ball.y + ball.height >= playerPaddle.y && ball.y <= playerPaddle.y + playerPaddle.height) {
+                        ballSpeedHorizontal = -Math.min(Math.abs(ballSpeedHorizontal) * 1.1, maxballSpeedHorizontal)
+                        ballSpeedVertical += (ball.y - (playerPaddle.y + playerPaddle.height/2)) * 0.3
+                        ballSpeedVertical = Math.max(Math.min(ballSpeedVertical, maxBallSpeedVertical), -maxBallSpeedVertical)
                     }
 
                     if (ball.x <= 0) {
                         playerScore++
                         resetBall()
                     } else if (ball.x + ball.width >= gameArea.width) {
-                        aiScore++
+                        computerScore++
                         resetBall()
                     }
                 }
@@ -131,28 +144,32 @@ Rectangle {
         }
     }
 
+    // Function to reset the position of the ball after each score
     function resetBall() {
         ball.x = (gameArea.width - ball.width) / 2
         ball.y = (gameArea.height - ball.height) / 2
 
-        ballSpeedX = Math.random() > 0.5 ? -2 : 2
-        ballSpeedY = Math.random() * 2 - 1
+        ballSpeedHorizontal = Math.random() > 0.5 ? -2 : 2
+        ballSpeedVertical = Math.random() * 2 - 1
 
         ballTimer.restart()
     }
 
+    // Moves the player controlled paddle up 
     function movePaddleUp() {
-        rightPaddle.y = Math.max(0, rightPaddle.y - paddleSpeed)
+        playerPaddle.y = Math.max(0, playerPaddle.y - paddleSpeed)
     }
 
+    // Moves the player controlled paddle down
     function movePaddleDown() {
-        rightPaddle.y = Math.min(gameArea.height - rightPaddle.height, rightPaddle.y + paddleSpeed)
+        playerPaddle.y = Math.min(gameArea.height - playerPaddle.height, playerPaddle.y + paddleSpeed)
     }
 
+    // Fully resets the game(used on close) 
     function fullReset() {
         playerScore = 0
-        aiScore = 0
+        computerScore = 0
         resetBall()
-        rightPaddle.y = (gameArea.height - rightPaddle.height) / 2
+        playerPaddle.y = (gameArea.height - playerPaddle.height) / 2
     }
 }

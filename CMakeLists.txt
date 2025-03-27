@@ -30,6 +30,7 @@ qt_add_qml_module(appDyno_Info
         assets/images/blockM.png
         assets/images/teamlogo.png
         assets/images/icon.ico
+        assets/images/bird.png
         assets/images/teamlogo2.png
         assets/images/TopDown.png
         assets/images/INFO.png
@@ -46,6 +47,7 @@ qt_add_qml_module(appDyno_Info
         assets/images/LaunchAim.png
         assets/images/car-turbocharger.png
         assets/images/TractionControl.png
+        assets/images/bird.png
         QML_FILES TractionControl.qml
         QML_FILES BrakeBias.qml
         QML_FILES VehicleInfoDisplay.qml
@@ -58,6 +60,7 @@ qt_add_qml_module(appDyno_Info
         QML_FILES AntilagControl.qml
         QML_FILES LaunchAimControl.qml
         QML_FILES PacMan.qml
+        QML_FILES FlappyBird.qml
 )
 
 
