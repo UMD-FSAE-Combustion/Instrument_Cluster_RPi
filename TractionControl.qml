@@ -6,13 +6,10 @@ import QtQuick.Window
 
 Item
 {
-    //property int tractionValue
     property int tractionSwitch: JSON.tractionSwitch
 
     Rectangle
     {
-        //id: tractionControlScreen
-
         anchors.fill: parent
 
         radius: 20
@@ -43,10 +40,8 @@ Item
             anchors
             {
                 top: parent.top
-                //bottom: parent.bottom
                 right: parent.right
                 topMargin: 140
-                //bottomMargin: 40
                 leftMargin: 40
             }
 
@@ -118,6 +113,17 @@ Item
                         leftMargin: 110.5
                     }
 
+                    Rectangle {
+                        id: displayValBkgrnd2
+                        color: "#4b4b4b"
+                        border.color: "#3d3d3d"
+                        border.width: 3
+                        anchors.centerIn: tractionDisplayValue
+                        width: 163
+                        height: 53
+                        radius: 20
+                    }
+
                     Text
                     {
                         id: tractionDisplayValue
@@ -132,36 +138,6 @@ Item
                             topMargin: -125
                         }
                     }
-                    /**
-                    Text
-                    {
-                        text: "⯅"
-                        width: 25
-                        font.pixelSize: 25
-                        font.bold: true
-                        color: "white"
-                        anchors
-                        {
-                            margins: 10
-                            top: anchorBox.top
-                            horizontalCenter: tractionDisplayValue.horizontalCenter
-                        }
-                    }
-
-                    Text
-                    {
-                        text: "⯆"
-                        width: 25
-                        font.pixelSize: 25
-                        font.bold: true
-                        color: "white"
-                        anchors
-                        {
-                            bottom: anchorBox.bottom
-                            horizontalCenter: tractionDisplayValue.horizontalCenter
-                        }
-                    }
-                    **/
                 }
             }
         }
