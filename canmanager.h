@@ -13,6 +13,8 @@
 #include <QtQml>
 #include <QVector>
 
+#include <cmath>
+
 class CANmanager : public QObject
 {
     Q_OBJECT
