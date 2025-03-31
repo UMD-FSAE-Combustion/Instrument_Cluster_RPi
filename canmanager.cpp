@@ -158,8 +158,8 @@ void CANmanager::processFrames()
     }
     case 0x659:
     {
-        uint16_t speed = (bytes.at(4)<<8 | bytes.at(5)) / 36;
-        setVehicleSpeed(speed * 2.2369); // convert from kph to mph
+        double speed = floor((bytes.at(4)<<8 | bytes.at(5)) / 36);
+        setVehicleSpeed(uint16_t(speed * 0.62137)); // convert from kph to mph
         break;
     }
     default:
