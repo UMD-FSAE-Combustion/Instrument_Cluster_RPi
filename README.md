@@ -18,10 +18,13 @@
 * Load Driver Profiles - Quick, easy way to minimize downtime
   - Allow drivers to load their preferred configurations for dynamicx handling, letting them tune parameters to their tastes.
 * Easy Configuration Customizations
-  - Drivers can configure brake biasing, traction control, or launch control paramaters
+  - Drivers can configure brake biasing with 1% increments
+  - Drivers can configure traction control adjustment, launch aim ajustment, and anti-lag adjustment
+  - Toggleable launch control
+  - Toggleable adjustment switches for various settings, with state saving per profile.
 * Advanced vehicle diagnostics
   - Easily readable interface for important vehicle information updated in real time
-* Warning messages for ECU faults/issues
+* Warning messages for ECU faults/issues, with specific fault information
 * In-vehicle video games
 * Easter eggs for drivers to discover
 
