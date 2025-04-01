@@ -33,10 +33,10 @@ The controls below work on the Windows demo as well as when running on a Linux d
 When deploying on hardware, the arrow key functionality is emulated by the GPIO fitted to the dashboard.
 The extra key functionality is not supported when deploying on hardware.
 * Arrow Keys
-  - Left: open options menu or select the highlighted item in options menu
-  - Up:   Scroll upward
-  - Down: Scroll downward
-  - Right: Open game menu or select the hilighted item in game menu
+  -  Left: Open game menu or select the hilighted item in game menu 
+  - Right: Open options menu or select the highlighted item in options menu 
+  -    Up: Scroll upward
+  -  Down: Scroll downward
 * Extra Keys
   - W: Simulate ECU fault warning
   - P: Power off (only on PiOS, will not work on other operating systems
@@ -48,7 +48,7 @@ The program was originally designed to be used on a Raspberry Pi, however, a dem
 ### [WINDOWS DEMO MODE](https://drive.google.com/uc?export=download&id=1KGAqaMMBcgKybBMU_xWF1KtjLZEl3zSI)
 Click on the header above to download the .zip file containing the Windows demo application.  Simply unzip the file and launch the .exe file to run the demo.
 The demo will support most UI functions, including animations, easter eggs, and games, but most backend functionality is removed from the demo.
-Controls can be found in the readme file included in the zip file.
+Controls can be found <a href="#how-to-use">here</a>, or in the readme file included in the zip file.
 
 
 ### LINUX
