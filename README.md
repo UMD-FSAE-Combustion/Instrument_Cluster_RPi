@@ -56,7 +56,12 @@ Controls can be found <a href="#how-to-use">here</a>, or in the readme file incl
 
 
 ### LINUX
-***TODO: LINUX INSTALL INSTRUCTIONS*** 
+To run on a Debian-based linux distribution, the following is required: 
+```
+git clone https://github.com/Mgharbieh/linux-dash-code-Wolverine-Racing.git
+cd linux-dash-code-Wolverine-Racing
+./app_Dash
+```
 
 ## Credits
 
