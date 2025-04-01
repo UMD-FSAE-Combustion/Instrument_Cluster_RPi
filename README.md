@@ -29,6 +29,9 @@
 The Driver interface is designed to work with buttons wired to the Raspberry Pi, however, we have also included a set of keypresses that work to emulate the controls.
 
 ### Main Controls:
+The controls below work on the Windows demo as well as when running on a Linux desktop enviornment.  
+When deploying on hardware, the arrow key functionality is emulated by the GPIO fitted to the dashboard.
+The extra key functionality is not supported when deploying on hardware.
 * Arrow Keys
   - Left: open options menu or select the highlighted item in options menu
   - Up:   Scroll upward
@@ -40,11 +43,12 @@ The Driver interface is designed to work with buttons wired to the Raspberry Pi,
   - Escape or Q: Close application
 
 ## Download
-The program was originally designed to be used on a Raspberry Pi, however, a demo mode with limited functionality will be available to run on Windows.  MacOS devices are currently not supported.
+The program was originally designed to be used on a Raspberry Pi, however, a demo mode with limited functionality is available to run on Windows for showcasing purposes.  MacOS devices are currently not supported.
 
-### WINDOWS DEMO MODE
-When available, navigate to the packages folder and download ***INSTRUMENT_CLUSTER_WIN_DEMO*** as a zipped file.  Simply unzip the file and launch the .exe file to run the demo.
-The demo will support most UI functions, including animations, easter eggs, and games.  Controls can be found in the readme file included in the zip file.
+### [WINDOWS DEMO MODE](https://drive.google.com/uc?export=download&id=1KGAqaMMBcgKybBMU_xWF1KtjLZEl3zSI)
+Click on the header above to download the .zip file containing the Windows demo application.  Simply unzip the file and launch the .exe file to run the demo.
+The demo will support most UI functions, including animations, easter eggs, and games, but most backend functionality is removed from the demo.
+Controls can be found in the readme file included in the zip file.
 
 
 ### LINUX
