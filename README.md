@@ -49,7 +49,7 @@ The extra key functionality is not supported when deploying on hardware.
 ## Download
 The program was originally designed to be used on a Raspberry Pi, however, a demo mode with limited functionality is available to run on Windows for showcasing purposes.  MacOS devices are currently not supported.
 
-### [WINDOWS DEMO MODE](https://drive.google.com/uc?export=download&id=1bAneYHjcbzJuUnHtW1_oTOqy19jPcU3o)
+### [WINDOWS DEMO MODE](https://drive.google.com/uc?export=download&id=1rG-5VdMCZWO9uEFCSWf7wuHeWG2dGbOI)
 Click on the header above to download the .zip file containing the Windows demo application.  Simply unzip the file and launch the .exe file to run the demo.
 The demo will support most UI functions, including animations, easter eggs, and games, but most backend functionality is removed from the demo.
 Controls can be found <a href="#how-to-use">here</a>, or in the readme file included in the zip file.
