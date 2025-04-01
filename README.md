@@ -18,6 +18,7 @@
 * Load Driver Profiles - Quick, easy way to minimize downtime
   - Allow drivers to load their preferred configurations for dynamicx handling, letting them tune parameters to their tastes.
 * Easy Configuration Customizations
+  - Save up to 6 profiles for automated setting adjustments between drivers
   - Drivers can configure brake biasing with 1% increments
   - Drivers can configure traction control adjustment, launch aim ajustment, and anti-lag adjustment
   - Toggleable launch control
