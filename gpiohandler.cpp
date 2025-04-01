@@ -5,8 +5,8 @@
 #define BUTTON_LEFT 27
 #define BUTTON_RIGHT 22
 
-#define PRESS_DELAY 100
-#define HOLD_DELAY 250
+#define PRESS_DELAY 100 //millis
+#define HOLD_DELAY 250 //millis
 
 #define SHUTDOWN_PIN NULL //add later
 

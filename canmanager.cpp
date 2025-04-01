@@ -18,7 +18,7 @@ QVector<int> CANmanager::sendBuffer(8);
 CANmanager::CANmanager()
 {
     QString errorString;
-    if(QSysInfo::productType() == "pop")
+    if(QSysInfo::productType() != "debian")
     {
         can_device = QCanBus::instance()->createDevice(QStringLiteral("socketcan"), QStringLiteral("vcan0"), &errorString);
         qDebug() << "Virtual CAN interface created";
