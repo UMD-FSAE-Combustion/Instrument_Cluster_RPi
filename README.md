@@ -18,10 +18,14 @@
 * Load Driver Profiles - Quick, easy way to minimize downtime
   - Allow drivers to load their preferred configurations for dynamicx handling, letting them tune parameters to their tastes.
 * Easy Configuration Customizations
-  - Drivers can configure brake biasing, traction control, or launch control paramaters
+  - Save up to 6 profiles for automated setting adjustments between drivers
+  - Drivers can configure brake biasing with 1% increments
+  - Drivers can configure traction control adjustment, launch aim ajustment, and anti-lag adjustment
+  - Toggleable launch control
+  - Toggleable adjustment switches for various settings, with state saving per profile.
 * Advanced vehicle diagnostics
   - Easily readable interface for important vehicle information updated in real time
-* Warning messages for ECU faults/issues
+* Warning messages for ECU faults/issues, with specific fault information
 * In-vehicle video games
 * Easter eggs for drivers to discover
 
@@ -29,27 +33,54 @@
 The Driver interface is designed to work with buttons wired to the Raspberry Pi, however, we have also included a set of keypresses that work to emulate the controls.
 
 ### Main Controls:
+The controls below work on the Windows demo as well as when running on a Linux desktop enviornment.  
+When deploying on hardware, the arrow key functionality is emulated by the GPIO fitted to the dashboard.
+The extra key functionality is not supported when deploying on hardware.
 * Arrow Keys
-  - Left: open options menu or select the highlighted item in options menu
-  - Up:   Scroll upward
-  - Down: Scroll downward
-  - Right: Open game menu or select the hilighted item in game menu
+  -  Left: Open game menu or select the hilighted item in game menu 
+  - Right: Open options menu or select the highlighted item in options menu 
+  -    Up: Scroll upward
+  -  Down: Scroll downward
 * Extra Keys
   - W: Simulate ECU fault warning
   - P: Power off (only on PiOS, will not work on other operating systems
   - Escape or Q: Close application
 
 ## Download
-The program was originally designed to be used on a Raspberry Pi, however, a demo mode with limited functionality will be available to run on Windows.  MacOS devices are currently not supported.
+The program was originally designed to be used on a Raspberry Pi, however, a demo mode with limited functionality is available to run on Windows for showcasing purposes.  MacOS devices are currently not supported.
 
-### WINDOWS DEMO MODE
-When available, navigate to the packages folder and download ***INSTRUMENT_CLUSTER_WIN_DEMO*** as a zipped file.  Simply unzip the file and launch the .exe file to run the demo.
-The demo will support most UI functions, including animations, easter eggs, and games.  Controls can be found in the readme file included in the zip file.
+### [WINDOWS DEMO MODE](https://drive.google.com/uc?export=download&id=1rG-5VdMCZWO9uEFCSWf7wuHeWG2dGbOI)
+Click on the header above to download the .zip file containing the Windows demo application.  Simply unzip the file and launch the .exe file to run the demo.
+The demo will support most UI functions, including animations, easter eggs, and games, but most backend functionality is removed from the demo.
+Controls can be found <a href="#how-to-use">here</a>, or in the readme file included in the zip file.
 
 
 ### LINUX
-***TODO: LINUX INSTALL INSTRUCTIONS*** 
+To run on a Debian-based desktop environment, the following is required: 
+First, download and install WiringPi
+```
+git clone https://github.com/WiringPi/WiringPi
+cd WiringPi
+./build
+```
+Next, install required Qt dependencies
+```
+sudo apt install libxcb-cursor0 libxcb-cursor-dev
+```
+Finally, download the application and run it
+```
+git clone https://github.com/UMD-FSAE-Combustion/Wolverine-Racing-Dash.git
+cd linux-dash-code-Wolverine-Racing
+./app_Dash
+```
 
+To run fully on a Raspberry Pi (running RaspianOS), a CAN device of some sort is required and socketCAN drivers must be loaded.
+CAN interface creation varies by hardware device, so refer to the device instructions to enable a socketCAN interface.
+If can messages need to be viewed for any reason, it's recommended to use `can-utils`:
+```
+sudo apt install can-utils
+candump -tz can0
+```
 ## Credits
 
 This software uses the following open source packages:

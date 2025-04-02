@@ -18,7 +18,7 @@ QVector<int> CANmanager::sendBuffer(8);
 CANmanager::CANmanager()
 {
     QString errorString;
-    if(QSysInfo::productType() == "pop")
+    if(QSysInfo::productType() != "debian")
     {
         can_device = QCanBus::instance()->createDevice(QStringLiteral("socketcan"), QStringLiteral("vcan0"), &errorString);
         qDebug() << "Virtual CAN interface created";
@@ -132,11 +132,14 @@ void CANmanager::processFrames()
     case 0x64C:
     {
         uint8_t faultStatus = bytes.at(5);
+        faultFlagCheck(faultStatus);
+
+        /*
         if(faultStatus > 0)
             setEcuFault(true);
         else
             setEcuFault(false);
-
+        */
         break;
     }
     case 0x651:
@@ -155,8 +158,8 @@ void CANmanager::processFrames()
     }
     case 0x659:
     {
-        uint16_t speed = (bytes.at(4)<<8 | bytes.at(5)) / 36;
-        setVehicleSpeed(speed * 2.2369); // convert from kph to mph
+        double speed = floor((bytes.at(4)<<8 | bytes.at(5)) / 36);
+        setVehicleSpeed(uint16_t(speed * 0.62137)); // convert from kph to mph
         break;
     }
     default:
@@ -167,6 +170,71 @@ void CANmanager::processFrames()
 
     //clear input buffer to attempt to recover from buffer overflow
     can_device->clear(QCanBusDevice::Input);
+}
+
+void CANmanager::faultFlagCheck(uint8_t f) {
+    if(f == 0)
+        setEcuFault(false);
+    else
+    {
+        switch(f)
+        {
+        case 1:
+        {
+            setFaultMessage("Coolant temp fault detected");
+            setEcuFault(true);
+            break;
+        }
+        case 2:
+        {
+            setFaultMessage("Coolant pressure fault detected");
+            setEcuFault(true);
+            break;
+        }
+        case 4:
+        {
+            setFaultMessage("Engine speed fault detected");
+            setEcuFault(true);
+            break;
+        }
+        case 8:
+        {
+            setFaultMessage("Engine oil temp fault detected");
+            setEcuFault(true);
+            break;
+        }
+        case 16:
+        {
+            setFaultMessage("Engine oil pressure fault detected");
+            setEcuFault(true);
+            break;
+        }
+        case 32:
+        {
+            setFaultMessage("Crank case fault detected");
+            setEcuFault(true);
+            break;
+        }
+        case 64:
+        {
+            setFaultMessage("Fuel pressure fault detected");
+            setEcuFault(true);
+            break;
+        }
+        case 128:
+        {
+            setFaultMessage("Engine knock detected");
+            setEcuFault(true);
+            break;
+        }
+        default:
+        {
+            setFaultMessage("Multiple ECU faults detected"); //might want to add check engine light?
+            setEcuFault(true);
+            break;
+        }
+        }
+    }
 }
 
 void CANmanager::CAN_Loop()
@@ -211,6 +279,19 @@ void CANmanager::CAN_Loop()
         else
             qDebug() << can_device->errorString();
     }
+}
+
+QString CANmanager::faultMessage() const
+{
+    return m_faultMessage;
+}
+
+void CANmanager::setFaultMessage(const QString &newFaultMessage)
+{
+    if (m_faultMessage == newFaultMessage)
+        return;
+    m_faultMessage = newFaultMessage;
+    emit faultMessageChanged();
 }
 
 int* CANmanager::getFrame()

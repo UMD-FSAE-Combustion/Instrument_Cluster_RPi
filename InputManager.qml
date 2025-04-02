@@ -11,6 +11,22 @@ Item {
                 gameMenuRect.x = rootWindow.width - gameMenuRect.width - 15
                 gameMenuCounter = 0
             }
+            else if (flappyBirdGame.visible) {
+                flappyBirdGame.visible = false
+                flappyBirdRect.x = rootWindow.width
+                gameMenuVisible = true
+                gameMenuRect.x = rootWindow.width - gameMenuRect.width - 15
+                gameMenuCounter = 0
+            }
+            else if (pacManWindow.visible === true && pacManGame.gameOver === true)
+            {
+                pacManGame.resetGame()
+            }
+            else if (pacManWindow.visible === true)
+            {
+                pacManStartScreen.visible = false
+                pacManGame.handleKeyPress("RIGHT")
+            }
             else if (gameMenuVisible &&  gameMenuRect.x === rootWindow.width - gameMenuRect.width - 15) {
                 animator.animationCenterSpeedometer_START()
                 animator.gameMenuAnimationRight_START()
@@ -140,15 +156,15 @@ Item {
             else if(columnBar.x > 0 && counter === 0)
             {
                 currentSet = 3
-                counter = 6
+                counter = 100
             }
-            else if(currentSet === 3)
+            else if(currentSet === 3 || currentSet === 6)
             {
                 animator.animationCenterSpeedometer_START()
                 animator.animationLeft_START()
 
-                if((counter - 6 ) !== JSON.driver) {
-                    loadNewProfile(counter - 6)
+                if((counter - 100) !== JSON.driver) {
+                    loadNewProfile(counter - 100)
 
                     statusMessage.text = "Profile Loaded:  " + (driver + 1)
                     statusImage.source = "assets/images/INFO.png"
@@ -219,19 +235,19 @@ Item {
             {
                 launchAimScreen.visible = true
             }
-            else if(counter === 9)
+            else if(counter === 6)
             {
                 antiLagScreen.visible = true
             }
-            else if(counter === 10)
+            else if(counter === 7)
             {
                 optMenu.updateIgnitionState(driver)
             }
-            else if(counter === 11)
+            else if(counter === 8)
             {
                 optMenu.updateFuelAimState(driver)
             }
-            else if(counter === 12)
+            else if(counter === 9)
             {
                 optMenu.updateThrottleState(driver)
             }
@@ -251,7 +267,22 @@ Item {
                 }
                 else if(gameMenuVisible && gameMenuRect.x === rootWindow.width - gameMenuRect.width - 15)
                 {
-                    if (gameMenuCounter === 0)
+                    if (pacManWindow.visible === true && pacManGame.gameOver === true)
+                    {
+                        pacManWindow.visible = false
+                        pacManGame.resetGame()
+                    }
+                    else if (pacManStartScreen.visible === true)
+                    {
+                        pacManWindow.visible = false
+                        pacManStartScreen.visible = false
+                        pacManGame.resetGame()
+                    }
+                    else if (pacManWindow.visible === true)
+                    {
+                        pacManGame.handleKeyPress("LEFT")
+                    }
+                    else if (gameMenuCounter % 3 === 0)
                     {
                         gameMenuVisible = false
                         pongGame.visible = true
@@ -259,25 +290,25 @@ Item {
                         pongGameRect.x = rootWindow.width - pongGameRect.width - 15
                         pongGame.fullReset()
                     }
-                    else if (gameMenuCounter === 1)
+                    else if (gameMenuCounter % 3 === 1)
                     {
+                        pacManWindow.visible = true
+                        pacManStartScreen.visible = true
                         console.log("Launching Pacman")
+                    }
+                    else if (gameMenuCounter % 3 === 2)
+                    {
+                        gameMenuVisible = false
+                        flappyBirdGame.visible = true
+                        flappyBirdRect.visible = true
+                        flappyBirdRect.x = rootWindow.width - flappyBirdRect.width - 15
+                        flappyBirdGame.resetGame()
                     }
                 }
             }
-            else if(((counter >= 0 && counter <= 4) || (counter >= 9 && counter <= 12)) && engineInfoScreen.visible === false &&
-                    brakeBiasScreen.visible === false && tractionControlScreen.visible === false)
-            {
-                animator.animationCenterSpeedometer_START()
-                animator.animationLeft_START()
-                counter = 0
-                currentSet = 1
-                menuShown = false
-            }
-            else if((counter === 6 || counter === 7 || counter === 8) && currentSet === 3) {
-
-                if((counter - 6 ) !== JSON.driver) {
-                    loadNewProfile(counter - 6)
+            else if(counter > 99) {
+                if((counter - 100 ) !== JSON.driver) {
+                    loadNewProfile(counter - 100)
 
                     statusMessage.text = "Profile Loaded:  " + (driver + 1)
                     statusImage.source = "assets/images/INFO.png"
@@ -351,7 +382,7 @@ Item {
                     launchAimScreen.visible = false
                 }
             }
-            else if(counter === 9 && antiLagScreen.visible === true)
+            else if(counter === 6 && antiLagScreen.visible === true)
             {
                 if(antiLagObj.antiLag !== JSON.antiLag)
                 {
@@ -362,13 +393,13 @@ Item {
                     statusMessage.font.pixelSize = 20
                     animator.statusUpdateAnimation_START()
 
-                    counter = 9
+                    counter = 6
                     currentSet = 4
                     antiLagScreen.visible = false
                 }
                 else
                 {
-                    counter = 9
+                    counter = 6
                     currentSet = 4
                     antiLagScreen.visible = false
                 }
@@ -391,12 +422,28 @@ Item {
                 counter = 1
                 currentSet = 1
             }
+            else if(counter < 100)
+            {
+                animator.animationCenterSpeedometer_START()
+                animator.animationLeft_START()
+                counter = 0
+                currentSet = 1
+                menuShown = false
+            }
         }
     }
 
     function downPress() {
         if(vehicleInfo.vehicleSpeed === 0) {
-            if (gameMenuVisible && pongGame.visible === false) {
+            if (pacManWindow.visible === true)
+            {
+                pacManGame.handleKeyPress("DOWN")
+            }
+            else if (flappyBirdGame.visible === true)
+            {
+                flappyBirdGame.handleKeyPress("DOWN")
+            }
+            else if (gameMenuVisible && pongGame.visible === false) {
                 if (gameMenuCounter < gameMenu.getGameList() - 1) {
                     gameMenuCounter = gameMenuCounter + 1
                 }
@@ -421,10 +468,6 @@ Item {
             {
                 counter = 3
             }
-            else if(engineInfoScreen.visible === true)
-            {
-                counter = 11
-            }
             else if(tractionControlScreen.visible === true && tract.tractionSwitch > 0)
             {
                 counter = 4
@@ -441,7 +484,7 @@ Item {
             }
             else if(antiLagScreen.visible === true && antiLagObj.antiLag > 0)
             {
-                counter = 9
+                counter = 6
                 if(antiLagObj.antiLag !== 1){
                     antiLagObj.antiLag = antiLagObj.antiLag - 1
                 }
@@ -454,23 +497,28 @@ Item {
             {
                 currentSet = 1
             }
-            else if(counter > 11 && currentSet === 4)
+            else if(counter > 8 && currentSet === 4)
             {
                 currentSet = 5
-                counter = 12
+                counter = 9
             }
-            else if(counter > 12 && currentSet === 5)
+            else if(counter > 9 && currentSet === 5)
             {
                 counter = 0
                 currentSet = 1
             }
-            else if(currentSet === 3 && counter > 8)
+            else if(currentSet === 3 && counter === 103)
             {
-                counter = 6
+                currentSet = 6
+            }
+            else if(currentSet === 6 && counter === 106)
+            {
+                counter = 100
+                currentSet = 3
             }
             else if(counter > 5 && currentSet === 2)
             {
-                counter = 9
+                counter = 6
                 currentSet = 4
             }
         }
@@ -478,7 +526,15 @@ Item {
 
     function upPress() {
         if(vehicleInfo.vehicleSpeed === 0) {
-            if (gameMenuVisible && pongGame.visible === false) {
+            if (pacManWindow.visible === true)
+            {
+                pacManGame.handleKeyPress("UP")
+            }
+            else if (flappyBirdGame.visible === true)
+            {
+                flappyBirdGame.handleKeyPress("UP")
+            }
+            else if (gameMenuVisible && pongGame.visible === false) {
                 if (gameMenuCounter === 0) {
                     gameMenuCounter = gameMenu.getGameList() - 1
                 }
@@ -489,9 +545,34 @@ Item {
             else if (pongGame.visible) {
                 pongGame.movePaddleUp()
             }
-            else {
+            else if (columnBar.x > 0 && menuShown === true && engineInfoScreen.visible === false) {
                 counter = counter - 1
             }
+            if(menuShown === false && engineInfoScreen.visible === false) {
+                if(rootWindow.ecuFault === true) {
+                    statusImage.source = "assets/images/WARN.png"
+                    statusMessage.text = faultMessage
+                }
+                else {
+                    statusImage.source = "assets/images/kachow.png"
+                    statusMessage.text = "KACHOW!"
+                }
+                statusMessage.text.pixelSize = 20
+                animator.statusUpdateAnimation_START()
+            }
+            else if(engineInfoScreen.visible === true || extraInfoWidgets.visible === true) {
+                if(rootWindow.ecuFault === true) {
+                    statusImageAdvancedView.source = "assets/images/WARN.png"
+                    statusMessageAdvancedView.text = faultMessage
+                }
+                else {
+                    statusImageAdvancedView.source = "assets/images/kachow.png"
+                    statusMessageAdvancedView.text = "KACHOW!"
+                }
+                statusMessageAdvancedView.text.pixelSize = 20
+                animator.advancedViewStatusUpdateAnimation_START()
+            }
+
 
             if(brakeBiasScreen.visible === true && brakeBiasObject.biasVal < 100 && brakeBiasObject.rearBrakeBias > 0)
             {
@@ -519,7 +600,7 @@ Item {
             }
             else if(antiLagScreen.visible === true && antiLagObj.antiLag < 11)
             {
-                counter = 9
+                counter = 6
                 if(antiLagObj.antiLag !== 10){
                     antiLagObj.antiLag = antiLagObj.antiLag + 1
                 }
@@ -527,26 +608,32 @@ Item {
             else if(counter < 0)
             {
                 currentSet = 5
-                counter = 12
+                counter = 9
             }
             else if(counter == 2)
             {
                 currentSet = 1
                 counter = 2
             }
-            else if(counter < 9 && currentSet === 4)
+            else if(counter < 6 && currentSet === 4)
             {
                 counter = 5
                 currentSet = 2
             }
-            else if(counter < 12 && currentSet === 5)
-            {
-                counter = 11
-                currentSet = 4
-            }
-            else if(counter < 6 && currentSet === 3)
+            else if(counter < 9 && currentSet === 5)
             {
                 counter = 8
+                currentSet = 4
+            }
+            else if(counter < 100 && currentSet === 3)
+            {
+                counter = 105
+                currentSet = 6
+            }
+            else if(counter < 103 && currentSet === 6)
+            {
+                counter = 102
+                currentSet = 3
             }
         }
     }

@@ -13,7 +13,7 @@
 #include <QtQml>
 #include <QVector>
 
-
+#include <cmath>
 
 class CANmanager : public QObject
 {
@@ -27,6 +27,7 @@ class CANmanager : public QObject
     Q_PROPERTY(QString oilTemp READ oilTemp WRITE setOilTemp NOTIFY oilTempChanged FINAL)
     Q_PROPERTY(QString fuelTemp READ fuelTemp WRITE setFuelTemp NOTIFY fuelTempChanged FINAL)
     Q_PROPERTY(bool ecuFault READ ecuFault WRITE setEcuFault NOTIFY ecuFaultChanged FINAL)
+    Q_PROPERTY(QString faultMessage READ faultMessage WRITE setFaultMessage NOTIFY faultMessageChanged FINAL)
     Q_PROPERTY(QString exhaustTemp READ exhaustTemp WRITE setExhaustTemp NOTIFY exhaustTempChanged FINAL)
     Q_PROPERTY(QString inletAirTemp READ inletAirTemp WRITE setInletAirTemp NOTIFY inletAirTempChanged FINAL)
     Q_PROPERTY(int inletManifoldPres READ inletManifoldPres WRITE setInletManifoldPres NOTIFY inletManifoldPresChanged FINAL)
@@ -101,6 +102,9 @@ public:
     double exhaustLambda() const;
     void setExhaustLambda(double newExhaustLambda);
 
+    QString faultMessage() const;
+    void setFaultMessage(const QString &newFaultMessage);
+
 signals:
     void vehicleSpeedChanged();
     void ecuFaultChanged();
@@ -118,10 +122,14 @@ signals:
     void fuelMixAimChanged();
     void exhaustLambdaChanged();
 
+    void faultMessageChanged();
+
 private slots:
     void CAN_Loop();
 
 private:
+    void faultFlagCheck(uint8_t);
+
     QTimer *timer;
     QCanBusDevice *can_device;
     QCanBusFrame frame;
@@ -131,6 +139,7 @@ private:
 
     int m_vehicleSpeed;
     bool m_ecuFault;
+    QString m_faultMessage;
 
     int m_rearBrakePres;
     int m_frontBrakePres;

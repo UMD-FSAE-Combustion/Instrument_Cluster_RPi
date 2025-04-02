@@ -6,17 +6,50 @@ import QtQuick.Window
 
 Item
 {
-    //property int tractionValue
     property int tractionSwitch: JSON.tractionSwitch
 
     Rectangle
     {
-        //id: tractionControlScreen
-
         anchors.fill: parent
 
         radius: 20
         color: "#1E1E1E"
+
+        Rectangle {
+            id: backgroundColor
+            x: 75
+            y: 145
+            width: 220
+            height: 150
+
+            color {
+                r:  if(tractionSwitch > 5) { ((255 - (51 * tractionSwitch)) / 255) }
+                    else { 1 }
+
+                g:  if(tractionSwitch < 5) { ((51* tractionSwitch) / 255) }
+                    else { 1 }
+
+                b: 0
+                a: 1
+            }
+        }
+
+        Image
+        {
+            id: tractionLogo
+            anchors
+            {
+                top: parent.top
+                right: parent.right
+                topMargin: 140
+                leftMargin: 40
+            }
+
+            width: 239
+            height: 174
+            source: "assets/images/TractionControl.png"
+        }
+
 
         Column
         {
@@ -80,6 +113,17 @@ Item
                         leftMargin: 110.5
                     }
 
+                    Rectangle {
+                        id: displayValBkgrnd2
+                        color: "#4b4b4b"
+                        border.color: "#3d3d3d"
+                        border.width: 3
+                        anchors.centerIn: tractionDisplayValue
+                        width: 163
+                        height: 53
+                        radius: 20
+                    }
+
                     Text
                     {
                         id: tractionDisplayValue
@@ -88,35 +132,10 @@ Item
                         font.pixelSize: 40
                         font.bold: true
 
-                        anchors.centerIn: parent
-                    }
-
-                    Text
-                    {
-                        text: "⯅"
-                        width: 25
-                        font.pixelSize: 25
-                        font.bold: true
-                        color: "white"
-                        anchors
-                        {
-                            margins: 10
-                            top: anchorBox.top
-                            horizontalCenter: tractionDisplayValue.horizontalCenter
-                        }
-                    }
-
-                    Text
-                    {
-                        text: "⯆"
-                        width: 25
-                        font.pixelSize: 25
-                        font.bold: true
-                        color: "white"
-                        anchors
-                        {
-                            bottom: anchorBox.bottom
-                            horizontalCenter: tractionDisplayValue.horizontalCenter
+                        anchors{
+                            horizontalCenter: parent.horizontalCenter
+                            top: parent.top
+                            topMargin: -125
                         }
                     }
                 }

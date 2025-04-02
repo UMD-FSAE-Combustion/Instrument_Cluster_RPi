@@ -10,12 +10,46 @@ Item
 
     Rectangle
     {
-        //id: antilagControlScreen
+        id: launchAimScreen
 
         anchors.fill: parent
-
         radius: 20
         color: "#1E1E1E"
+
+        Rectangle {
+            id: backgroundColor
+            x: 55
+            y: 145
+            width: 200
+            height: 160
+
+            color {
+                r:  if(launchAim > 5) { ((255 - (51 * launchAim)) / 255) }
+                    else { 1 }
+
+                g:  if(launchAim < 5) { ((51* launchAim) / 255) }
+                    else { 1 }
+
+                b: 0
+                a: 1
+            }
+        }
+
+        Image
+        {
+            id: carRear
+            anchors
+            {
+                top: parent.top
+                left: parent.left
+                topMargin: 145
+                leftMargin: 45
+            }
+
+            width: 231
+            height: 180
+            source: "assets/images/LaunchAim.png"
+        }
 
         Column
         {
@@ -64,61 +98,48 @@ Item
                     anchors.horizontalCenter: parent.horizontalCenter
                     y: barSlider.position * (barSlider.height - height)
                 }
+            }
+        }
 
-                Rectangle
-                {
-                    id: anchorBox
-                    width: 80
-                    height: 130
-                    color: "transparent"
+        Rectangle
+        {
+            id: displayBox
+            width: 80
+            height: 130
+            color: "transparent"
 
-                    anchors
-                    {
-                        left: parent.left
-                        verticalCenter: parent.verticalCenter
-                        leftMargin: 110.5
-                    }
+            anchors
+            {
+                left: barSliderHolder.right
+                verticalCenter: parent.verticalCenter
+                leftMargin: 80
+            }
 
-                    Text
-                    {
-                        id: launchAimDisplayValue
-                        text: launchAim
-                        color: "white"
-                        font.pixelSize: 40
-                        font.bold: true
+            Rectangle {
+                id: displayValBkgrnd2
+                color: "#4b4b4b"
+                border.color: "#3d3d3d"
+                border.width: 3
+                anchors.centerIn: launchAimDisplayValue
+                width: 163
+                height: 53
+                radius: 20
+            }
 
-                        anchors.centerIn: parent
-                    }
+            Text
+            {
+                id: launchAimDisplayValue
+                text: launchAim
+                color: "white"
+                font.pixelSize: 40
+                font.bold: true
 
-                    Text
-                    {
-                        text: "⯅"
-                        width: 25
-                        font.pixelSize: 25
-                        font.bold: true
-                        color: "white"
-                        anchors
-                        {
-                            margins: 10
-                            top: anchorBox.top
-                            horizontalCenter: launchAimDisplayValue.horizontalCenter
-                        }
-                    }
-
-                    Text
-                    {
-                        text: "⯆"
-                        width: 25
-                        font.pixelSize: 25
-                        font.bold: true
-                        color: "white"
-                        anchors
-                        {
-                            bottom: anchorBox.bottom
-                            horizontalCenter:launchAimDisplayValue.horizontalCenter
-                        }
-                    }
+                anchors{
+                    horizontalCenter: parent.horizontalCenter
+                    top: parent.top
+                    topMargin: -125
                 }
+
             }
         }
     }
@@ -129,5 +150,4 @@ Item
 
         launchAim = JSON.launchAim
     }
-
 }

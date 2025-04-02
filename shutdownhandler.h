@@ -14,7 +14,7 @@ public:
     //Q_INVOKABLE IS TEMPORARY, WILL DELETE LATER
     Q_INVOKABLE static void powerOFF() {
         qDebug() << QSysInfo::productType();
-        if(QSysInfo::productType() == "pop")
+        if(QSysInfo::productType() != "debian")
             qDebug() << "VM detected, skipping shutdown";
         else if (QSysInfo::productType() == "debian")
         {

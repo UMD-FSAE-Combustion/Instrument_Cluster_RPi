@@ -1,12 +1,10 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
-#include <QUrl>
 
 #include "jsonmanager.h"
 #include "canmanager.h"
 #include "gpiohandler.h"
-
 
 int main(int argc, char *argv[])
 {

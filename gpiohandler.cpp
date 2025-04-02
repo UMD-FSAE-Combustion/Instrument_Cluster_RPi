@@ -5,8 +5,8 @@
 #define BUTTON_LEFT 27
 #define BUTTON_RIGHT 22
 
-#define PRESS_DELAY 100
-#define HOLD_DELAY 250
+#define PRESS_DELAY 100 //millis
+#define HOLD_DELAY 250 //millis
 
 #define SHUTDOWN_PIN NULL //add later
 
@@ -16,7 +16,9 @@ GPIOhandler::GPIOhandler(QObject *parent)
     : QObject{parent}
 {
     InterruptPtr = this;
-    if(QSysInfo::productType() != "pop")
+    //if(QSysInfo::productType() == "debian")
+    QString cpuArc = QSysInfo::currentCpuArchitecture();
+    if(cpuArc == "arm" || cpuArc == "arm64" )
     {
         if(wiringPiSetupGpio() == -1)
             qDebug() << "GPIO init failed...";

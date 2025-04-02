@@ -2,9 +2,9 @@ import QtQuick
 import QtQuick.Layouts
 
 Item {
-    property int gameList: 2
-
+    property int gameList: 3 // Increased from 2 to 3 to include Flappy Bird
     id: gameMenuRoot
+
     anchors {
         top: parent.top
         bottom: parent.bottom
@@ -36,7 +36,6 @@ Item {
         }
     }
 
-
     Loader {
         id: gameMenuLoader
         sourceComponent: gameMenuComponent
@@ -44,6 +43,7 @@ Item {
 
     Component {
         id: gameMenuComponent
+
         Rectangle {
             id: gameMenuBackground
             color: "#1E1E1E"
@@ -52,13 +52,13 @@ Item {
 
             GridLayout {
                 id: layoutContainer
-
                 width: parent.width
                 anchors {
                     top: parent.top
                     left: parent.left
                     right: parent.right
                 }
+
                 columns: 1
                 rows: gameList
                 rowSpacing: 5
@@ -71,11 +71,11 @@ Item {
                     Layout.rightMargin: 5
                     Layout.leftMargin: 5
                     radius: 20
-                    color: (gameMenuCounter % 2 === 0) ? "#00a8ff" : "white"
+                    color: (gameMenuCounter % 3 === 0) ? "#00a8ff" : "white"
 
                     Text {
                         text: qsTr("Pong")
-                        color: (gameMenuCounter % 2 === 0) ? "white" : "black"
+                        color: (gameMenuCounter % 3 === 0) ? "white" : "black"
                         anchors.centerIn: parent
                         font.pixelSize: 30
                         font.bold: true
@@ -89,11 +89,29 @@ Item {
                     Layout.rightMargin: 5
                     Layout.leftMargin: 5
                     radius: 20
-                    color: (gameMenuCounter === 1) ? "#00a8ff" : "white"
+                    color: (gameMenuCounter % 3 === 1) ? "#00a8ff" : "white"
 
                     Text {
                         text: qsTr("Pacman")
-                        color: (gameMenuCounter === 1) ? "white" : "black"
+                        color: (gameMenuCounter % 3 === 1) ? "white" : "black"
+                        anchors.centerIn: parent
+                        font.pixelSize: 30
+                        font.bold: true
+                    }
+                }
+
+                Rectangle {
+                    id: flappyBirdGame
+                    height: 130
+                    width: 290
+                    Layout.rightMargin: 5
+                    Layout.leftMargin: 5
+                    radius: 20
+                    color: (gameMenuCounter % 3 === 2) ? "#00a8ff" : "white"
+
+                    Text {
+                        text: qsTr("Flappy Bird")
+                        color: (gameMenuCounter % 3 === 2) ? "white" : "black"
                         anchors.centerIn: parent
                         font.pixelSize: 30
                         font.bold: true
