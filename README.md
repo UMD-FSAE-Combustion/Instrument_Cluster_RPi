@@ -69,7 +69,7 @@ sudo apt install libxcb-cursor0 libxcb-cursor-dev
 ```
 Finally, download the application and run it
 ```
-git clone https://github.com/UMD-FSAE-Combustion/Dash-Code-Wolverine-Racing.git
+git clone https://github.com/UMD-FSAE-Combustion/Wolverine-Racing-Dash.git
 cd linux-dash-code-Wolverine-Racing
 ./app_Dash
 ```
