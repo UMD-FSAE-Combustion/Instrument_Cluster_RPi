@@ -16,7 +16,9 @@ GPIOhandler::GPIOhandler(QObject *parent)
     : QObject{parent}
 {
     InterruptPtr = this;
-    if(QSysInfo::productType() != "pop")
+    //if(QSysInfo::productType() == "debian")
+    QString cpuArc = QSysInfo::currentCpuArchitecture();
+    if(cpuArc == "arm" || cpuArc == "arm64" )
     {
         if(wiringPiSetupGpio() == -1)
             qDebug() << "GPIO init failed...";
