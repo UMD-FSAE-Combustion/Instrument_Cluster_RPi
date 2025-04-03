@@ -56,7 +56,7 @@ Controls can be found <a href="#how-to-use">here</a>, or in the readme file incl
 
 
 ### LINUX
-To run on a Debian-based desktop environment, the following is required: 
+To run on a Debian-based desktop environment, the following is required: <br>
 First, download and install WiringPi
 ```
 git clone https://github.com/WiringPi/WiringPi
@@ -74,7 +74,7 @@ cd linux-dash-code-Wolverine-Racing
 ./app_Dash
 ```
 
-To run fully on a Raspberry Pi (running RaspianOS), a CAN device of some sort is required and socketCAN drivers must be loaded.
+To take full advantage of the system, a CAN device of some sort is required and socketCAN drivers must be loaded.
 CAN interface creation varies by hardware device, so refer to the device instructions to enable a socketCAN interface.
 If can messages need to be viewed for any reason, it's recommended to use `can-utils`:
 ```
@@ -91,8 +91,8 @@ This software uses the following open source packages:
 ## License
 
 MIT
+##
 
----
 <h1 align="center">
   <br>
   <a href="WolverineRacing"><img src="https://github.com/Mgharbieh/Instrument_Cluster_RPi/blob/main/assets/images/teamlogo.png" alt="WolverineRacing" width="650"></a>
