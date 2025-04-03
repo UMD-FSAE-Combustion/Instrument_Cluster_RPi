@@ -91,8 +91,8 @@ This software uses the following open source packages:
 ## License
 
 MIT
+##
 
----
 <h1 align="center">
   <br>
   <a href="WolverineRacing"><img src="https://github.com/Mgharbieh/Instrument_Cluster_RPi/blob/main/assets/images/teamlogo.png" alt="WolverineRacing" width="650"></a>
