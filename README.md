@@ -54,6 +54,7 @@ Click on the header above to download the .zip file containing the Windows demo 
 The demo will support most UI functions, including animations, easter eggs, and games, but most backend functionality is removed from the demo.
 Controls can be found <a href="#how-to-use">here</a>, or in the readme file included in the zip file.
 
+---
 
 ### LINUX
 To run on a Debian-based desktop environment, the following is required: <br>
