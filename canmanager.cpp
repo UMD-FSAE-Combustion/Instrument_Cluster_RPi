@@ -91,7 +91,6 @@ void CANmanager::processFrames()
 {
     QCanBusFrame frame = can_device->readFrame();
     QByteArray bytes = frame.payload();
-    //qDebug() << bytes;
 
     qDebug() << frame.frameId();
     switch(frame.frameId())
@@ -150,10 +149,10 @@ void CANmanager::processFrames()
     }
     case 0x655:
     {
-        uint16_t frontPressure = bytes.at(0)<< 8 | bytes.at(1);
-        uint16_t rearPressure = bytes.at(2)<< 8 | bytes.at(3);
-        setFrontBrakePres(frontPressure * 100);
-        setRearBrakePres(rearPressure * 100);
+        uint16_t frontPressure = (bytes.at(0)<< 8 | bytes.at(1)) * 100;
+        uint16_t rearPressure = (bytes.at(2)<< 8 | bytes.at(3) * 100);
+        setFrontBrakePres(frontPressure / 100000); //convert from pascal to bar
+        setRearBrakePres(rearPressure / 100000);
         break;
     }
     case 0x659:
