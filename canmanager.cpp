@@ -59,11 +59,6 @@ CANmanager::CANmanager()
 
     filter.frameIdMask = 0xFFFu;
     filter.format = QCanBusDevice::Filter::MatchBaseFormat;
-    filter.frameId = 0x64A;
-    filterList.append(filter);
-
-    filter.frameId = 0x649;
-    filterList.append(filter);
 
     filter.frameId = 0x640;
     filterList.append(filter);
@@ -71,7 +66,22 @@ CANmanager::CANmanager()
     filter.frameId = 0x641;
     filterList.append(filter);
 
+    filter.frameId = 0x649;
+    filterList.append(filter);
+
+    filter.frameId = 0x64A;
+    filterList.append(filter);
+
+    filter.frameId = 0x64C;
+    filterList.append(filter);
+
     filter.frameId = 0x651;
+    filterList.append(filter);
+
+    filter.frameId = 0x655;
+    filterList.append(filter);
+
+    filter.frameId = 0x659;
     filterList.append(filter);
 
     sendBuffer.replace(4, 0); // LAUNCH_CTL
@@ -149,10 +159,10 @@ void CANmanager::processFrames()
     }
     case 0x655:
     {
-        uint16_t frontPressure = (bytes.at(0)<< 8 | bytes.at(1)) * 100;
-        uint16_t rearPressure = (bytes.at(2)<< 8 | bytes.at(3) * 100);
-        setFrontBrakePres(frontPressure / 100000); //convert from pascal to bar
-        setRearBrakePres(rearPressure / 100000);
+        uint16_t frontPressure = (bytes.at(0)<< 8 | bytes.at(1));
+        uint16_t rearPressure = (bytes.at(2)<< 8 | bytes.at(3));
+        setFrontBrakePres(frontPressure / 1000); //convert from pascal to bar
+        setRearBrakePres(rearPressure / 1000);
         break;
     }
     case 0x659:
