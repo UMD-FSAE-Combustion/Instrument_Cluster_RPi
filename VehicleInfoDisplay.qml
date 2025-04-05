@@ -90,7 +90,20 @@ Item
                             width: widget1ProgressBar.visualPosition * parent.width
                             height: parent.height
                             radius: 5
-                            color: "#00FF00"
+
+                            color {
+                                r: if(rearBrakePres <= 100) { 0 }
+                                   else if (rearBrakePres > 100 && rearBrakePres <= 125) {(10.2 * (rearBrakePres - 100)) / 255}
+                                   else if(rearBrakePres > 125) { 1 }
+
+                                g: if(rearBrakePres < 125) { 1 }
+                                   else if (rearBrakePres >= 125 && rearBrakePres < 145) {(255 - (12.75 * (rearBrakePres - 125))) / 255}
+                                   else if(rearBrakePres >= 145) { 0 }
+
+                                b: 0
+                                a: 1
+                            }
+
                             visible: !widget1ProgressBar.indeterminate
                         }
                     }
@@ -232,7 +245,20 @@ Item
                             width: widget2ProgressBar.visualPosition * parent.width
                             height: parent.height
                             radius: 5
-                            color: "#00FF00"
+
+                            color {
+                                r: if(frontBrakePres <= 100) { 0 }
+                                   else if (frontBrakePres > 100 && frontBrakePres <= 125) {(10.2 * (frontBrakePres - 100)) / 255}
+                                   else if(frontBrakePres > 125) { 1 }
+
+                                g: if(frontBrakePres < 125) { 1 }
+                                   else if (frontBrakePres >= 125 && frontBrakePres < 145) {(255 - (12.75 * (frontBrakePres - 125))) / 255}
+                                   else if(frontBrakePres >= 145) { 0 }
+
+                                b: 0
+                                a: 1
+                            }
+
                             visible: !widget2ProgressBar.indeterminate
                         }
                     }
@@ -462,6 +488,5 @@ Item
                 }
             }
         }
-
     }
 }
