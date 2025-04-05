@@ -18,7 +18,8 @@ QVector<int> CANmanager::sendBuffer(8);
 CANmanager::CANmanager()
 {
     QString errorString;
-    if(QSysInfo::productType() != "debian")
+    QString cpuArc = QSysInfo::currentCpuArchitecture();
+    if(cpuArc != "arm" && cpuArc != "arm64" )
     {
         can_device = QCanBus::instance()->createDevice(QStringLiteral("socketcan"), QStringLiteral("vcan0"), &errorString);
         qDebug() << "Virtual CAN interface created";
@@ -45,7 +46,8 @@ CANmanager::CANmanager()
         }
         else
         {
-            QProcess::execute("/usr/bin/sudo", QStringList() << "/home/pi/scripts/can-up.sh");
+            QString scriptPath = (qApp->applicationDirPath() + "/scripts/can-up.sh");
+            QProcess::execute("/usr/bin/sudo", QStringList() << scriptPath);
 
             if(can_device->connectDevice())
                 qDebug() << "CAN Device connected!";
@@ -161,7 +163,7 @@ void CANmanager::processFrames()
     {
         uint16_t frontPressure = (bytes.at(0)<< 8 | bytes.at(1));
         uint16_t rearPressure = (bytes.at(2)<< 8 | bytes.at(3));
-        setFrontBrakePres(frontPressure / 1000); //convert from pascal to bar
+        setFrontBrakePres(frontPressure / 1000); //convert from pascal to bar [motec already divides by 100 when transmitting]
         setRearBrakePres(rearPressure / 1000);
         break;
     }

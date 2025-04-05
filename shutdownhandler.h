@@ -14,9 +14,9 @@ public:
     //Q_INVOKABLE IS TEMPORARY, WILL DELETE LATER
     Q_INVOKABLE static void powerOFF() {
         qDebug() << QSysInfo::productType();
-        if(QSysInfo::productType() != "debian")
+        if(QSysInfo::prettyProductName() != "Debian GNU/Linux 12 (Bookworm)")
             qDebug() << "VM detected, skipping shutdown";
-        else if (QSysInfo::productType() == "debian")
+        else if (QSysInfo::prettyProductName() == "Debian GNU/Linux 12 (Bookworm)")
         {
             QProcess proc;
             proc.startDetached("/usr/bin/sudo", QStringList() << "shutdown" << "-h" << "now");
