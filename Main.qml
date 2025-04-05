@@ -401,7 +401,7 @@ Window
     {
         id: speedoUnitInfoScreen
 
-        x: 130 //110?
+        x: 140 //130 //110?
         y: -20
         text: qsTr("MPH")
         font.pixelSize: 40
@@ -823,7 +823,7 @@ Window
             }
             else if (event.key === Qt.Key_S) {
                 if(vehicleInfo.vehicleSpeed === 0) {
-                    vehicleInfo.vehicleSpeed = 17
+                    vehicleInfo.vehicleSpeed = 70
                 } else {
                     vehicleInfo.vehicleSpeed = 0
                 }
