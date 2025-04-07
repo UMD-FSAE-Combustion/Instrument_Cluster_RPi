@@ -5,15 +5,13 @@ import QtQuick.Controls
 import QtQuick.Layouts
 import QtQuick.Controls.Material
 
-Window
-{
+Window {
     id: rootWindow
 
     property var info: JSON
     property var canManager: canBus
     property var gpioInput: gpio
 
-    property bool loadingComplete: false
     property int currentSet: 1
     property int counter: 0
 
@@ -71,169 +69,21 @@ Window
     Connections {
         target: gpioInput
 
-        function onButtonRight() {inputManager.rightPress()}
-        function onButtonLeft() {inputManager.leftPress()}
-        function onButtonTop() {inputManager.upPress()}
-        function onButtonBottom() {inputManager.downPress()}
+        function onButtonRight() { inputManager.rightPress() }
+        function onButtonLeft() { inputManager.leftPress() }
+        function onButtonTop() { inputManager.upPress() }
+        function onButtonBottom() { inputManager.downPress() }
     }
 
     InputManager {
         id: inputManager
     }
 
-    Image
-    {
-        id: loadingImage
-        anchors.centerIn: parent
-        source: "assets/images/teamlogo.png"
-        visible: !rootWindow.loadingComplete
-
-
-        Rectangle {
-            id: dotContainer
-            width: 120
-            height: 40
-            anchors.horizontalCenter: parent.horizontalCenter
-            anchors.top: loadingImage.bottom
-            anchors.topMargin: 10
-            color: "transparent"
-
-
-            Rectangle
-            {
-                id: dot_1
-                width: 20
-                height: 20
-                color: "#FFCB05"
-                radius: 100
-                anchors.left: parent.left
-                SequentialAnimation
-                {
-                    running: true
-                    loops: Animation.Infinite
-                    ScaleAnimator
-                    {
-                        target: dot_1
-                        from: 1
-                        to: 0
-                        duration: 1840
-                    }
-                    ScaleAnimator
-                    {
-                        target: dot_1
-                        from: 0
-                        to: 1
-                        duration: 1840
-                    }
-                }
-            }
-
-            Rectangle
-            {
-                id: dot_2
-                width: 20
-                height: 20
-                color: "#FFCB05"
-                radius: 100
-                anchors.left: dot_1.right
-                anchors.leftMargin: 10
-                SequentialAnimation
-                {
-                    running: true
-                    PauseAnimation { duration: 120 }
-                    SequentialAnimation {
-                        loops: Animation.Infinite
-                        ScaleAnimator
-                        {
-                            target: dot_2
-                            from: 1
-                            to: 0
-                            duration: 1840
-                        }
-                        ScaleAnimator
-                        {
-                            target: dot_2
-                            from: 0
-                            to: 1
-                            duration: 1840
-                        }
-                    }
-                }
-            }
-
-
-            Rectangle
-            {
-                id: dot_3
-                width: 20
-                height: 20
-                color: "#FFCB05"
-                radius: 100
-                anchors.left: dot_2.right
-                anchors.leftMargin: 10
-                SequentialAnimation
-                {
-                    running: true
-                    PauseAnimation { duration: 240 }
-                    SequentialAnimation
-                    {
-                        loops: Animation.Infinite
-                        ScaleAnimator
-                        {
-                            target: dot_3
-                            from: 1
-                            to: 0
-                            duration: 1840
-                        }
-                        ScaleAnimator
-                        {
-                            target: dot_3
-                            from: 0
-                            to: 1
-                            duration: 1840
-                        }
-                    }
-                }
-            }
-
-            Rectangle
-            {
-                id: dot_4
-                width: 20
-                height: 20
-                color: "#FFCB05"
-                radius: 100
-                anchors.left: dot_3.right
-                anchors.leftMargin: 10
-                SequentialAnimation
-                {
-                    running: true
-                    PauseAnimation { duration: 360 }
-                    SequentialAnimation
-                    {
-                        loops: Animation.Infinite
-                        ScaleAnimator
-                        {
-                            target: dot_4
-                            from: 1
-                            to: 0
-                            duration: 1840
-                        }
-                        ScaleAnimator
-                        {
-                            target: dot_4
-                            from: 0
-                            to: 1
-                            duration: 1840
-                        }
-                    }
-                }
-            }
-        }
+    LoadingScreen {
+        id: loadApp
     }
 
-    Timer
-    {
+    Timer {
         id: loadingTimer
         interval: 2000
         running: true
@@ -241,43 +91,37 @@ Window
         onTriggered: loadingDone()
     }
 
-    Rectangle
-    {
+    Rectangle {
         id: uselessRectangle
-        anchors
-        {
+        anchors {
             top: parent.top
             right: parent.right
         }
         width: 1040
         height: 0
         color: "transparent"
-        visible: rootWindow.loadingComplete
+        visible: loadApp.loadingComplete
     }
 
-    Image
-    {
+    Image {
         id: teamLogo
-        anchors
-        {
+        anchors {
             top: parent.top
             right: parent.right
         }
         width: 70
         height: 70
         source: "assets/images/teamlogo2.png"
-        visible: rootWindow.loadingComplete
+        visible: loadApp.loadingComplete
     }
 
-    Rectangle
-    {
+    Rectangle {
         id: visualRoot
         width: 800
         height: 480
         color: "transparent"
 
-        Rectangle
-        {
+        Rectangle {
             id: speedometer
             anchors.centerIn: visualRoot
             width: 200
@@ -285,54 +129,48 @@ Window
 
             color: "transparent"
 
-            Rectangle
-            {
+            Rectangle {
                 id: speedoNumber
                 width: 150
                 height: 150
                 color: "transparent"
                 anchors.centerIn: speedometer
 
-                Text
-                {
+                Text {
                     text: vehicleInfo.vehicleSpeed
                     color: "white"
                     anchors.centerIn: speedoNumber
                     font.pixelSize: 110
                     font.bold: true
-                    visible: rootWindow.loadingComplete
+                    visible: loadApp.loadingComplete
                 }
             }
 
-            Rectangle
-            {
+            Rectangle {
                 id: speedoUnit
                 width: 100
                 height: 5
                 color: "transparent"
 
-                anchors
-                {
+                anchors {
                     top: speedoNumber.bottom
                     horizontalCenter: speedoNumber.horizontalCenter
                     topMargin: 10
                 }
 
-                Text
-                {
+                Text {
                     anchors.centerIn: parent
                     text: qsTr("MPH")
                     font.pixelSize: 60
                     font.bold: true
                     color: "#1e272e"
-                    visible: rootWindow.loadingComplete
+                    visible: loadApp.loadingComplete
                 }
             }
         }
     }
 
-    Rectangle
-    {
+    Rectangle {
         id: iconBar
         width: 800
         height: 60
@@ -340,26 +178,22 @@ Window
 
         y: 15
 
-        Image
-        {
+        Image {
             id: ecuFaultImage
             source: "assets/images/WARN.png"
 
-            anchors
-            {
+            anchors {
                 right: parent.right
                 rightMargin: 80
             }
             visible: false
         }
 
-        Image
-        {
+        Image {
             id: launchControlImage
             source: "assets/images/LC.png"
 
-            anchors
-            {
+            anchors {
                 right: ecuFaultImage.left
                 //rightMargin: 80
             }
@@ -370,8 +204,7 @@ Window
         visible: true
     }
 
-    Rectangle
-    {
+    Rectangle {
         id: lockIcon
         width: 70
         height: 400
@@ -380,15 +213,13 @@ Window
         y: 60
         anchors.right: parent.right
 
-        Image
-        {
+        Image {
             id: speedLock
             source: "assets/images/lock_icon.png"
             height: 40
             width: 30
 
-            anchors
-            {
+            anchors {
                 top: parent.top
                 horizontalCenter: parent.horizontalCenter
             }
@@ -397,8 +228,7 @@ Window
         visible: true
     }
 
-    Text
-    {
+    Text {
         id: speedoUnitInfoScreen
 
         x: 140 //130 //110?
@@ -410,12 +240,10 @@ Window
         visible: false
     }
 
-    Rectangle
-    {
+    Rectangle {
         id: columnBar
 
-        anchors
-        {
+        anchors {
             top: uselessRectangle.bottom
             bottom: parent.bottom
             margins: 15
@@ -434,15 +262,13 @@ Window
         }
     }
 
-    Rectangle
-    {
+    Rectangle {
         id: gameMenuRect
 
         anchors {
             top: uselessRectangle.bottom
             bottom: parent.bottom
             margins: 15
-
         }
         x: rootWindow.width
         width: 300
@@ -457,21 +283,18 @@ Window
         }
     }
 
-    Rectangle
-    {
+    Rectangle {
         id: brakeBiasScreen
         radius: 25
         visible: false
-        anchors
-        {
+        anchors {
             top: columnBar.top
             bottom: columnBar.bottom
             left: columnBar.left
             right: columnBar.right
         }
 
-        BrakeBias
-        {
+        BrakeBias {
             id: brakeBiasObject
             anchors.fill: parent
         }
@@ -529,6 +352,7 @@ Window
         }
     }
 
+
     /*Loader
     {
         id: pacManLoader
@@ -549,93 +373,78 @@ Window
             id:pacManGame
         }
     }*/
-
-    Rectangle
-    {
+    Rectangle {
         id: pacManWindow
-        anchors.fill:parent
+        anchors.fill: parent
         visible: false
 
-        PacMan
-        {
+        PacMan {
             id: pacManGame
         }
     }
 
-    Rectangle
-    {
+    Rectangle {
         id: pacManStartScreen
-        visible:false
+        visible: false
 
-        Image
-        {
+        Image {
             id: mainMenu
             source: "assets/images/pacManMenuScreen.png"
         }
     }
 
-    Rectangle
-    {
+    Rectangle {
         id: tractionControlScreen
         radius: 25
         visible: false
-        anchors
-        {
+        anchors {
             top: columnBar.top
             bottom: columnBar.bottom
             left: columnBar.left
             right: columnBar.right
         }
 
-        TractionControl
-        {
+        TractionControl {
             id: tract
             anchors.fill: parent
         }
     }
 
-    Rectangle
-    {
+    Rectangle {
         id: antiLagScreen
         radius: 25
         visible: false
-        anchors
-        {
+        anchors {
             top: columnBar.top
             bottom: columnBar.bottom
             left: columnBar.left
             right: columnBar.right
         }
 
-        AntilagControl
-        {
+        AntilagControl {
             id: antiLagObj
             anchors.fill: parent
         }
     }
 
-    Rectangle
-    {
+    Rectangle {
         id: launchAimScreen
         radius: 25
         visible: false
-        anchors
-        {
+        anchors {
             top: columnBar.top
             bottom: columnBar.bottom
             left: columnBar.left
             right: columnBar.right
         }
 
-        LaunchAimControl
-        {
+        LaunchAimControl {
             id: launchAimObj
             anchors.fill: parent
         }
     }
 
-    Rectangle
-    {
+    Rectangle {
         id: engineInfoScreen
 
         x: -800
@@ -646,15 +455,13 @@ Window
         color: "transparent"
         visible: false
 
-        VehicleInfoDisplay
-        {
+        VehicleInfoDisplay {
             id: vehicleInfo
             anchors.fill: parent
         }
     }
 
-    Rectangle
-    {
+    Rectangle {
         id: statusUpdate
 
         width: 280 //230
@@ -666,16 +473,14 @@ Window
 
         color: "#1E1E1E"
 
-        Text
-        {
+        Text {
             id: statusMessage
             text: qsTr("Default")
             color: "white"
             font.bold: true
             font.pixelSize: 20
 
-            anchors
-            {
+            anchors {
                 left: statusImage.right
                 right: statusUpdate.right
                 verticalCenter: statusUpdate.verticalCenter
@@ -683,15 +488,13 @@ Window
             }
         }
 
-        Image
-        {
+        Image {
             id: statusImage
             source: "assets/images/INFO.png"
             height: 40
             width: 40
 
-            anchors
-            {
+            anchors {
                 verticalCenter: statusUpdate.verticalCenter
                 left: statusUpdate.left
                 margins: 5
@@ -699,8 +502,7 @@ Window
         }
     }
 
-    Rectangle
-    {
+    Rectangle {
         id: statusUpdateAdvancedView
 
         width: 280 //230
@@ -711,16 +513,14 @@ Window
 
         color: "#1E1E1E"
 
-        Text
-        {
+        Text {
             id: statusMessageAdvancedView
             text: qsTr("Default")
             color: "white"
             font.bold: true
             font.pixelSize: 20
 
-            anchors
-            {
+            anchors {
                 left: statusImageAdvancedView.right
                 right: statusUpdateAdvancedView.right
                 verticalCenter: statusUpdateAdvancedView.verticalCenter
@@ -728,15 +528,13 @@ Window
             }
         }
 
-        Image
-        {
+        Image {
             id: statusImageAdvancedView
             source: "assets/images/INFO.png"
             height: 40
             width: 40
 
-            anchors
-            {
+            anchors {
                 verticalCenter: statusUpdateAdvancedView.verticalCenter
                 left: statusUpdateAdvancedView.left
                 margins: 5
@@ -744,8 +542,7 @@ Window
         }
     }
 
-    Rectangle
-    {
+    Rectangle {
         id: extraInfoWidgets
         width: 800
         height: 360
@@ -753,15 +550,13 @@ Window
         color: "black"
         visible: false
 
-        VehicleInfoDisplayExtraWidgets
-        {
+        VehicleInfoDisplayExtraWidgets {
             id: extraInfoDisplayWidgets
             anchors.fill: parent
         }
     }
 
-    Item
-    {
+    Item {
         focus: true
         Keys.onPressed: (event) =>
         {
@@ -839,7 +634,7 @@ Window
     }
 
     function loadingDone() {
-        rootWindow.loadingComplete = true
+        loadApp.loadingComplete = true
 
         statusMessage.text = "Profile Loaded:  " + (driver + 1)
         statusImage.source = "assets/images/INFO.png"
@@ -871,24 +666,22 @@ Window
 
     function showECUfault() {
         rootWindow.ecuFault = canManager.ecuFault
-        if(rootWindow.ecuFault === true) {
+        if (rootWindow.ecuFault === true) {
             rootWindow.faultMessage = canManager.faultMessage
-            if(engineInfoScreen.visible === true) {
+            if (engineInfoScreen.visible === true) {
                 ecuFaultImage.visible = true
                 statusImageAdvancedView.source = "assets/images/WARN.png"
                 statusMessageAdvancedView.text = faultMessage
                 statusMessageAdvancedView.text.pixelSize = 20
                 animator.advancedViewStatusUpdateAnimation_START()
-            }
-            else {
+            } else {
                 ecuFaultImage.visible = true
                 statusImage.source = "assets/images/WARN.png"
                 statusMessage.text = faultMessage
                 statusMessage.text.pixelSize = 20
                 animator.statusUpdateAnimation_START()
             }
-        }
-        else {
+        } else {
             ecuFaultImage.visible = false
         }
     }

@@ -61,6 +61,7 @@ qt_add_qml_module(appDyno_Info
         QML_FILES LaunchAimControl.qml
         QML_FILES PacMan.qml
         QML_FILES FlappyBird.qml
+        QML_FILES LoadingScreen.qml
 )
 
 
@@ -80,6 +81,7 @@ target_link_libraries(appDyno_Info
     Qt6::SerialBus
     /usr/local/lib/libwiringPi.so
 )
+
 
 include(GNUInstallDirs)
 install(TARGETS appDyno_Info
