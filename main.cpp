@@ -7,14 +7,19 @@
 #include "canmanager.h"
 #include "gpiohandler.h"
 
+void loadingScreen(QQuickView &splashView)
+{
+    splashView.setSource(QUrl("Dyno_Info/LoadingScreen.qml"));
+    splashView.resize(800, 480);
+    splashView.show();
+}
+
 int main(int argc, char *argv[])
 {
     QGuiApplication app(argc, argv);
 
     QQuickView splashView;
-    splashView.setSource(QUrl("LoadingScreen.qml"));
-    splashView.resize(800, 480);
-    splashView.show();
+    loadingScreen(splashView);
 
     QQmlApplicationEngine engine;
 
