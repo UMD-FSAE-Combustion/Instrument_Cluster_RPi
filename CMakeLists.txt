@@ -48,6 +48,7 @@ qt_add_qml_module(appDyno_Info
         assets/images/car-turbocharger.png
         assets/images/TractionControl.png
         assets/images/bird.png
+        assets/images/loadingScreen.gif
         QML_FILES TractionControl.qml
         QML_FILES BrakeBias.qml
         QML_FILES VehicleInfoDisplay.qml
@@ -62,6 +63,7 @@ qt_add_qml_module(appDyno_Info
         QML_FILES PacMan.qml
         QML_FILES FlappyBird.qml
         QML_FILES LoadingScreen.qml
+        QML_FILES SplashScreen.qml
 )
 
 
