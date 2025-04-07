@@ -614,7 +614,7 @@ Window {
                             }
                             else if (event.key === Qt.Key_S) {
                                 if (vehicleInfo.vehicleSpeed === 0) {
-                                    vehicleInfo.vehicleSpeed = 17
+                                    vehicleInfo.vehicleSpeed = 70
                                 } else {
                                     vehicleInfo.vehicleSpeed = 0
                                 }
@@ -622,7 +622,9 @@ Window {
 
                             if (flappyBirdGame.visible) {
                                 flappyBirdGame.handleKeyPress(
-                                    event.key === Qt.Key_Up ? "UP" : event.key === Qt.Key_Space ? "SPACE" : event.key === Qt.Key_Escape ? "ESCAPE" : "")
+                                    event.key === Qt.Key_Up ? "UP" :
+                                    event.key === Qt.Key_Space ? "SPACE" :
+                                    event.key === Qt.Key_Escape ? "ESCAPE" : "")
                             }
                         }
     }
