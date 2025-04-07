@@ -19,7 +19,13 @@ int main(int argc, char *argv[])
     QGuiApplication app(argc, argv);
 
     QQuickView splashView;
-    loadingScreen(splashView);
+    splashView.setSource(QUrl("Dyno_Info/SplashScreen.qml"));
+    splashView.resize(800, 480);
+    splashView.show();
+    app.processEvents();
+
+    while(!splashView.isVisible())
+        app.processEvents();
 
     QQmlApplicationEngine engine;
 
@@ -36,6 +42,7 @@ int main(int argc, char *argv[])
     canBus.updatePayload(CANmanager::THROTTLE_MAP, json.throttleMap());
     canBus.sendLoop();
 
+    engine.rootContext()->setContextProperty("splashScreen", &splashView);
     engine.rootContext()->setContextProperty("JSON", &json);
     engine.rootContext()->setContextProperty("canBus", &canBus);
     engine.rootContext()->setContextProperty("gpio", &gpio);
@@ -50,6 +57,5 @@ int main(int argc, char *argv[])
         Qt::QueuedConnection);
     engine.loadFromModule("Dyno_Info", "Main");
 
-    splashView.close();
     return app.exec();
 }

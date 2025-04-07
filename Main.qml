@@ -8,6 +8,7 @@ import QtQuick.Controls.Material
 Window {
     id: rootWindow
 
+    property var loadingSplash: splashScreen
     property var info: JSON
     property var canManager: canBus
     property var gpioInput: gpio
@@ -81,6 +82,14 @@ Window {
 
     LoadingScreen {
         id: loadApp
+    }
+
+    Timer {
+        id: splashScreenTimer
+        interval: 250
+        running: true
+        repeat: false
+        onTriggered: loadingSplash.close()
     }
 
     Timer {
