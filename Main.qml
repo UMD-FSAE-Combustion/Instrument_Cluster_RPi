@@ -231,7 +231,7 @@ Window {
     Text {
         id: speedoUnitInfoScreen
 
-        x: 130 //110?
+        x: 140 //130 //110?
         y: -20
         text: qsTr("MPH")
         font.pixelSize: 40
@@ -558,75 +558,79 @@ Window {
 
     Item {
         focus: true
-        Keys.onPressed: event => {
-                            if (event.key === Qt.Key_Right) {
-                                inputManager.rightPress()
-                            }
-                            else if (event.key === Qt.Key_Left) {
-                                inputManager.leftPress()
-                            }
-                            else if (event.key === Qt.Key_Down) {
-                                inputManager.downPress()
-                            }
-                            else if (event.key === Qt.Key_Up) {
-                                inputManager.upPress()
-                            }
-                            else if (event.key === Qt.Key_Escape) {
-                                Qt.quit()
-                            }
-                            else if (event.key === Qt.Key_Q) {
-                                Qt.quit()
-                            }
-                            else if (event.key === Qt.Key_W) {
-                                if (engineInfoScreen.visible === true) {
-                                    if (rootWindow.ecuFault === false) {
-                                        rootWindow.ecuFault = true
-                                        ecuFaultImage.visible = true
-                                        statusImageAdvancedView.source = "assets/images/WARN.png"
-                                        rootWindow.faultMessage = "ECU fault"
-                                        statusMessageAdvancedView.text = rootWindow.faultMessage
-                                        statusMessageAdvancedView.text.pixelSize = 20
-                                        animator.advancedViewStatusUpdateAnimation_START()
-                                    }
-                                    else {
-                                        rootWindow.ecuFault = false
-                                        ecuFaultImage.visible = false
-                                    }
-                                }
-                                else {
-                                    if (rootWindow.ecuFault === false) {
-                                        rootWindow.ecuFault = true
-                                        ecuFaultImage.visible = true
-                                        statusImage.source = "assets/images/WARN.png"
-                                        rootWindow.faultMessage = "ECU fault"
-                                        statusMessage.text = rootWindow.faultMessage
-                                        statusMessage.text.pixelSize = 20
-                                        animator.statusUpdateAnimation_START()
-                                    }
-                                    else {
-                                        rootWindow.ecuFault = false
-                                        ecuFaultImage.visible = false
-                                    }
-                                }
-                            }
-                            else if (event.key === Qt.Key_P) {
-                                shutdownHandler.powerOFF()
-                            }
-                            else if (event.key === Qt.Key_S) {
-                                if (vehicleInfo.vehicleSpeed === 0) {
-                                    vehicleInfo.vehicleSpeed = 70
-                                } else {
-                                    vehicleInfo.vehicleSpeed = 0
-                                }
-                            }
+        Keys.onPressed: (event) =>
+        {
+            if (event.key === Qt.Key_Right) {
+                inputManager.rightPress()
+            }
+            else if(event.key === Qt.Key_Left) {
+                inputManager.leftPress()
+            }
+            else if(event.key === Qt.Key_Down) {
+                inputManager.downPress()
+            }
+            else if(event.key === Qt.Key_Up) {
+                inputManager.upPress()
+            }
+            else if(event.key === Qt.Key_Escape) {
+                Qt.quit()
+            }
+            else if(event.key === Qt.Key_Q) {
+                Qt.quit()
+            }
+            else if (event.key === Qt.Key_W) {
+                if(engineInfoScreen.visible === true)
+                {
+                    if(rootWindow.ecuFault === false) {
+                        rootWindow.ecuFault = true
+                        ecuFaultImage.visible = true
+                        statusImageAdvancedView.source = "assets/images/WARN.png"
+                        rootWindow.faultMessage = "ECU fault"
+                        statusMessageAdvancedView.text = rootWindow.faultMessage
+                        statusMessageAdvancedView.text.pixelSize = 20
+                        animator.advancedViewStatusUpdateAnimation_START()
+                    }
+                    else {
+                        rootWindow.ecuFault = false
+                        ecuFaultImage.visible = false
+                    }
+                }
+                else
+                {
+                    if(rootWindow.ecuFault === false)
+                    {
+                        rootWindow.ecuFault = true
+                        ecuFaultImage.visible = true
+                        statusImage.source = "assets/images/WARN.png"
+                        rootWindow.faultMessage = "ECU fault"
+                        statusMessage.text = rootWindow.faultMessage
+                        statusMessage.text.pixelSize = 20
+                        animator.statusUpdateAnimation_START()
+                    }
+                    else {
+                        rootWindow.ecuFault = false
+                        ecuFaultImage.visible = false
+                    }
+                }
+            }
+            else if (event.key === Qt.Key_P) {
+                shutdownHandler.powerOFF()
+            }
+            else if (event.key === Qt.Key_S) {
+                if(vehicleInfo.vehicleSpeed === 0) {
+                    vehicleInfo.vehicleSpeed = 70
+                } else {
+                    vehicleInfo.vehicleSpeed = 0
+                }
+            }
 
-                            if (flappyBirdGame.visible) {
-                                flappyBirdGame.handleKeyPress(
-                                    event.key === Qt.Key_Up ? "UP" :
-                                    event.key === Qt.Key_Space ? "SPACE" :
-                                    event.key === Qt.Key_Escape ? "ESCAPE" : "")
-                            }
-                        }
+            // Handle key press for Flappy Bird if visible
+            if (flappyBirdGame.visible) {
+                flappyBirdGame.handleKeyPress(event.key === Qt.Key_Up ? "UP" :
+                                             event.key === Qt.Key_Space ? "SPACE" :
+                                             event.key === Qt.Key_Escape ? "ESCAPE" : "")
+            }
+        }
     }
 
     function loadingDone() {

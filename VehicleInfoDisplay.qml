@@ -68,7 +68,7 @@ Item
                 {
                     id: widget1ProgressBar
                     from: 0
-                    to: 150
+                    to: 200
                     value: rearBrakePres
                     anchors.centerIn: infoWidget1
 
@@ -90,7 +90,20 @@ Item
                             width: widget1ProgressBar.visualPosition * parent.width
                             height: parent.height
                             radius: 5
-                            color: "#00FF00"
+
+                            color {
+                                r: if(rearBrakePres <= 150) { 0 }
+                                   else if (rearBrakePres > 150 && rearBrakePres <= 175) {(10.2 * (rearBrakePres - 150)) / 255}
+                                   else if(rearBrakePres > 175) { 1 }
+
+                                g: if(rearBrakePres < 175) { 1 }
+                                   else if (rearBrakePres >= 175 && rearBrakePres < 195) {(255 - (12.75 * (rearBrakePres - 175))) / 255}
+                                   else if(rearBrakePres >= 195) { 0 }
+
+                                b: 0
+                                a: 1
+                            }
+
                             visible: !widget1ProgressBar.indeterminate
                         }
                     }
@@ -144,7 +157,7 @@ Item
                     Text
                     {
                         id: infoWidget1TextLabel2
-                        text: qsTr("150")
+                        text: qsTr("200")
                         color: "white"
                         font.pixelSize: 18
                     }
@@ -210,7 +223,7 @@ Item
                 {
                     id: widget2ProgressBar
                     from: 0
-                    to: 150
+                    to: 200
                     value: frontBrakePres
                     anchors.centerIn: infoWidget2
 
@@ -232,7 +245,20 @@ Item
                             width: widget2ProgressBar.visualPosition * parent.width
                             height: parent.height
                             radius: 5
-                            color: "#00FF00"
+
+                            color {
+                                r: if(frontBrakePres <= 150) { 0 }
+                                   else if (frontBrakePres > 150 && frontBrakePres <= 175) {(10.2 * (frontBrakePres - 150)) / 255}
+                                   else if(frontBrakePres > 175) { 1 }
+
+                                g: if(frontBrakePres < 175) { 1 }
+                                   else if (frontBrakePres >= 175 && frontBrakePres < 195) {(255 - (12.75 * (frontBrakePres - 175))) / 255}
+                                   else if(frontBrakePres >= 195) { 0 }
+
+                                b: 0
+                                a: 1
+                            }
+
                             visible: !widget2ProgressBar.indeterminate
                         }
                     }
@@ -286,7 +312,7 @@ Item
                     Text
                     {
                         id: infoWidget2TextLabel2
-                        text: qsTr("150")
+                        text: qsTr("200")
                         color: "white"
                         font.pixelSize: 18
                     }
@@ -462,6 +488,5 @@ Item
                 }
             }
         }
-
     }
 }
