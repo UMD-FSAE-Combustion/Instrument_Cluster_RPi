@@ -1,4 +1,5 @@
 #include <QGuiApplication>
+#include <QQuickView>
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
 
@@ -9,6 +10,11 @@
 int main(int argc, char *argv[])
 {
     QGuiApplication app(argc, argv);
+
+    QQuickView splashView;
+    splashView.setSource(QUrl("LoadingScreen.qml"));
+    splashView.resize(800, 480);
+    splashView.show();
 
     QQmlApplicationEngine engine;
 
@@ -39,5 +45,6 @@ int main(int argc, char *argv[])
         Qt::QueuedConnection);
     engine.loadFromModule("Dyno_Info", "Main");
 
+    splashView.close();
     return app.exec();
 }
