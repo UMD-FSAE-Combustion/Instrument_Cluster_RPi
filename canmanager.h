@@ -39,8 +39,9 @@ public:
     static QVector<int> sendBuffer;
 
     CANmanager();
-    CANmanager(uint);
     ~CANmanager();
+    bool init();
+
     void processFrames();
     int* getFrame();
     int getByte(int);
@@ -106,6 +107,8 @@ public:
     void setFaultMessage(const QString &newFaultMessage);
 
 signals:
+    void initialized();
+
     void vehicleSpeedChanged();
     void ecuFaultChanged();
 
