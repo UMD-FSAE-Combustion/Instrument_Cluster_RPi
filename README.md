@@ -69,9 +69,15 @@ Next, install required Qt dependencies
 sudo apt install libxcb-cursor0 libxcb-cursor-dev
 ```
 Finally, download the application and run it
-```
+```bash
+# For x86:
 git clone https://github.com/UMD-FSAE-Combustion/Wolverine-Racing-Dash.git
 cd linux-dash-code-Wolverine-Racing
+./app_Dash
+
+# For ARM:
+git clone https://github.com/UMD-FSAE-Combustion/Wolverine-Racing-Dash-ARM.git
+cd linux-dash-code-Wolverine-Racing-ARM
 ./app_Dash
 ```
 
