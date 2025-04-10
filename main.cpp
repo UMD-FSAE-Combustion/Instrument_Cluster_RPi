@@ -10,17 +10,6 @@
 int main(int argc, char *argv[])
 {
     QGuiApplication app(argc, argv);
-
-    // QQuickView splashView;
-    // splashView.setSource(QUrl("Dyno_Info/SplashScreen.qml"));
-    // splashView.setFlags(Qt::Window | Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint);
-    // splashView.resize(800, 480);
-    // splashView.show();
-    // app.processEvents();
-
-    // while(!splashView.isVisible())
-    //     app.processEvents();
-
     QQmlApplicationEngine engine;
 
     JSONmanager json;
@@ -56,7 +45,6 @@ int main(int argc, char *argv[])
         &app,
         []() { QCoreApplication::exit(-1); },
         Qt::QueuedConnection);
-    //engine.loadFromModule("Dyno_Info", "Main");
 
     return app.exec();
 }
