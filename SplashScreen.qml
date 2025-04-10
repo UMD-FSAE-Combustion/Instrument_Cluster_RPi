@@ -4,6 +4,7 @@ Item {
     id: splashScreen
     visible: true
     anchors.fill: parent
+    z: 10
 
     Rectangle {
         anchors.fill: parent

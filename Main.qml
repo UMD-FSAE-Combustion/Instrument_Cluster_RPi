@@ -52,6 +52,11 @@ Window {
     Connections {
         target: canManager
 
+        function onInitialized() {
+            splashScreen.visible = false
+            loadingTimer.start()
+        }
+
         function onVehicleSpeedChanged() { vehicleInfo.vehicleSpeed = canManager.vehicleSpeed }
         function onRearBrakePresChanged() { vehicleInfo.rearBrakePres = canManager.rearBrakePres }
         function onFrontBrakePresChanged() { vehicleInfo.frontBrakePres = canManager.frontBrakePres }
@@ -80,21 +85,19 @@ Window {
         id: inputManager
     }
 
+    SplashScreen {
+        id: splashScreen
+        visible: true
+    }
+
     LoadingScreen {
         id: loadApp
     }
 
     Timer {
-        id: splashScreenTimer
-        interval: 250
-        running: true
-        repeat: false
-        onTriggered: loadingSplash.close()
-    }
-
-    Timer {
         id: loadingTimer
         interval: 2000
+
         running: true
         repeat: false
         onTriggered: loadingDone()

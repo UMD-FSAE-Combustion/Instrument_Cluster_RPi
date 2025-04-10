@@ -11,15 +11,15 @@ int main(int argc, char *argv[])
 {
     QGuiApplication app(argc, argv);
 
-    QQuickView splashView;
-    splashView.setSource(QUrl("Dyno_Info/SplashScreen.qml"));
-    splashView.setFlags(Qt::Window | Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint);
-    splashView.resize(800, 480);
-    splashView.show();
-    app.processEvents();
+    // QQuickView splashView;
+    // splashView.setSource(QUrl("Dyno_Info/SplashScreen.qml"));
+    // splashView.setFlags(Qt::Window | Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint);
+    // splashView.resize(800, 480);
+    // splashView.show();
+    // app.processEvents();
 
-    while(!splashView.isVisible())
-        app.processEvents();
+    // while(!splashView.isVisible())
+    //     app.processEvents();
 
     QQmlApplicationEngine engine;
 
@@ -27,19 +27,26 @@ int main(int argc, char *argv[])
     CANmanager canBus;
     GPIOhandler gpio;
 
-    canBus.updatePayload(CANmanager::FRONTBIAS, json.getBiasVal());
-    canBus.updatePayload(CANmanager::TCSWITCH, json.getTractionSwitch() * 3);
-    canBus.updatePayload(CANmanager::ANTI_LAG, json.antiLag() * 3);
-    canBus.updatePayload(CANmanager::FUEL_AIM, json.fuelAim());
-    canBus.updatePayload(CANmanager::IGNITION, json.ignitionTiming());
-    canBus.updatePayload(CANmanager::LAUNCH_AIM, json.launchAim() * 3);
-    canBus.updatePayload(CANmanager::THROTTLE_MAP, json.throttleMap());
-    canBus.sendLoop();
-
-    engine.rootContext()->setContextProperty("splashScreen", &splashView);
     engine.rootContext()->setContextProperty("JSON", &json);
     engine.rootContext()->setContextProperty("canBus", &canBus);
     engine.rootContext()->setContextProperty("gpio", &gpio);
+
+    engine.loadFromModule("Dyno_Info", "Main");
+    app.processEvents();
+    app.processEvents();
+
+    if(canBus.init())
+    {
+        canBus.updatePayload(CANmanager::FRONTBIAS, json.getBiasVal());
+        canBus.updatePayload(CANmanager::TCSWITCH, json.getTractionSwitch() * 3);
+        canBus.updatePayload(CANmanager::ANTI_LAG, json.antiLag() * 3);
+        canBus.updatePayload(CANmanager::FUEL_AIM, json.fuelAim());
+        canBus.updatePayload(CANmanager::IGNITION, json.ignitionTiming());
+        canBus.updatePayload(CANmanager::LAUNCH_AIM, json.launchAim() * 3);
+        canBus.updatePayload(CANmanager::THROTTLE_MAP, json.throttleMap());
+        canBus.sendLoop();
+        emit canBus.initialized();
+    }
 
     qDebug() << qVersion();
 
@@ -49,7 +56,7 @@ int main(int argc, char *argv[])
         &app,
         []() { QCoreApplication::exit(-1); },
         Qt::QueuedConnection);
-    engine.loadFromModule("Dyno_Info", "Main");
+    //engine.loadFromModule("Dyno_Info", "Main");
 
     return app.exec();
 }

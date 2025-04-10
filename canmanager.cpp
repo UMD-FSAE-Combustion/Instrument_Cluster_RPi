@@ -17,6 +17,90 @@ QVector<int> CANmanager::sendBuffer(8);
 
 CANmanager::CANmanager()
 {
+    // QString errorString;
+    // QString cpuArc = QSysInfo::currentCpuArchitecture();
+    // if(cpuArc != "arm" && cpuArc != "arm64" )
+    // {
+    //     can_device = QCanBus::instance()->createDevice(QStringLiteral("socketcan"), QStringLiteral("vcan0"), &errorString);
+    //     qDebug() << "Virtual CAN interface created";
+    //     if (!can_device)
+    //     {
+    //         // Error handling goes here
+    //         qDebug() << errorString;
+    //     }
+    //     else
+    //     {
+    //         QProcess::execute("/usr/bin/sudo", QStringList() << "ip" << "link" << "set" << "up" << "vcan0");
+
+    //         can_device->connectDevice();
+    //         qDebug() << "CAN Device connected!";
+    //     }
+    // }
+    // else
+    // {
+    //     can_device = QCanBus::instance()->createDevice(QStringLiteral("socketcan"), QStringLiteral("can0"), &errorString);
+    //     if (!can_device)
+    //     {
+    //         // Error handling goes here
+    //         qDebug() << errorString;
+    //     }
+    //     else
+    //     {
+    //         QString scriptPath = (qApp->applicationDirPath() + "/scripts/can-up.sh");
+    //         QProcess::execute("/usr/bin/sudo", QStringList() << scriptPath);
+
+    //         if(can_device->connectDevice())
+    //             qDebug() << "CAN Device connected!";
+    //         else
+    //             qDebug() << "device not connected: " << errorString;
+    //     }
+    // }
+
+    // QCanBusDevice::Filter filter;
+    // QList<QCanBusDevice::Filter> filterList;
+
+    // filter.frameIdMask = 0xFFFu;
+    // filter.format = QCanBusDevice::Filter::MatchBaseFormat;
+
+    // filter.frameId = 0x640;
+    // filterList.append(filter);
+
+    // filter.frameId = 0x641;
+    // filterList.append(filter);
+
+    // filter.frameId = 0x649;
+    // filterList.append(filter);
+
+    // filter.frameId = 0x64A;
+    // filterList.append(filter);
+
+    // filter.frameId = 0x64C;
+    // filterList.append(filter);
+
+    // filter.frameId = 0x651;
+    // filterList.append(filter);
+
+    // filter.frameId = 0x655;
+    // filterList.append(filter);
+
+    // filter.frameId = 0x659;
+    // filterList.append(filter);
+
+    // sendBuffer.replace(4, 0); // LAUNCH_CTL
+    // frame.setFrameId(0x680);
+
+    // can_device->setConfigurationParameter(QCanBusDevice::RawFilterKey, QVariant::fromValue(filterList));
+    // connect(can_device, &QCanBusDevice::framesReceived, this, &CANmanager::processFrames);
+}
+
+CANmanager::~CANmanager()
+{
+    delete timer;
+    delete can_device;
+}
+
+bool CANmanager::init()
+{
     QString errorString;
     QString cpuArc = QSysInfo::currentCpuArchitecture();
     if(cpuArc != "arm" && cpuArc != "arm64" )
@@ -91,12 +175,8 @@ CANmanager::CANmanager()
 
     can_device->setConfigurationParameter(QCanBusDevice::RawFilterKey, QVariant::fromValue(filterList));
     connect(can_device, &QCanBusDevice::framesReceived, this, &CANmanager::processFrames);
-}
 
-CANmanager::~CANmanager()
-{
-    delete timer;
-    delete can_device;
+    return true;
 }
 
 void CANmanager::processFrames()
