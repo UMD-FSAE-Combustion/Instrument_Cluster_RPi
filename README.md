@@ -95,7 +95,7 @@ sudo apt install can-utils
 candump -tz can0
 ```
 
-Note: By default, the CAN controller runs at 1Mbps.  If you need to adjust the baudrate, edit `/scripts/can.up.sh` to change the baudrate.
+Note: By default, the CAN controller runs at 1Mbps.  If you need to adjust the bitrate, edit `/scripts/can.up.sh` to change the baudrate.
 
 ## Credits
 
