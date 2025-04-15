@@ -85,6 +85,7 @@ cd linux-dash-code-Wolverine-Racing-ARM
 If you would like to build from source, it is recommended to do so using [Qt Creator](https://doc.qt.io/qtcreator/).  Please note that Qt 6.5 or later must be installed for the project to be configured properly in Qt Creator.<br>
 To open the project, run `git clone https://github.com/UMD-FSAE-Combustion/Instrument_Cluster_RPi.git`.  From Qt Creator, navigate to "Open Existing Project," navigate to the directory where the project was cloned, and select the CMakeLists.txt file to open the project.
 
+#### CAN Bus integration
 
 To take full advantage of the system, a CAN device of some sort is required and socketCAN drivers must be loaded.
 CAN interface creation varies by hardware device, so refer to the device instructions to enable a socketCAN interface.
@@ -93,6 +94,9 @@ If can messages need to be viewed for any reason, use `can-utils`:
 sudo apt install can-utils
 candump -tz can0
 ```
+
+Note: By default, the CAN controller runs at 1Mbps.  If you need to adjust the baudrate, edit `/scripts/can.up.sh` to change the baudrate.
+
 ## Credits
 
 This software uses the following open source packages:
