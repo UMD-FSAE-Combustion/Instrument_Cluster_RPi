@@ -11,6 +11,7 @@
 #define LC_BUTTON 25
 
 GPIOhandler* GPIOhandler::InterruptPtr;
+int GPIOhandler::lcButtonState = HIGH;
 
 GPIOhandler::GPIOhandler(QObject *parent)
     : QObject{parent}
@@ -39,8 +40,7 @@ GPIOhandler::GPIOhandler(QObject *parent)
             wiringPiISR(BUTTON_LEFT, INT_EDGE_FALLING, &pushButtonLeft);
             wiringPiISR(BUTTON_TOP, INT_EDGE_FALLING, &pushButtonTop);
             wiringPiISR(BUTTON_BOTTOM, INT_EDGE_FALLING, &pushButtonBottom);
-            wiringPiISR(LC_BUTTON, INT_EDGE_FALLING, &pressLC);
-            wiringPiISR(LC_BUTTON, INT_EDGE_RISING, &releaseLC)
+            wiringPiISR(LC_BUTTON, INT_EDGE_BOTH, &pressLC);
         }
     }
 }
@@ -119,18 +119,21 @@ void GPIOhandler::pressLC()
     delay(PRESS_DELAY);
     if(digitalRead(LC_BUTTON) == LOW)
     {
-        emit InterruptPtr->LC_Pressed();
-        delay(HOLD_DELAY);
+        if(lcButtonState != LOW)
+        {
+            emit InterruptPtr->lc_Pressed();
+            lcButtonState = LOW;
+        }
+        return;
     }
-}
-
-void GPIOhandler::releaseLC()
-{
-    delay(PRESS_DELAY);
-    if(digitalRead(LC_BUTTON) == HIGH)
+    else
     {
-        emit InterruptPtr->LC_Released();
-        delay(HOLD_DELAY);
+        if(lcButtonState != HIGH)
+        {
+            emit InterruptPtr->lc_Released();
+            lcButtonState = HIGH;
+        }
+        return;
     }
 }
 
