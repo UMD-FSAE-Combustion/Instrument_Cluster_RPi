@@ -779,6 +779,42 @@ Item {
 
         rootWindow.throttleMap = JSON.throttleMap
     }
+
+    function lc_Engaged() {
+        lc_Status = 1
+        canManager.updatePayload(4, lc_Status)
+
+        if(statusUpdate.y === 500) {
+            statusMessage.text = "Launch Control: Active"
+            statusImage.source = "assets/images/LC.png"
+            statusMessage.font.pixelSize = 15
+            animator.statusUpdateAnimation_START()
+        }
+        else {
+            statusMessage.text = "Launch Control: Active"
+            statusImage.source = "assets/images/LC.png"
+            statusMessage.font.pixelSize = 15
+        }
+        launchControlImage.visible = true
+    }
+
+    function lc_Disengaged() {
+        lc_Status = 0
+        canManager.updatePayload(4, lc_Status)
+
+        if(statusUpdate.y === 500 && animator.statusUpdateAnimation_RUNNING() === false) {
+            statusMessage.text = "Launch Control: Inactive"
+            statusImage.source = "assets/images/LC.png"
+            statusMessage.font.pixelSize = 14
+            animator.statusUpdateAnimation_START()
+        }
+        else {
+            statusMessage.text = "Launch Control: Inactive"
+            statusImage.source = "assets/images/LC.png"
+            statusMessage.font.pixelSize = 14
+        }
+        launchControlImage.visible = false
+    }
 }
 
 

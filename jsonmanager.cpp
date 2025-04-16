@@ -70,19 +70,19 @@ void JSONmanager::loadProfile(int profile)
         int newTraction = arr[profile].toObject().value("tcSwitch").toInt();
         setTractionSwitch(newTraction);
 
-        int newAntiLag = jsonArray[m_driver].toObject().value("antiLagSwitch").toInt();
+        int newAntiLag = arr[m_driver].toObject().value("antiLagSwitch").toInt();
         setAntiLag(newAntiLag);
 
-        int newLaunchAim = jsonArray[m_driver].toObject().value("launchAim").toInt();
+        int newLaunchAim = arr[m_driver].toObject().value("launchAim").toInt();
         setLaunchAim(newLaunchAim);
 
-        bool newIgnitionTiming = jsonArray[m_driver].toObject().value("ignitionTiming").toBool();
+        bool newIgnitionTiming = arr[m_driver].toObject().value("ignitionTiming").toBool();
         setIgnitionTiming(newIgnitionTiming);
 
-        bool newFuelAim = jsonArray[m_driver].toObject().value("fuelAim").toBool();
+        bool newFuelAim = arr[m_driver].toObject().value("fuelAim").toBool();
         setFuelAim(newFuelAim);
 
-        bool newThrottleMap = jsonArray[m_driver].toObject().value("throttleMap").toBool();
+        bool newThrottleMap = arr[m_driver].toObject().value("throttleMap").toBool();
         setThrottleMap(newThrottleMap);
 
         QJsonValueRef updDriver = RootObject.find("LastDriver").value();
@@ -100,8 +100,6 @@ void JSONmanager::loadProfile(int profile)
 
 bool JSONmanager::updateBrakeBias(int profile, int bias)
 {
-    //QFile File(qApp->applicationDirPath() + "/data/Data.json");
-
     if(file.open(QIODevice::ReadOnly))
     {
         //retrurn true
@@ -145,7 +143,6 @@ bool JSONmanager::updateBrakeBias(int profile, int bias)
         {
             //close file without changing values and return false
             Doc.setObject(RootObject);
-            //file.write(Doc.toJson());
             file.close();
             return false;
         }
