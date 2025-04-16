@@ -779,6 +779,30 @@ Item {
 
         rootWindow.throttleMap = JSON.throttleMap
     }
+
+    function lc_Engaged() {
+        lc_Status = 1
+        canManager.updatePayload(4, lc_Status)
+
+        statusMessage.text = "Launch Control: Active"
+        statusImage.source = "assets/images/LC.png"
+        statusMessage.font.pixelSize = 15
+        animator.statusUpdateAnimation_START()
+
+        launchControlImage.visible = true
+    }
+
+    function lc_Disengaged() {
+        lc_Status = 0
+        canManager.updatePayload(4, lc_Status)
+
+        statusMessage.text = "Launch Control: Inactive"
+        statusImage.source = "assets/images/LC.png"
+        statusMessage.font.pixelSize = 14
+        animator.statusUpdateAnimation_START()
+
+        launchControlImage.visible = false
+    }
 }
 
 
