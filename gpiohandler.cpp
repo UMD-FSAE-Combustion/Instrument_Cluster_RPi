@@ -20,7 +20,7 @@ GPIOhandler::GPIOhandler(QObject *parent)
     QString cpuArc = QSysInfo::currentCpuArchitecture();
     if(cpuArc == "arm" || cpuArc == "arm64" )
     {
-        if(wiringPiSetupGpio() == -1)
+        if(wiringPiSetup() == -1)
             qDebug() << "GPIO init failed...";
         else
         {
