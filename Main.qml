@@ -80,8 +80,8 @@ Window {
         function onButtonTop() { inputManager.upPress() }
         function onButtonBottom() { inputManager.downPress() }
 
-        function onLC_Pressed() { optMenu.lc_Engaged() }
-        function onLC_Released() { optMenu.lc_Disengaged() }
+        function onLc_Pressed() { optMenu.lc_Engaged() }
+        function onLc_Released() { optMenu.lc_Disengaged() }
     }
 
     InputManager {
