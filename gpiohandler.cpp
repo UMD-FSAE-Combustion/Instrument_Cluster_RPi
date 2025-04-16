@@ -8,7 +8,7 @@
 #define PRESS_DELAY 100 //millis
 #define HOLD_DELAY 250 //millis
 
-#define SHUTDOWN_PIN NULL //add later
+#define LC_BUTTON 25
 
 GPIOhandler* GPIOhandler::InterruptPtr;
 
@@ -20,7 +20,7 @@ GPIOhandler::GPIOhandler(QObject *parent)
     QString cpuArc = QSysInfo::currentCpuArchitecture();
     if(cpuArc == "arm" || cpuArc == "arm64" )
     {
-        if(wiringPiSetupGpio() == -1)
+        if(wiringPiSetup() == -1)
             qDebug() << "GPIO init failed...";
         else
         {
@@ -28,15 +28,19 @@ GPIOhandler::GPIOhandler(QObject *parent)
             pinMode(BUTTON_LEFT, INPUT);
             pinMode(BUTTON_TOP, INPUT);
             pinMode(BUTTON_BOTTOM, INPUT);
+            pinMode(LC_BUTTON, INPUT);
             pullUpDnControl(BUTTON_RIGHT, PUD_UP);
             pullUpDnControl(BUTTON_LEFT, PUD_UP);
             pullUpDnControl(BUTTON_TOP, PUD_UP);
             pullUpDnControl(BUTTON_BOTTOM, PUD_UP);
+            pullUpDnControl(LC_BUTTON, PUD_UP);
 
             wiringPiISR(BUTTON_RIGHT, INT_EDGE_FALLING, &pushButtonRight);
             wiringPiISR(BUTTON_LEFT, INT_EDGE_FALLING, &pushButtonLeft);
             wiringPiISR(BUTTON_TOP, INT_EDGE_FALLING, &pushButtonTop);
             wiringPiISR(BUTTON_BOTTOM, INT_EDGE_FALLING, &pushButtonBottom);
+            wiringPiISR(LC_BUTTON, INT_EDGE_FALLING, &pressLC);
+            wiringPiISR(LC_BUTTON, INT_EDGE_RISING, &releaseLC)
         }
     }
 }
@@ -109,3 +113,31 @@ void GPIOhandler::pushButtonBottom()
         }
     }
 }
+
+void GPIOhandler::pressLC()
+{
+    delay(PRESS_DELAY);
+    if(digitalRead(LC_BUTTON) == LOW)
+    {
+        emit InterruptPtr->LC_Pressed();
+        delay(HOLD_DELAY);
+    }
+}
+
+void GPIOhandler::releaseLC()
+{
+    delay(PRESS_DELAY);
+    if(digitalRead(LC_BUTTON) == HIGH)
+    {
+        emit InterruptPtr->LC_Released();
+        delay(HOLD_DELAY);
+    }
+}
+
+
+
+
+
+
+
+

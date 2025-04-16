@@ -79,6 +79,9 @@ Window {
         function onButtonLeft() { inputManager.leftPress() }
         function onButtonTop() { inputManager.upPress() }
         function onButtonBottom() { inputManager.downPress() }
+
+        function onLC_Pressed() { optMenu.lc_Engaged() }
+        function onLC_Released() { optMenu.lc_Disengaged() }
     }
 
     InputManager {
