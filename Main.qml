@@ -82,6 +82,8 @@ Window {
 
         function onLc_Pressed() { optMenu.lc_Engaged() }
         function onLc_Released() { optMenu.lc_Disengaged() }
+
+        function onPowerDown() { shutdownHandler.powerOFF() }
     }
 
     InputManager {

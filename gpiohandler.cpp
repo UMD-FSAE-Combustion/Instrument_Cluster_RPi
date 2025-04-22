@@ -10,6 +10,9 @@
 
 #define LC_BUTTON 25
 
+#define RELAY_PIN 4
+#define POWER_PIN 28
+
 GPIOhandler* GPIOhandler::InterruptPtr;
 int GPIOhandler::lcButtonState = HIGH;
 
@@ -30,6 +33,11 @@ GPIOhandler::GPIOhandler(QObject *parent)
             pinMode(BUTTON_TOP, INPUT);
             pinMode(BUTTON_BOTTOM, INPUT);
             pinMode(LC_BUTTON, INPUT);
+            pinMode(POWER_PIN, INPUT);
+            pinMode(RELAY_PIN, OUTPUT);
+
+            digitalWrite(RELAY_PIN, HIGH);
+
             pullUpDnControl(BUTTON_RIGHT, PUD_UP);
             pullUpDnControl(BUTTON_LEFT, PUD_UP);
             pullUpDnControl(BUTTON_TOP, PUD_UP);
@@ -41,6 +49,7 @@ GPIOhandler::GPIOhandler(QObject *parent)
             wiringPiISR(BUTTON_TOP, INT_EDGE_FALLING, &pushButtonTop);
             wiringPiISR(BUTTON_BOTTOM, INT_EDGE_FALLING, &pushButtonBottom);
             wiringPiISR(LC_BUTTON, INT_EDGE_BOTH, &pressLC);
+            wiringPiISR(POWER_PIN, INT_EDGE_FALLING, &powerOff);
         }
     }
 }
@@ -134,6 +143,15 @@ void GPIOhandler::pressLC()
             lcButtonState = HIGH;
         }
         return;
+    }
+}
+
+void GPIOhandler::powerOff()
+{
+    delay(2500); //2.5s
+    if(digitalRead(POWER_PIN) == LOW)
+    {
+        emit InterruptPtr->powerDown();
     }
 }
 
