@@ -20,6 +20,7 @@ signals:
     void buttonRight();
     void lc_Pressed();
     void lc_Released();
+    void powerDown();
 
 private:
     static GPIOhandler* InterruptPtr;
@@ -28,6 +29,9 @@ private:
     static void pushButtonTop();
     static void pushButtonBottom();
     static void pressLC();
+
+    static void powerOff();
+
     static int lcButtonState;
 };
 
